@@ -1,6 +1,6 @@
 var arangojs = require('arangojs');
 
-const host = '159.223.237.28'
+const host = '159.203.44.118'
 const port = '8529'
 const username = 'root'
 const password = '24687531'
