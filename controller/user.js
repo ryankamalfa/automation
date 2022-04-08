@@ -278,10 +278,49 @@ const resetPassword = async (req, res) => {
 
 
 
+const updateUserAccount = async (req,res,next) =>{
+  const {_id,first_name,last_name,email} = req.body;
+    await db.query({
+      query : `update '${_id}' WITH {
+        first_name: @first_name,
+        last_name: @last_name,
+        name:@name,
+        email:@email
+      } in users`,
+      bindVars:{
+        first_name:first_name,
+        last_name:last_name,
+        name:first_name+' '+last_name,
+        email:email
+      }
+    });
+    res.send({ success:true });
+    
+};
+
+
+const updateUserPassword = async (req,res,next) =>{
+  const {_id, password} = req.body;
+    await db.query({
+      query : `update '${_id}' WITH {
+        password: @password
+      } in users`,
+      bindVars:{
+        password:bcrypt.hashSync(password)
+      }
+    });
+    res.send({ success:true });
+    
+};
+
+
+
 module.exports = {
   loginUser,
   logoutUser,
   forgetPassword,
   resetPassword,
-  getUserData
+  getUserData,
+  updateUserAccount,
+  updateUserPassword
 };

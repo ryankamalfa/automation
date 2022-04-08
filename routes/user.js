@@ -5,7 +5,9 @@ const {
   logoutUser,
   forgetPassword,
   resetPassword,
-  getUserData
+  getUserData,
+  updateUserAccount,
+  updateUserPassword
 } = require('../controller/user');
 
 const authMiddleware = (req, res, next) => {
@@ -25,5 +27,6 @@ router.get('/get', getUserData);
 router.post('/password/forget', forgetPassword);
 router.post('/password/reset', resetPassword);
 
-
+router.post('/account/update', updateUserAccount);
+router.post('/password/update', updateUserPassword);
 module.exports = router;

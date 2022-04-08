@@ -10,6 +10,7 @@ const userRoutes = require('./routes/user');
 const usersRoutes = require('./routes/users');
 const listingsRoutes = require('./routes/listings');
 const homeRoutes = require('./routes/home');
+const configRoutes = require('./routes/config');
 
 // console.log(db.connectDB);
 
@@ -85,6 +86,8 @@ app.use('/api/listings/', listingsRoutes);
 
 app.use('/api/home/', homeRoutes);
 
+app.use('/api/config/', configRoutes);
+
 // app.get("/api/user/logout", function(req, res) {
 //   req.logout();
 
@@ -104,12 +107,6 @@ app.use('/api/home/', homeRoutes);
 
 //   res.send({ user: user })
 // })
-
-
-
-
-
-
 
 
 
