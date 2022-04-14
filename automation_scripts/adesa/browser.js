@@ -21,6 +21,7 @@ async function startBrowser(proxy) {
     }
     browser = await puppeteer.launch({
         executablePath: '/usr/bin/chromium-browser',
+        //
         // defaultViewport: null,
         // devtools: true,
         args: [
