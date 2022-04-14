@@ -231,7 +231,7 @@ function resetLastRun(date){
 
 
 
-resetLastRun(null);
+
 module.exports = automation;
 
 

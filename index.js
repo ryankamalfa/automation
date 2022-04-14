@@ -13,7 +13,7 @@ const homeRoutes = require('./routes/home');
 const configRoutes = require('./routes/config');
 
 
-const automation = require('./utils/automation');
+// const automation = require('./utils/automation');
 const automationCronJob = require('./utils/automationCronJob');
 
 
