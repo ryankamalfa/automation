@@ -30,6 +30,7 @@ async function startBrowser(proxy) {
             "--no-sandbox",
             '--window-size=1920,1170',
             '--window-position=0,0',
+            '--user-agent="Mozilla/5.0 (Windows NT 6.1; rv:60.7) Gecko/20100101 Firefox/60.7"',
             proxyServer
         ],
         ignoreHTTPSErrors: true,
@@ -46,9 +47,9 @@ async function startBrowser(proxy) {
             password: credentials.luminati.password
         })
     }
-    console.log(`Setting user-agent`)
+    // console.log(`Setting user-agent`)
     //Set user-agent
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36')
+    // await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36')
 }
 
 async function registerListeners() {
