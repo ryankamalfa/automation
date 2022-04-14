@@ -169,7 +169,7 @@ async function update_last_run(name,status){
 		await arango.query(`
 			For x in script_settings
 			Filter x.type == 'last_run'
-			update x with {status:'${status} in script_settings'} 
+			update x with {status:'${status}' in script_settings} 
 			`)
 	}
 
