@@ -2,7 +2,7 @@ const async = require('async');
 const automation = require('../utils/automation');
 const arango = require('../config/database');
 var cron = require('node-cron');
-
+const shell = require('shelljs');
 
 var shouldRun = true;
 var cronTime;
@@ -18,6 +18,10 @@ const Job = {
 			let cronSettingsData = await cronSettings.all();
 			// console.log(cronSettingsData[0]);
 			// console.log(cronSettingsData[0].cron_time);
+			let command = shell.exec('cd /workspace/automation_scripts/autotrader && npm i ', {async:true});
+			let command = shell.exec('cd /workspace/automation_scripts/adesa && npm i ', {async:true});
+			let command = shell.exec('cd /workspace/automation_scripts/airtable && npm i ', {async:true});
+
 			cron.schedule(cronSettingsData[0].cron_time, () => {
 				if(shouldRun){
 				console.log('Cron Job is initialized');
