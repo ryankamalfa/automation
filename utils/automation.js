@@ -8,20 +8,22 @@ const automation = {
 		//Function to fire autotrader script
 		return new Promise(resolve=>{
 			// console.log('command is running');
-			resetLastRun();
-			update_last_run('autotrader',null);
-			let command = shell.exec('node automation_scripts/autotrader/autotrader.js ', {async:true});
-			command.on('exit',function(code){
-				if(code === 0){
-					// console.log('finished with success');
-					update_last_run('autotrader','success');
-					resolve(true);
-				}else{
-					// console.log('finished with fail');
-					update_last_run('autotrader','failed');
-					resolve(false);
-				}
-			})
+			(async()=>{
+				await resetLastRun();
+				update_last_run('autotrader',null);
+				let command = shell.exec('node automation_scripts/autotrader/autotrader.js ', {async:true});
+				command.on('exit',function(code){
+					if(code === 0){
+						// console.log('finished with success');
+						update_last_run('autotrader','success');
+						resolve(true);
+					}else{
+						// console.log('finished with fail');
+						update_last_run('autotrader','failed');
+						resolve(false);
+					}
+				})
+			})();
 		});
 	},
 	async run_adesa_script(){
@@ -177,33 +179,36 @@ async function update_last_run(name,status){
 
 
 
-function resetLastRun(date){
-	arango.query({
-		query:`
-			upsert {type:"last_run"}
-			insert @value
-			update @value
-			in script_settings
-		`,
-		bindVars:{
-			value:{
-				type:'last_run',
-				time:date,
-				status:null,
-				autotrader:{
-					time:date,
-					status:null,
-				},
-				adesa:{
-					time:null,
-					status:null,
-				},
-				airtable:{
-					time:null,
-					status:null
+async function resetLastRun(date){
+	return new Promise((resolve)=>{
+		await arango.query({
+				query:`
+					upsert {type:"last_run"}
+					insert @value
+					update @value
+					in script_settings
+				`,
+				bindVars:{
+					value:{
+						type:'last_run',
+						time:date,
+						status:null,
+						autotrader:{
+							time:date,
+							status:null,
+						},
+						adesa:{
+							time:null,
+							status:null,
+						},
+						airtable:{
+							time:null,
+							status:null
+						}
+					}
 				}
-			}
-		}
+			});
+		resolve(true);
 	});
 }
 
