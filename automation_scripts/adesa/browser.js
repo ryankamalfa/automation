@@ -29,6 +29,7 @@ async function startBrowser(proxy) {
         executablePath: '/usr/bin/google-chrome',
         // defaultViewport: null,
         // devtools: true,
+        //
         args: [
             "--enable-features=NetworkService",
             "--ignore-certificate-errors",
