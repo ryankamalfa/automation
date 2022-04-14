@@ -180,6 +180,9 @@ function update_last_run(name,status){
 					update x with {status:'${status}'}  in script_settings 
 					`)
 			}
+
+
+			resolve(true);
 		})();
 	});
 
