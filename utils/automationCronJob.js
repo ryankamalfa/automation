@@ -26,12 +26,28 @@ const Job = {
 					// console.log('---------------',shouldRun);
 					// return;
 					shouldRun = false;
-					(async()=>{
-						await automation.run_autotrader_script(cronSettingsData[0].notification_emails);
-						await automation.run_adesa_script(cronSettingsData[0].notification_emails);
-						await automation.run_airtable_script(cronSettingsData[0].notification_emails);
-						shouldRun = true;
-					})();
+					async.series([
+						function(callback){
+							(async()=>{
+								await automation.run_autotrader_script(cronSettingsData[0].notification_emails);
+								callback();
+							})();
+						},
+						function(callback){
+							(async()=>{
+								await automation.run_adesa_script(cronSettingsData[0].notification_emails);
+								callback();
+							})();
+						},
+						function(callback){
+							(async()=>{
+								await automation.run_airtable_script(cronSettingsData[0].notification_emails);
+								callback();
+							})();
+						},
+						],function(){
+							shouldRun = true;
+						});
 				}
 				});
 			})
