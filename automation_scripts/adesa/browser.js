@@ -25,15 +25,14 @@ async function startBrowser(proxy) {
         // defaultViewport: null,
         // devtools: true,
         args: [
-            "--enable-features=NetworkService",
-            "--ignore-certificate-errors",
-            "--no-sandbox",
-            '--window-size=1920,1170',
-            '--window-position=0,0',
+            '--no-sandbox',
+            '--enable-features=NetworkService',
+            '--disable-setuid-sandbox',
+            `--window-size=1280,960`,
             '--user-agent="Mozilla/5.0 (Windows NT 6.1; rv:60.7) Gecko/20100101 Firefox/60.7"',
             proxyServer
         ],
-        ignoreHTTPSErrors: true,
+        // ignoreHTTPSErrors: true,
         headless: true,
         slowMo: 50
     });
