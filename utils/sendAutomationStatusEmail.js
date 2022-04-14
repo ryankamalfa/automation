@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 const arango = require('../config/database');
 
 
-const sendResetEmail = async (body, res, message) => {
+const sendAutomationStatusEmail = async (body) => {
   let smtp_config = await arango.query(`
       For x in script_settings
       Filter x.type == 'config'
@@ -23,9 +23,6 @@ const sendResetEmail = async (body, res, message) => {
 
   transporter.verify(function (err, success) {
     if (err) {
-      res.status(403).send({
-        message: `Error happen when verify ${err.message}`,
-      });
       console.log(err.message);
     } else {
       console.log('Server is ready to take our messages');
@@ -34,15 +31,11 @@ const sendResetEmail = async (body, res, message) => {
 
   transporter.sendMail(body, (err, data) => {
     if (err) {
-      res.status(403).send({
-        message: `Error happen when sending email ${err.message}`,
-      });
+      console.log(`Error happen when sending automation status email ${err.message}`);
     } else {
-      res.send({
-        message: message,
-      });
+      console.log('Automation status email is sent :)');
     }
   });
 };
 
-module.exports = sendResetEmail;
+module.exports = sendAutomationStatusEmail;

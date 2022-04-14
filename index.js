@@ -12,7 +12,14 @@ const listingsRoutes = require('./routes/listings');
 const homeRoutes = require('./routes/home');
 const configRoutes = require('./routes/config');
 
-// console.log(db.connectDB);
+
+const automation = require('./utils/automation');
+const automationCronJob = require('./utils/automationCronJob');
+
+
+
+//fire automation script
+automationCronJob.init();
 
 // getting the local authentication type
 

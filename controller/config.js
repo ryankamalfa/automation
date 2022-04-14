@@ -1,6 +1,6 @@
 require('dotenv').config();
 const db = require('../config/database');
-
+const shell = require('shelljs');
 
 const updateConfig = async (req,res,done) =>{
 	
@@ -16,6 +16,10 @@ const updateConfig = async (req,res,done) =>{
 		}
 	});
 	res.send({ success:true });
+	if(config.type === 'automation'){
+		//should restart server
+		let command = shell.exec('sudo shutdown -r now');
+	}
 };
 
 

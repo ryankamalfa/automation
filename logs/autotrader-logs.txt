@@ -1,0 +1,22 @@
+searched ------->   [
+  {
+    _key: '481',
+    _id: 'listings/481',
+    _rev: '_e-PTHia---',
+    make: 'Ford',
+    model: 'F-250',
+    year: '2018',
+    trim: 'King Ranch',
+    userId: '580677',
+    createdAt: '2022-04-07T14:02:10.875Z'
+  }
+]
+Launching browser
+cloud -----------> && lum-customer-c_1fd5e5bf-zone-public_ips
+Authenticating proxy
+Setting user-agent
+Ford F-250 King Ranch
+Starting loop
+Ford F-250 King Ranch 1
+Search Page: 1
+https://www.autotrader.ca/cars/ford/f-250/?rcp=15&srt=9&yRng=2015%2C2020&prx=-1&loc=A1A%201A1&hprc=True&wcp=True&sts=Used-Damaged&adtype=Dealer&inMarket=advancedSearch&rcs=0&trim=King%20Ranch
