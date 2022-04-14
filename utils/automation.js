@@ -10,56 +10,60 @@ const automation = {
 			// console.log('command is running');
 			(async()=>{
 				await resetLastRun();
-				update_last_run('autotrader',null);
+				await update_last_run('autotrader',null);
 				let command = shell.exec('node ./automation_scripts/autotrader/autotrader.js ', {async:true});
 				command.on('exit',function(code){
 					if(code === 0){
 						// console.log('finished with success');
-						update_last_run('autotrader','success');
+						await update_last_run('autotrader','success');
 						resolve(true);
 					}else{
 						// console.log('finished with fail');
-						update_last_run('autotrader','failed');
+						await update_last_run('autotrader','failed');
 						resolve(false);
 					}
 				})
 			})();
 		});
 	},
-	async run_adesa_script(){
+	run_adesa_script(){
 		//Function to fire adesa script
 		return new Promise((resolve)=>{
-			update_last_run('adesa',null);
-			let command = shell.exec('node ./automation_scripts/adesa/adesa-saved-search.js > ./logs/adesa-logs.txt ', {async:true});
-			command.on('exit',function(code){
-				if(code === 0){
-					// console.log('finished with success');
-					update_last_run('adesa','success');
-					resolve(true);
-				}else{
-					// console.log('finished with fail');
-					update_last_run('adesa','failed');
-					resolve(false);
-				}
-			})
+			(async()=>{
+				await update_last_run('adesa',null);
+				let command = shell.exec('node ./automation_scripts/adesa/adesa-saved-search.js > ./logs/adesa-logs.txt ', {async:true});
+				command.on('exit',function(code){
+					if(code === 0){
+						// console.log('finished with success');
+						await update_last_run('adesa','success');
+						resolve(true);
+					}else{
+						// console.log('finished with fail');
+						await update_last_run('adesa','failed');
+						resolve(false);
+					}
+				})
+			})();
 		});
 	},
-	async run_airtable_script(){
+	run_airtable_script(){
 		//Function to fire airtable script
 		return new Promise((resolve)=>{
-			update_last_run('airtable',null);
-			let command = shell.exec('node ./automation_scripts/adesa/airtable.js > ./logs/airtable-logs.txt ', {async:true});
-			command.on('exit',function(code){
-				if(code === 0){
-					// console.log('finished with success');
-					update_last_run('airtable','success');
-					resolve(true);
-				}else{
-					// console.log('finished with fail');
-					update_last_run('airtable','failed');
-					resolve(false);
-				}
-			})
+			(async()=>{
+				await update_last_run('airtable',null);
+				let command = shell.exec('node ./automation_scripts/adesa/airtable.js > ./logs/airtable-logs.txt ', {async:true});
+				command.on('exit',function(code){
+					if(code === 0){
+						// console.log('finished with success');
+						await update_last_run('airtable','success');
+						resolve(true);
+					}else{
+						// console.log('finished with fail');
+						await update_last_run('airtable','failed');
+						resolve(false);
+					}
+				})
+			})();
 		});
 	},
 
@@ -150,30 +154,34 @@ const automation = {
 
 
 
-async function update_last_run(name,status){
-	await arango.query({
-			query:`
-				upsert {type:"last_run"}
-				insert {type:"last_run","${name}":@value}
-				update {"${name}":@value}
-				in script_settings
-			`,
-			bindVars:{
-				value:{
-					time:new Date(),
-					status:status
-				}
+function update_last_run(name,status){
+	return new Promise((resolve)=>{
+		(async()=>{
+			await arango.query({
+					query:`
+						upsert {type:"last_run"}
+						insert {type:"last_run","${name}":@value}
+						update {"${name}":@value}
+						in script_settings
+					`,
+					bindVars:{
+						value:{
+							time:new Date(),
+							status:status
+						}
+					}
+				});
+
+
+			if(status === 'failed' || name === 'airtable'){
+				await arango.query(`
+					For x in script_settings
+					Filter x.type == 'last_run'
+					update x with {status:'${status}'}  in script_settings 
+					`)
 			}
-		});
-
-
-	if(status === 'failed' || name === 'airtable'){
-		await arango.query(`
-			For x in script_settings
-			Filter x.type == 'last_run'
-			update x with {status:'${status}'}  in script_settings 
-			`)
-	}
+		})();
+	});
 
 }
 
