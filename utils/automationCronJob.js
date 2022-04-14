@@ -18,29 +18,30 @@ const Job = {
 			let cronSettingsData = await cronSettings.all();
 			// console.log(cronSettingsData[0]);
 			// console.log(cronSettingsData[0].cron_time);
-			 shell.exec('cd /workspace/automation_scripts/autotrader && npm i ', {async:true});
-			 shell.exec('cd /workspace/automation_scripts/adesa && npm i ', {async:true});
-			 shell.exec('cd /workspace/automation_scripts/airtable && npm i ', {async:true});
+			let setup_scripts = shell.exec('cd /workspace/automation_scripts/autotrader && npm i  && cd /workspace/automation_scripts/adesa && npm i && cd /workspace/automation_scripts/airtable && npm i ', {async:true});
+			setup_scripts.on('exit',function(code){
+				cron.schedule(cronSettingsData[0].cron_time, () => {
+					if(shouldRun){
+					console.log('Cron Job is initialized');
+					// console.log('---------------',shouldRun);
+					// return;
+					shouldRun = false;
+					(async()=>{
+						if(!await automation.run_autotrader_script()){
+							automation.sendStatusEmail(cronSettingsData[0].notification_emails);
+						}
+						if(!await automation.run_autotrader_script()){
+							automation.sendStatusEmail(cronSettingsData[0].notification_emails);
+						}  
+						await automation.run_autotrader_script();
+						automation.sendStatusEmail(cronSettingsData[0].notification_emails);
+						shouldRun = true;
+					})();
+				}
+				});
+			})
 
-			cron.schedule(cronSettingsData[0].cron_time, () => {
-				if(shouldRun){
-				console.log('Cron Job is initialized');
-				// console.log('---------------',shouldRun);
-				// return;
-				shouldRun = false;
-				(async()=>{
-					if(!await automation.run_autotrader_script()){
-						automation.sendStatusEmail(cronSettingsData[0].notification_emails);
-					}
-					if(!await automation.run_autotrader_script()){
-						automation.sendStatusEmail(cronSettingsData[0].notification_emails);
-					}  
-					await automation.run_autotrader_script();
-					automation.sendStatusEmail(cronSettingsData[0].notification_emails);
-					shouldRun = true;
-				})();
-			}
-			});
+			
 		}
 }
 
