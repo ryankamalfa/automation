@@ -10,7 +10,7 @@ const automation = {
 			// console.log('command is running');
 			resetLastRun();
 			update_last_run('autotrader',null);
-			let command = shell.exec('node ./automation_scripts/autotrader/autotrader.js ', {async:true});
+			let command = shell.exec('node ../automation_scripts/autotrader/autotrader.js ', {async:true});
 			command.on('exit',function(code){
 				if(code === 0){
 					// console.log('finished with success');
@@ -28,7 +28,7 @@ const automation = {
 		//Function to fire adesa script
 		return new Promise((resolve)=>{
 			update_last_run('adesa',null);
-			let command = shell.exec('node ./automation_scripts/adesa/adesa-saved-search.js > ./logs/adesa-logs.txt ', {async:true});
+			let command = shell.exec('node ../automation_scripts/adesa/adesa-saved-search.js > ./logs/adesa-logs.txt ', {async:true});
 			command.on('exit',function(code){
 				if(code === 0){
 					// console.log('finished with success');
@@ -46,7 +46,7 @@ const automation = {
 		//Function to fire airtable script
 		return new Promise((resolve)=>{
 			update_last_run('airtable',null);
-			let command = shell.exec('node ./automation_scripts/adesa/airtable.js > ./logs/airtable-logs.txt ', {async:true});
+			let command = shell.exec('node ../automation_scripts/adesa/airtable.js > ./logs/airtable-logs.txt ', {async:true});
 			command.on('exit',function(code){
 				if(code === 0){
 					// console.log('finished with success');
@@ -78,9 +78,9 @@ const automation = {
 
 
 		const body = {
-	      from: `"Vechiele Automation Script Status Report" ${smtp_config_data[0].username}`,
+	      from: `"Vechiele Automation Script" ${smtp_config_data[0].username}`,
 	      to: toEmail,
-	      subject: 'Vechiele Automation Script Password Reset',
+	      subject: 'Vechiele Automation Script Status Report',
 	      html: `
 	      <style>
 	      	.text-success{
