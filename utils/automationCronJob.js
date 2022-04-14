@@ -29,23 +29,33 @@ const Job = {
 					async.series([
 						function(callback){
 							(async()=>{
-								await automation.run_autotrader_script(cronSettingsData[0].notification_emails);
-								callback();
+								if(await automation.run_autotrader_script()){
+									callback();
+								}else{
+									callback(true);
+								}
 							})();
 						},
 						function(callback){
 							(async()=>{
-								await automation.run_adesa_script(cronSettingsData[0].notification_emails);
-								callback();
+								if(await automation.run_adesa_script()){
+									callback();
+								}else{
+									callback(true);
+								}
 							})();
 						},
 						function(callback){
 							(async()=>{
-								await automation.run_airtable_script(cronSettingsData[0].notification_emails);
-								callback();
+								if(await automation.run_airtable_script()){
+									callback();
+								}else{
+									callback(true);
+								}
 							})();
 						},
 						],function(){
+							automation.sendStatusEmail(cronSettingsData[0].notification_emails);
 							shouldRun = true;
 						});
 				}
