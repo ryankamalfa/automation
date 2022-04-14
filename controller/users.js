@@ -92,7 +92,7 @@ const addUser = async (req, res) => {
 
 
 
-        console.log('account created',newUser);
+        // console.log('account created',newUser);
         res.send({success:true});
 
 };

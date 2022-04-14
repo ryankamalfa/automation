@@ -8,7 +8,7 @@ const getAllMakes = async (req,res,done) =>{
 	    FOR list IN listing_dataset collect brand = list.make with COUNT INTO count  RETURN {"make":brand,"value":brand, count:count}
 	    `);
 	  let makes_data = await makes.all();
-	  console.log('makes ------> ',makes_data);
+	  // console.log('makes ------> ',makes_data);
 	  res.send({ makes: makes_data });
 };
 
@@ -18,14 +18,14 @@ const getAllMakes = async (req,res,done) =>{
 const getAllModels = async (req,res,done) =>{
 	// console.log('sssssssssssssss');
 	let make = req.body.make;
-	console.log('makeeeeeeeeeeee -------->',make);
+	// console.log('makeeeeeeeeeeee -------->',make);
 	const models = await db.query(`
 	    FOR list IN listing_dataset 
 			filter list.make == '${make}'
 			collect modelName = list.model with COUNT INTO count  RETURN {"model":modelName,"value":modelName, count:count}
 	    `);
 	  let models_data = await models.all();
-	  console.log('models ------> ',models_data);
+	  // console.log('models ------> ',models_data);
 	  res.send({ models: models_data });
 };
 
@@ -34,8 +34,8 @@ const getAllModels = async (req,res,done) =>{
 const getModelYearsList = async (req,res,done) =>{
 	// console.log('sssssssssssssss');
 	let {make,model} = req.body;
-	console.log('makeeeeeeeeeeee -------->',make);
-	console.log('model -------->',model);
+	// console.log('makeeeeeeeeeeee -------->',make);
+	// console.log('model -------->',model);
 	// return;
 	const years = await db.query(`
 	    FOR list IN listing_dataset 
@@ -43,7 +43,7 @@ const getModelYearsList = async (req,res,done) =>{
 			collect yearName = list.year with COUNT INTO count  RETURN {"year":yearName,"value":yearName, count:count}
 	    `);
 	  let modelYearsList = await years.all();
-	  console.log('modelYearsList ------> ',modelYearsList);
+	  // console.log('modelYearsList ------> ',modelYearsList);
 	  res.send({ modelYearsList: modelYearsList });
 };
 
@@ -54,9 +54,9 @@ const getModelYearsList = async (req,res,done) =>{
 const getmodelTrimList = async (req,res,done) =>{
 	// console.log('sssssssssssssss');
 	let {make,model,year} = req.body;
-	console.log('makeeeeeeeeeeee -------->',make);
-	console.log('model -------->',model);
-	console.log('year -------->',year);
+	// console.log('makeeeeeeeeeeee -------->',make);
+	// console.log('model -------->',model);
+	// console.log('year -------->',year);
 	// return;
 	const trims = await db.query(`
 	    FOR list IN listing_dataset 
@@ -64,7 +64,7 @@ const getmodelTrimList = async (req,res,done) =>{
 			RETURN {"trim":list.trim,"value":list.trim}
 	    `);
 	  let modelTrimList = await trims.all();
-	  console.log('modelTrimList ------> ',modelTrimList);
+	  // console.log('modelTrimList ------> ',modelTrimList);
 	  res.send({ modelTrimList: modelTrimList });
 };
 
@@ -73,7 +73,7 @@ const getmodelTrimList = async (req,res,done) =>{
 
 
 const addNewListing = async (req, res) => {
-	console.log('should insert new listing');
+	// console.log('should insert new listing');
 
   const { make,model,year,trim,userId } = req.body;
 
@@ -95,7 +95,7 @@ const addNewListing = async (req, res) => {
 
 
 
-        console.log('listing added',newListing);
+        // console.log('listing added',newListing);
         res.send({success:true});
 
 };
@@ -112,7 +112,7 @@ const getActiveListings = async (req,res,done) =>{
 			Filter list.userId == user._key RETURN merge(list, {createdBy: user.name})
 	    `);
 	  let listings_data = await listings.all();
-	  console.log('makes ------> ',listings_data);
+	  // console.log('makes ------> ',listings_data);
 	  res.send({ listings: listings_data });
 };
 

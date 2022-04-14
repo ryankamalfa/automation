@@ -11,7 +11,7 @@ const validateToken = require('../utils/validateToken');
 
 const loginUser = async (req, res, next) => {
   // try {
-    console.log('user login');
+    // console.log('user login');
     passport.authenticate("local", (err, user, info) => {
       if (err) {
         return next(err);
@@ -97,7 +97,7 @@ const getUserData = async (req, res, next) => {
               email: user_data[0].email
             };
 
-            console.log([user_data[0], req.session]);
+            // console.log([user_data[0], req.session]);
             res.send({ user: user_object });
           }else{
             res.status(401).send({message:'You are not authorized, Please login'});
@@ -131,7 +131,7 @@ passport.use(
           FOR user IN users FILTER user.email == '${username}' limit 1 RETURN user
           `);
         let user_data = await user.all();
-          console.log('user ---> ',user_data[0]);
+          // console.log('user ---> ',user_data[0]);
            if (
               user_data[0] &&
               user_data[0].password && 
@@ -143,14 +143,14 @@ passport.use(
                 first_name:user_data[0].first_name,
                 email: user_data[0].email
               };
-              console.log(`update '${user_data[0]._key}' WITH {
-                  last_login: '${new Date()}'
-                } in users`);
+              // console.log(`update '${user_data[0]._key}' WITH {
+              //     last_login: '${new Date()}'
+              //   } in users`);
               //update user last login field
               await db.query(`update '${user_data[0]._key}' WITH {
                   last_login: '${new Date()}'
                 } in users`);
-              console.log('user_object',user_object);
+              // console.log('user_object',user_object);
               done(null, user_object)
             } else {
               console.log('Wrong credentials');
@@ -200,7 +200,7 @@ const forgetPassword = async (req, res) => {
     FOR user IN users FILTER user.email == '${req.body.email}' limit 1 RETURN user
     `);
   let user_data = await user.all();
-  console.log('--------->',user_data);
+  // console.log('--------->',user_data);
   if (!user_data[0]) {
     console.log('email not exist');
     return res.status(404).send({

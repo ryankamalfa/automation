@@ -8,7 +8,7 @@ const getCounts = async (req,res,done) =>{
 	    return {dataset:length(listing_dataset),listings:length(listings),users:length(users)}
 	    `);
 	  let counts_data = await counts.all();
-	  console.log('counts ------> ',counts_data);
+	  // console.log('counts ------> ',counts_data);
 	  res.send({ counts: counts_data[0] });
 };
 
