@@ -3,6 +3,9 @@ const {PendingXHR} = require('pending-xhr-puppeteer');
 const Listings = require('./model/listings');
 const cloud = require('./model/cloud');
 const arango = require('./model/arango');
+const proxyChain = require('proxy-chain');
+
+
 
 let browser = null;
 let page = null;
@@ -13,8 +16,11 @@ let pendingXHR
 
 
 async function startBrowser(proxy) {
+
     let credentials = await cloud.get_credentials();
         console.log('cloud -----------> &&',credentials.luminati.username);
+    let oldProxyUrl = 'http://lum-customer-c_1fd5e5bf-zone-public_ips:gx1zwkwxn29k@zproxy.lum-superproxy.io:22225';
+    let newProxyUrl = await proxyChain.anonymizeProxy(oldProxyUrl);
     let proxyServer = ''
     if (proxy) {
         proxyServer = `--proxy-server=http://zproxy.lum-superproxy.io:22225`
@@ -29,7 +35,8 @@ async function startBrowser(proxy) {
             "--no-sandbox",
             '--window-size=1920,1170',
             '--window-position=0,0',
-            proxyServer
+            // proxyServer
+            `--proxy-server=${newProxyUrl}`,
         ],
         ignoreHTTPSErrors: true,
         headless: true,
@@ -38,13 +45,13 @@ async function startBrowser(proxy) {
     page = (await browser.pages())[0];
     pendingXHR = new PendingXHR(page);
     //Authenticate Proxy
-    if (proxy) {
-        console.log(`Authenticating proxy`)
-        await page.authenticate({
-            username: credentials.luminati.username,
-            password: credentials.luminati.password
-        })
-    }
+    // if (proxy) {
+    //     console.log(`Authenticating proxy`)
+    //     await page.authenticate({
+    //         username: credentials.luminati.username,
+    //         password: credentials.luminati.password
+    //     })
+    // }
     console.log(`Setting user-agent`)
     //Set user-agent
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36')
