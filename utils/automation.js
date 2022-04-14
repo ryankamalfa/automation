@@ -179,9 +179,10 @@ async function update_last_run(name,status){
 
 
 
-async function resetLastRun(date){
+function resetLastRun(date){
 	return new Promise((resolve)=>{
-		await arango.query({
+		(async()=>{
+			await arango.query({
 				query:`
 					upsert {type:"last_run"}
 					insert @value
@@ -207,8 +208,9 @@ async function resetLastRun(date){
 						}
 					}
 				}
-			});
-		resolve(true);
+				});
+			resolve(true);
+		})();
 	});
 }
 
