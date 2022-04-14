@@ -4,7 +4,7 @@ const sendAutomationStatusEmail = require('./sendAutomationStatusEmail');
 
 
 const automation = {
-	run_autotrader_script(){
+	run_autotrader_script(toEmail){
 		//Function to fire autotrader script
 		return new Promise(resolve=>{
 			// console.log('command is running');
@@ -20,13 +20,14 @@ const automation = {
 					}else{
 						// console.log('finished with fail');
 						await update_last_run('autotrader','failed');
+						automation.sendStatusEmail(toEmail);
 						resolve(false);
 					}
 				})
 			})();
 		});
 	},
-	run_adesa_script(){
+	run_adesa_script(toEmail){
 		//Function to fire adesa script
 		return new Promise((resolve)=>{
 			(async()=>{
@@ -40,13 +41,14 @@ const automation = {
 					}else{
 						// console.log('finished with fail');
 						await update_last_run('adesa','failed');
+						automation.sendStatusEmail(toEmail);
 						resolve(false);
 					}
 				})
 			})();
 		});
 	},
-	run_airtable_script(){
+	run_airtable_script(toEmail){
 		//Function to fire airtable script
 		return new Promise((resolve)=>{
 			(async()=>{
@@ -56,10 +58,12 @@ const automation = {
 					if(code === 0){
 						// console.log('finished with success');
 						await update_last_run('airtable','success');
+						automation.sendStatusEmail(toEmail);
 						resolve(true);
 					}else{
 						// console.log('finished with fail');
 						await update_last_run('airtable','failed');
+						automation.sendStatusEmail(toEmail);
 						resolve(false);
 					}
 				})

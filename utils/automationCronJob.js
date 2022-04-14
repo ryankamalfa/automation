@@ -27,14 +27,9 @@ const Job = {
 					// return;
 					shouldRun = false;
 					(async()=>{
-						if(!await automation.run_autotrader_script()){
-							automation.sendStatusEmail(cronSettingsData[0].notification_emails);
-						}
-						if(!await automation.run_adesa_script()){
-							automation.sendStatusEmail(cronSettingsData[0].notification_emails);
-						}  
-						await automation.run_airtable_script();
-						automation.sendStatusEmail(cronSettingsData[0].notification_emails);
+						await automation.run_autotrader_script(cronSettingsData[0].notification_emails);
+						await automation.run_adesa_script(cronSettingsData[0].notification_emails);
+						await automation.run_airtable_script(cronSettingsData[0].notification_emails);
 						shouldRun = true;
 					})();
 				}
