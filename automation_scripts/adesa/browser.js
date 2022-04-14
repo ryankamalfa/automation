@@ -20,6 +20,7 @@ async function startBrowser(proxy) {
         proxyServer = `--proxy-server=http://zproxy.lum-superproxy.io:22225`
     }
     browser = await puppeteer.launch({
+        executablePath: '/usr/bin/chromium-browser',
         // defaultViewport: null,
         // devtools: true,
         args: [
