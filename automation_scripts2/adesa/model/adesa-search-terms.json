@@ -1,0 +1,230 @@
+[
+  {
+    "make": "GMC",
+    "model": "Sierra 1500",
+    "year": "2015-2020",
+    "trim": "SLT"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 1500 Denali",
+    "year": "2015-2020",
+    "trim": "Denali"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 2500",
+    "year": "2015-2020",
+    "trim": "SLT"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 2500 Denali",
+    "year": "2015-2020",
+    "trim": "Denali"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 3500",
+    "year": "2015-2020",
+    "trim": "SLT"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 3500 Denali",
+    "year": "2015-2020",
+    "trim": "Denali"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "XLT"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "Lariat"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "King Ranch"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "Platinum"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "XLT"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "Lariat"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "King Ranch"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "Platinum"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "XLT"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "Lariat"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "King Ranch"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "Platinum"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ram",
+    "model": "1500",
+    "year": "2015-2020",
+    "trim": "Laramie Longhorn"
+  },
+  {
+    "make": "Ram",
+    "model": "1500",
+    "year": "2015-2020",
+    "trim": "Sport"
+  },
+  {
+    "make": "Ram",
+    "model": "1500",
+    "year": "2015-2020",
+    "trim": "Rebel"
+  },
+  {
+    "make": "Ram",
+    "model": "1500",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ram",
+    "model": "2500",
+    "year": "2015-2020",
+    "trim": "Laramie Longhorn"
+  },
+  {
+    "make": "Ram",
+    "model": "2500",
+    "year": "2015-2020",
+    "trim": "Sport"
+  },
+  {
+    "make": "Ram",
+    "model": "2500",
+    "year": "2015-2020",
+    "trim": "Rebel"
+  },
+  {
+    "make": "Ram",
+    "model": "2500",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ram",
+    "model": "3500",
+    "year": "2015-2020",
+    "trim": "Laramie Longhorn"
+  },
+  {
+    "make": "Ram",
+    "model": "3500",
+    "year": "2015-2020",
+    "trim": "Sport"
+  },
+  {
+    "make": "Ram",
+    "model": "3500",
+    "year": "2015-2020",
+    "trim": "Rebel"
+  },
+  {
+    "make": "Ram",
+    "model": "3500",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": ""
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": ""
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": ""
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": ""
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": ""
+  }
+]

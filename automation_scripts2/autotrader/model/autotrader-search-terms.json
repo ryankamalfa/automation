@@ -1,0 +1,561 @@
+[
+  {
+    "make": "GMC",
+    "model": "Sierra 1500",
+    "year": "2015-2020",
+    "trim": "SLT"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 1500 Denali",
+    "year": "2015-2020",
+    "trim": "Denali"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 2500",
+    "year": "2015-2020",
+    "trim": "SLT"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 2500 Denali",
+    "year": "2015-2020",
+    "trim": "Denali"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 3500",
+    "year": "2015-2020",
+    "trim": "SLT"
+  },
+  {
+    "make": "GMC",
+    "model": "Sierra 3500 Denali",
+    "year": "2015-2020",
+    "trim": "Denali"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "XLT"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "Lariat"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "King Ranch"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "Platinum"
+  },
+  {
+    "make": "Ford",
+    "model": "F-150",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "XLT"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "Lariat"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "King Ranch"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "Platinum"
+  },
+  {
+    "make": "Ford",
+    "model": "F-250",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "XLT"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "Lariat"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "King Ranch"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "Platinum"
+  },
+  {
+    "make": "Ford",
+    "model": "F-350",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ram",
+    "model": "1500",
+    "year": "2015-2020",
+    "trim": "Laramie Longhorn"
+  },
+  {
+    "make": "Ram",
+    "model": "1500",
+    "year": "2015-2020",
+    "trim": "Sport"
+  },
+  {
+    "make": "Ram",
+    "model": "1500",
+    "year": "2015-2020",
+    "trim": "Rebel"
+  },
+  {
+    "make": "Ram",
+    "model": "1500",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ram",
+    "model": "2500",
+    "year": "2015-2020",
+    "trim": "Laramie Longhorn"
+  },
+  {
+    "make": "Ram",
+    "model": "2500",
+    "year": "2015-2020",
+    "trim": "Sport"
+  },
+  {
+    "make": "Ram",
+    "model": "2500",
+    "year": "2015-2020",
+    "trim": "Rebel"
+  },
+  {
+    "make": "Ram",
+    "model": "2500",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Ram",
+    "model": "3500",
+    "year": "2015-2020",
+    "trim": "Laramie Longhorn"
+  },
+  {
+    "make": "Ram",
+    "model": "3500",
+    "year": "2015-2020",
+    "trim": "Sport"
+  },
+  {
+    "make": "Ram",
+    "model": "3500",
+    "year": "2015-2020",
+    "trim": "Rebel"
+  },
+  {
+    "make": "Ram",
+    "model": "3500",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "DLX"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "Platinum"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "SR"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "SR5"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "SR5 Plus"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "TRD Crewmax"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "TRD Off Road"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "TRD Off-Road"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tundra",
+    "year": "2015-2020",
+    "trim": "TRD Sport"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "4WD DBL CAB V6"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "Base 2WD"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "Base V6"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "PreRunner"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "SR"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "SR+"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "SR5"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "SX"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "TRD"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "TRD Off Road"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "TRD Sport"
+  },
+  {
+    "make": "Toyota",
+    "model": "Tacoma",
+    "year": "2015-2020",
+    "trim": "X-Runner"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "5R5"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "Base"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "Base"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "Limited V8"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "Nightshade"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "SR5"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "SR5 V8"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "TRD Off Road"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "V6 Limited"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "V6 SR5"
+  },
+  {
+    "make": "Toyota",
+    "model": "4Runner",
+    "year": "2015-2020",
+    "trim": "Venture"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "LE"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "Platinum"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "Platinum Reserve"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "PRO-4X"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "S"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "SE"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "SE"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "SL"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "SL Midnight Edition"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "SV"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "SV Midnight Edition"
+  },
+  {
+    "make": "Nissan",
+    "model": "Titan",
+    "year": "2015-2020",
+    "trim": "XE"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "L"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Limited"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Limited 35th Anniversary"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "LX"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Platinum"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Red S"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Touring"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Touring L 35th Anniversary"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Touring Plus"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Touring-L"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Touring-L 35th Anniversary"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Touring-L Plus"
+  },
+  {
+    "make": "Chrysler",
+    "model": "Pacifica",
+    "year": "2015-2020",
+    "trim": "Touring-L Plus 35th Anniversary"
+  }
+]
+
