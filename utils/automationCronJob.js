@@ -30,10 +30,10 @@ const Job = {
 						if(!await automation.run_autotrader_script()){
 							automation.sendStatusEmail(cronSettingsData[0].notification_emails);
 						}
-						if(!await automation.run_autotrader_script()){
+						if(!await automation.run_adesa_script()){
 							automation.sendStatusEmail(cronSettingsData[0].notification_emails);
 						}  
-						await automation.run_autotrader_script();
+						await automation.run_airtable_script();
 						automation.sendStatusEmail(cronSettingsData[0].notification_emails);
 						shouldRun = true;
 					})();
