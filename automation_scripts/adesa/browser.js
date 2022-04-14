@@ -20,19 +20,18 @@ async function startBrowser(proxy) {
         proxyServer = `--proxy-server=http://zproxy.lum-superproxy.io:22225`
     }
     browser = await puppeteer.launch({
-        executablePath: '/usr/bin/chromium-browser',
-        //
+        executablePath: '/usr/bin/google-chrome',
         // defaultViewport: null,
         // devtools: true,
         args: [
-            '--no-sandbox',
-            '--enable-features=NetworkService',
-            '--disable-setuid-sandbox',
-            `--window-size=1280,960`,
-            '--user-agent="Mozilla/5.0 (Windows NT 6.1; rv:60.7) Gecko/20100101 Firefox/60.7"',
+            "--enable-features=NetworkService",
+            "--ignore-certificate-errors",
+            "--no-sandbox",
+            '--window-size=1920,1170',
+            '--window-position=0,0',
             proxyServer
         ],
-        // ignoreHTTPSErrors: true,
+        ignoreHTTPSErrors: true,
         headless: true,
         slowMo: 50
     });
@@ -46,9 +45,9 @@ async function startBrowser(proxy) {
             password: credentials.luminati.password
         })
     }
-    // console.log(`Setting user-agent`)
+    console.log(`Setting user-agent`)
     //Set user-agent
-    // await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36')
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36')
 }
 
 async function registerListeners() {
