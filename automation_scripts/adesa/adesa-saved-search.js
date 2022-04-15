@@ -23,11 +23,18 @@ const arango = require('./model/arango');
             this code should retry to load the page for up to 3 times with an interval of 5 seconds between retries
         */
         try {
-            const res = await retry(await browser.loginToAdesa(credentials.adesa.username, credentials.adesa.password), null, {retriesMax: 3, interval: 5000})
+            const res = await retry(await browser.loginToAdesa(credentials.adesa.username, credentials.adesa.password), null, 
+                {retriesMax: 3, interval: 5000,
+                onAttemptFail: (data) => {
+                        // do some stuff here, like logging errors
+                        console.log('loading adesa login failed, lets retry');
+                    }
+                })
             
             console.log(res) // output : OK
+
         } catch (err) {
-            console.log('The function execution failed !')
+            console.log('Failed to load adesa login page');
         }
 
 
