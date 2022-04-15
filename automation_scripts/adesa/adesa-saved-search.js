@@ -1,5 +1,5 @@
 require("dotenv").config();
-const retry = require('async-await-retry');
+const retry = require('async-retry');
 const browser = require('./browser');
 const {encodeStringForURI, asyncForEach, isFileExists} = require('./utils/helper');
 // const searches = require('./model/adesa-search-terms.json');
