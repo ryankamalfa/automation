@@ -1,5 +1,6 @@
 require("dotenv").config();
-const browser = require('./browser')
+const retry = require('async-await-retry');
+const browser = require('./browser');
 const {encodeStringForURI, asyncForEach, isFileExists} = require('./utils/helper');
 // const searches = require('./model/adesa-search-terms.json');
 
@@ -15,7 +16,22 @@ const arango = require('./model/arango');
         })
         await browser.registerListeners()
 
-        await browser.loginToAdesa(credentials.adesa.username, credentials.adesa.password)
+        
+        /*
+            Adesa is facing an issue on 1st try to load login page 
+            so we are getting request_timeout on puppeteer which breaks the script
+            this code should retry to load the page for up to 3 times with an interval of 5 seconds between retries
+        */
+        try {
+            const res = await retry(await browser.loginToAdesa(credentials.adesa.username, credentials.adesa.password), null, {retriesMax: 3, interval: 5000})
+            
+            console.log(res) // output : OK
+        } catch (err) {
+            console.log('The function execution failed !')
+        }
+
+
+
         let url_base = await browser.getSavedSearchURLAdesa()
 
         let resultsPerPage = 25
