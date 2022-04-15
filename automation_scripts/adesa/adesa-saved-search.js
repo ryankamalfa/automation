@@ -24,10 +24,10 @@ const arango = require('./model/arango');
         */
         await retry(async (bail) => {
             const login = await browser.loginToAdesa(credentials.adesa.username, credentials.adesa.password);
-            console.log('--------------------',login);
+            // console.log('--------------------',login);
         },
         {
-            retries: 5,
+            retries: 3,
             onRetry(e){
                 console.log('can not load adesa login, lets retry',e);
             }

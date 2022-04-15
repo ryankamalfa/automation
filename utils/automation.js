@@ -191,7 +191,7 @@ function update_last_run(name,status){
 
 
 
-function resetLastRun(date){
+function resetLastRun(){
 	return new Promise((resolve)=>{
 		(async()=>{
 			await arango.query({
@@ -204,10 +204,10 @@ function resetLastRun(date){
 				bindVars:{
 					value:{
 						type:'last_run',
-						time:date,
+						time:new Date(),
 						status:null,
 						autotrader:{
-							time:date,
+							time:null,
 							status:null,
 						},
 						adesa:{
