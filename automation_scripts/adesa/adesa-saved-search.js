@@ -20,18 +20,15 @@ const arango = require('./model/arango');
         /*
             Adesa is facing an issue on 1st try to load login page 
             so we are getting request_timeout on puppeteer which breaks the script
-            this code should retry to load the page for up to 3 times with an interval of 5 seconds between retries
+            this code should retry to load the page for up to 3 times
         */
-        try {
-            const res = await retry(await browser.loginToAdesa(credentials.adesa.username, credentials.adesa.password), null, 
-                {retriesMax: 3, interval: 5000
-                })
-            
-            console.log(res) // output : OK
-
-        } catch (err) {
-            console.log('Failed to load adesa login page');
-        }
+        await retry(async (bail) => {
+            const login = await browser.loginToAdesa(credentials.adesa.username, credentials.adesa.password);
+            console.log('--------------------',login);
+        },
+        {
+            retries: 5,
+        });
 
 
 
