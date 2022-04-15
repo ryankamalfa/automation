@@ -177,34 +177,39 @@ async function saveSearchResults(response) {
     }
 }
 
-async function loginToAdesa(username, password) {
-    console.log(`Login started`)
-    let response = await page.goto("https://buy.adesa.ca/openauctionca/home.html?utm_campaign=login&utm_source=adesa.ca&utm_medium=header&utm_content=button", {
-        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
-        timeout: 120000
-    });
-    console.log(`Waiting for username field`)
-    await page.waitForSelector('#accountName', {timeout: 120000})
-    await page.type('#accountName', "")
-    await page.waitFor(100)
-    await page.type('#accountName', username)
-    await page.evaluate((username) => {
-        document.getElementById('accountName').value = username;
-    }, username)
-    await page.type('#password', "")
-    await page.type('#password', password)
-    await page.waitFor(1000)
-    await page.evaluate((password) => {
-        document.getElementById('password').value = password
-    }, password)
-    console.log(`Password entered`)
-    await page.waitFor(5000);
-    console.log(`Clicking submit button`)
-    await page.click('#loginSubmit', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']})
-    console.log(`Waiting for login confirm`)
-    await page.waitForFunction("window.location.pathname == '/mfe/landing-page'")
-    // await page.waitForSelector('.user-config', {timeout: 120000})
-    console.log(`Login successful!`)
+function loginToAdesa(username, password) {
+     return new Promise((resolve)=>{
+        (async()=>{
+            console.log(`Login started`)
+            let response = await page.goto("https://buy.adesa.ca/openauctionca/home.html?utm_campaign=login&utm_source=adesa.ca&utm_medium=header&utm_content=button", {
+                waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
+                timeout: 120000
+            });
+            console.log(`Waiting for username field`)
+            await page.waitForSelector('#accountName', {timeout: 120000})
+            await page.type('#accountName', "")
+            await page.waitFor(100)
+            await page.type('#accountName', username)
+            await page.evaluate((username) => {
+                document.getElementById('accountName').value = username;
+            }, username)
+            await page.type('#password', "")
+            await page.type('#password', password)
+            await page.waitFor(1000)
+            await page.evaluate((password) => {
+                document.getElementById('password').value = password
+            }, password)
+            console.log(`Password entered`)
+            await page.waitFor(5000);
+            console.log(`Clicking submit button`)
+            await page.click('#loginSubmit', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']})
+            console.log(`Waiting for login confirm`)
+            await page.waitForFunction("window.location.pathname == '/mfe/landing-page'")
+            // await page.waitForSelector('.user-config', {timeout: 120000})
+            console.log(`Login successful!`);
+            resolve();
+        })()
+     })       
 }
 
 async function getSavedSearchURLAdesa() {
