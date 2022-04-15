@@ -28,6 +28,9 @@ const arango = require('./model/arango');
         },
         {
             retries: 5,
+            onRetry(e){
+                console.log('can not load adesa login, lets retry',e);
+            }
         });
 
 
