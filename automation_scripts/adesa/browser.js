@@ -178,12 +178,15 @@ async function saveSearchResults(response) {
 }
 
 function loginToAdesa(username, password) {
-     return new Promise((resolve)=>{
+     return new Promise((resolve,reject)=>{
         (async()=>{
             console.log(`Login started`)
             let response = await page.goto("https://buy.adesa.ca/openauctionca/home.html?utm_campaign=login&utm_source=adesa.ca&utm_medium=header&utm_content=button", {
                 waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
                 timeout: 120000
+            }).catch((e)=>{
+                console.log('can not load adesa login page, we should retry');
+                reject();
             });
             console.log(`Waiting for username field`)
             await page.waitForSelector('#accountName', {timeout: 120000})
@@ -207,7 +210,7 @@ function loginToAdesa(username, password) {
             await page.waitForFunction("window.location.pathname == '/mfe/landing-page'")
             // await page.waitForSelector('.user-config', {timeout: 120000})
             console.log(`Login successful!`);
-            resolve();
+            resolve('Logged in');
         })()
      })       
 }

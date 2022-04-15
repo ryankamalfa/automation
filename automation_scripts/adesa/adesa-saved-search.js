@@ -24,11 +24,7 @@ const arango = require('./model/arango');
         */
         try {
             const res = await retry(await browser.loginToAdesa(credentials.adesa.username, credentials.adesa.password), null, 
-                {retriesMax: 3, interval: 5000,
-                onAttemptFail: (data) => {
-                        // do some stuff here, like logging errors
-                        console.log('loading adesa login failed, lets retry');
-                    }
+                {retriesMax: 3, interval: 5000
                 })
             
             console.log(res) // output : OK
