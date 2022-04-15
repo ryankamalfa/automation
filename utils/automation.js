@@ -31,7 +31,7 @@ const automation = {
 		return new Promise((resolve)=>{
 			(async()=>{
 				await update_last_run('adesa',null);
-				let command = shell.exec('node ./automation_scripts/adesa/adesa-saved-search.js > ./logs/adesa-logs.txt ', {async:true});
+				let command = shell.exec('node ./automation_scripts/adesa/adesa-saved-search.js  ', {async:true});
 				command.on('exit',async function(code){
 					if(code === 0){
 						// console.log('finished with success');
