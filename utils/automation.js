@@ -13,7 +13,7 @@ const automation = {
 				await update_last_run('autotrader',null);
 				let command = shell.exec('node ./automation_scripts/autotrader/autotrader.js ', {async:true});
 				command.on('exit',async function(code){
-					if(code === 0){
+					if(code == 0){
 						// console.log('finished with success');
 						await update_last_run('autotrader','success');
 						resolve(true);
@@ -33,7 +33,7 @@ const automation = {
 				await update_last_run('adesa',null);
 				let command = shell.exec('node ./automation_scripts/adesa/adesa-saved-search.js  ', {async:true});
 				command.on('exit',async function(code){
-					if(code === 0){
+					if(code == 0){
 						// console.log('finished with success');
 						await update_last_run('adesa','success');
 						resolve(true);
@@ -54,7 +54,7 @@ const automation = {
 				await update_last_run('airtable',null);
 				let command = shell.exec('node ./automation_scripts/airtable/airtable.js > ./logs/airtable-logs.txt ', {async:true});
 				command.on('exit',async function(code){
-					if(code === 0){
+					if(code == 0){
 						// console.log('finished with success');
 						await update_last_run('airtable','success');
 						resolve(true);

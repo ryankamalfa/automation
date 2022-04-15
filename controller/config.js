@@ -18,7 +18,7 @@ const updateConfig = async (req,res,done) =>{
 	res.send({ success:true });
 	if(config.type === 'automation'){
 		//should restart server
-		let command = shell.exec('sudo shutdown -r now');
+		let command = shell.exec('sudo reboot now');
 	}
 };
 
