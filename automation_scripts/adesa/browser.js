@@ -189,7 +189,10 @@ function loginToAdesa(username, password) {
                 reject();
             });
             console.log(`Waiting for username field`)
-            await page.waitForSelector('#accountName', {timeout: 120000})
+            await page.waitForSelector('#accountName', {timeout: 120000}).catch((e)=>{
+                console.log('can not load adesa login page, we should retry');
+                reject();
+            });
             await page.type('#accountName', "")
             await page.waitFor(100)
             await page.type('#accountName', username)
@@ -207,7 +210,10 @@ function loginToAdesa(username, password) {
             console.log(`Clicking submit button`)
             await page.click('#loginSubmit', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']})
             console.log(`Waiting for login confirm`)
-            await page.waitForFunction("window.location.pathname == '/mfe/landing-page'")
+            await page.waitForFunction("window.location.pathname == '/mfe/landing-page'").catch((e)=>{
+                console.log('can not load adesa login page, we should retry');
+                reject();
+            });
             // await page.waitForSelector('.user-config', {timeout: 120000})
             console.log(`Login successful!`);
             resolve('Logged in');
