@@ -101,7 +101,8 @@ const arango = require('./model/arango');
             console.log(`No listings to move to Airtable`)
             process.exit(0)
         }
-        // listings_data.map(x => x.year = `${x.year}`)
+        listings_data.map(x => x.year = `${x.year}`);
+        listings_data.map(x => x.price = parseFloat(x.price));
         await helper.asyncForEach(listings_data, async (listing, index, listings, paramObj) => {
             let airtableListing = await paramObj.BaseListing.findOrCreate(listing.listing_id);
             console.log(`airtableListing.id: ${airtableListing.id}`);
