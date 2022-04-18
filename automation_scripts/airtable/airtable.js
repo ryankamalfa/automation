@@ -12,9 +12,11 @@ const arango = require('./model/arango');
         /*
             Replace into ArangoDB
         */
+        
         let listings =  await arango.query(`For listing in crawled_listings
-                         Sort listing.created_at asc
-                        Limit 10
+                        Sort listing.created_at asc
+                        Filter !listing.vin and !listing.total_appraisals_collected and !listing.total_appraisals_collected
+                        limit 1000
                         return {listing_id:listing.listing_id,platform:listing.platform,
                             search_trim:listing.search_trim,
                             search_make:listing.search_make,
@@ -63,7 +65,7 @@ const arango = require('./model/arango');
                             appraisal_miles_4:listing.appraisal_miles_4,
                             appraisal_price_4:listing.appraisal_price_4}
 
-                            `)
+                            `);
         // await arango.query({
             // query:,
             // bindVars:{
@@ -99,11 +101,11 @@ const arango = require('./model/arango');
             console.log(`No listings to move to Airtable`)
             process.exit(0)
         }
-        listings_data.map(x => x.year = `${x.year}`)
+        // listings_data.map(x => x.year = `${x.year}`)
         await helper.asyncForEach(listings_data, async (listing, index, listings, paramObj) => {
             let airtableListing = await paramObj.BaseListing.findOrCreate(listing.listing_id);
             console.log(`airtableListing.id: ${airtableListing.id}`);
-            console.log('year',listing.year);
+            // console.log('year',listing.year);
             await paramObj.BaseListing.update(airtableListing.id, listing)
                 .then(async () => {
                         /*

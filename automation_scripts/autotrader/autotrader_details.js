@@ -26,7 +26,10 @@ async function getDetails(listing, index, listings, obj) {
 
         let result = await page.evaluate(() => {
             return window['ngVdpModel']
-        })
+        });
+
+
+    console.log('result ------>',result);
 
 
         let data = result
@@ -133,15 +136,12 @@ async function getDetails(listing, index, listings, obj) {
         Replace into ArangoDB
         (Fetch all listings with status = pendign)
     */
-    let pendingListings = await arango.query({
-        query:`For listing in crawled_listings
-                Filter listing.details_collection_status == @details_collection_status and listing.platform == @platform
+    let pendingListings = await arango.query(`For listing in crawled_listings
+                Filter !listing.details_collection_status  and listing.platform == 'autotrader'
                 Sort listing.created_at
                 Limit 15
                 return listing
-                `,
-        bindVars:{details_collection_status: {[Op.or]: ['false', null]}, platform: 'autotrader'}
-    })
+                `)
     let pendingListingsData = await pendingListings.all();
     // let pendingListings = await Listings.findAll({
     //     where: {details_collection_status: {[Op.or]: ['false', null]}, platform: 'autotrader'},

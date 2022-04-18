@@ -19,7 +19,7 @@ class Browser {
                 proxyServer = `--proxy-server=http://zproxy.lum-superproxy.io:22225`
             }
             this.browser = await puppeteer.launch({
-                executablePath: '/usr/bin/chromium-browser',
+                executablePath: '/usr/bin/google-chrome',
                 headless: true,
                 ignoreHTTPSErrors: true,
                 args: [
