@@ -1,5 +1,6 @@
 const shell = require('shelljs');
 const arango = require('../config/database');
+const async = require('async');
 const sendAutomationStatusEmail = require('./sendAutomationStatusEmail');
 
 
@@ -11,18 +12,43 @@ const automation = {
 			(async()=>{
 				await resetLastRun();
 				await update_last_run('autotrader',null);
-				let command = shell.exec('node ./automation_scripts/autotrader/autotrader.js ', {async:true});
-				command.on('exit',async function(code){
-					if(code == 0){
-						// console.log('finished with success');
-						await update_last_run('autotrader','success');
-						resolve(true);
-					}else{
-						// console.log('finished with fail');
+				async.series([
+					function(callback){
+						let command = shell.exec('node ./automation_scripts/autotrader/autotrader.js ', {async:true});
+						command.on('exit',async function(code){
+							if(code == 0){
+								// console.log('finished with success');
+								callback();
+								
+							}else{
+								// console.log('finished with fail');
+								callback(true);
+							}
+						})
+					},
+					function(callback){
+						let command = shell.exec('node ./automation_scripts/autotrader/autotrader_details.js ', {async:true});
+						command.on('exit',async function(code){
+							if(code == 0){
+								// console.log('finished with success');
+								callback();
+							}else{
+								// console.log('finished with fail');
+								callback(true);
+							}
+						})
+					},
+					],function(err){
+					if(err){
+						//
 						await update_last_run('autotrader','failed');
 						resolve(false);
+					}else{
+						await update_last_run('autotrader','success');
+						resolve(true);
 					}
-				})
+				});
+				
 			})();
 		});
 	},

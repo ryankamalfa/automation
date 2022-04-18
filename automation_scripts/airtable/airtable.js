@@ -105,7 +105,8 @@ const arango = require('./model/arango');
         await helper.asyncForEach(listings_data, async (listing, index, listings, paramObj) => {
             let airtableListing = await paramObj.BaseListing.findOrCreate(listing.listing_id);
             console.log(`airtableListing.id: ${airtableListing.id}`);
-            // console.log('year',listing.year);
+            console.log('year',listing.year);
+            console.log('price',listing.price);
             await paramObj.BaseListing.update(airtableListing.id, listing)
                 .then(async () => {
                         /*
