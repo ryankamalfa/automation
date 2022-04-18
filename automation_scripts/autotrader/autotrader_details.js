@@ -85,7 +85,7 @@ async function getDetails(listing, index, listings, obj) {
         */
         await arango.query({
             query:`For listing in crawled_listings 
-                    Filter listing.listing_id == '@listing_id'
+                    Filter listing.listing_id == @listing_id
                     Update listing with @value in crawled_listings`,
             bindVars:{
                 listing_id:listing.listing_id,
