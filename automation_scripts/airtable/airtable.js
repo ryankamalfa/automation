@@ -105,7 +105,6 @@ const arango = require('./model/arango');
         listings_data.map(x => x.price = parseFloat(x.price));
         listings_data.map(x => x.passengers = parseInt(x.passengers));
         listings_data.map(x => x.doors = parseInt(x.doors));
-        listings_data.map(x => x.vin = x.vin);
         await helper.asyncForEach(listings_data, async (listing, index, listings, paramObj) => {
             let airtableListing = await paramObj.BaseListing.findOrCreate(listing.listing_id);
             console.log(`airtableListing.id: ${airtableListing.id}`);

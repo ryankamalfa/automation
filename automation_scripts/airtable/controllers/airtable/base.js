@@ -24,6 +24,7 @@ module.exports = class Base {
         return new Promise((resolve, reject) => {
             this.base(this.table)
                 .update(id, data, (err, record) => {
+                    console.log('----------',data);
                     if (err) {
                         console.error('Update Error', err);
                         reject(err);
