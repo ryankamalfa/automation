@@ -50,20 +50,13 @@ const arango = require('./model/arango');
                             dealer:listing.dealer,
                             province:listing.province,
                             start_price:listing.start_price,
-                            dealer_socket_comment:listing.dealer_socket_comment,
-                            dealer_socket_price:listing.dealer_socket_price,
+                            base_mmr:listing.base_mmr,
+                            adjusted_mmr:listing.adjusted_mmr,
+                            estimated_retail_value:listing.estimated_retail_value,
                             created_at:listing.created_at,
                             updated_at:listing.updated_at,
-                            total_comparables:listing.total_comparables,
-                            total_appraisals_collected:listing.total_appraisals_collected,
-                            appraisal_miles_1:listing.appraisal_miles_1,
-                            appraisal_price_1:listing.appraisal_price_1,
-                            appraisal_miles_2:listing.appraisal_miles_2,
-                            appraisal_price_2:listing.appraisal_price_2,
-                            appraisal_miles_3:listing.appraisal_miles_3,
-                            appraisal_price_3:listing.appraisal_price_3,
-                            appraisal_miles_4:listing.appraisal_miles_4,
-                            appraisal_price_4:listing.appraisal_price_4}
+
+                        }
 
                             `);
         // await arango.query({

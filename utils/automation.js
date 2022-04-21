@@ -38,7 +38,7 @@ const automation = {
 							}
 						})
 					},
-					],function(err){
+					],async function(err){
 					if(err){
 						//
 						await update_last_run('autotrader','failed');
@@ -73,6 +73,30 @@ const automation = {
 			})();
 		});
 	},
+
+	run_manheim_script(){
+		//Function to fire manheim script
+		return new Promise((resolve)=>{
+			(async()=>{
+				await update_last_run('adesa',null);
+				let command = shell.exec('node ./automation_scripts/manheim/start.js  ', {async:true});
+				command.on('exit',async function(code){
+					if(code == 0){
+						// console.log('finished with success');
+						await update_last_run('manheim','success');
+						resolve(true);
+					}else{
+						// console.log('finished with fail');
+						await update_last_run('manheim','failed');
+						
+						resolve(false);
+					}
+				})
+			})();
+		});
+	},
+
+
 	run_airtable_script(){
 		//Function to fire airtable script
 		return new Promise((resolve)=>{
@@ -147,6 +171,15 @@ const automation = {
 			      <td>
 			        <b style=" ${last_run_data[0].adesa.status === 'success' ? 'color:green' : 'color:red'}">
 			          ${last_run_data[0].adesa.status === 'success' ? 'Success' : 'Failed'}
+			        </b>
+
+			      </td>
+			    </tr>
+			    <tr>
+			      <td>Manheim</td>
+			      <td>
+			        <b style=" ${last_run_data[0].manheim.status === 'success' ? 'color:green' : 'color:red'}">
+			          ${last_run_data[0].manheim.status === 'success' ? 'Success' : 'Failed'}
 			        </b>
 
 			      </td>

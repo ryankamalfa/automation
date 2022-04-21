@@ -143,6 +143,7 @@ async function saveSearchResults(response) {
             status: 'Used',
             details_collection_status: true,
             details_collection_status_message: 'success',
+            created_at:new Date(),
         }
     })
     console.log({data})

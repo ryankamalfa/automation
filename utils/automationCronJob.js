@@ -18,7 +18,7 @@ const Job = {
 			let cronSettingsData = await cronSettings.all();
 			// console.log(cronSettingsData[0]);
 			// console.log(cronSettingsData[0].cron_time);
-			let setup_scripts = shell.exec('cd /root/automation/automation_scripts/autotrader && npm i  && cd /root/automation/automation_scripts/adesa && npm i && cd /root/automation/automation_scripts/airtable && npm i ', {async:true});
+			let setup_scripts = shell.exec('cd /root/automation/automation_scripts/autotrader && npm i  && cd /root/automation/automation_scripts/adesa && npm i && cd /root/automation/automation_scripts/airtable && npm i  && cd /root/automation/automation_scripts/manheim && npm i ', {async:true});
 			setup_scripts.on('exit',function(code){
 				cron.schedule(cronSettingsData[0].cron_time, () => {
 					if(shouldRun){
@@ -39,6 +39,15 @@ const Job = {
 						function(callback){
 							(async()=>{
 								if(await automation.run_adesa_script()){
+									callback();
+								}else{
+									callback(true);
+								}
+							})();
+						},
+						function(callback){
+							(async()=>{
+								if(await automation.run_manheim_script()){
 									callback();
 								}else{
 									callback(true);

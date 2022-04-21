@@ -17,13 +17,17 @@ const getAllMakes = async (req,res,done) =>{
 
 const getAllModels = async (req,res,done) =>{
 	// console.log('sssssssssssssss');
-	let make = req.body.make;
+	let makes = req.body.makes;
 	// console.log('makeeeeeeeeeeee -------->',make);
-	const models = await db.query(`
-	    FOR list IN listing_dataset 
-			filter list.make == '${make}'
-			collect modelName = list.model with COUNT INTO count  RETURN {"model":modelName,"value":modelName, count:count}
-	    `);
+	const models = await db.query({
+		query:`FOR list IN listing_dataset 
+					filter list.make IN @array
+					sort list.make
+					RETURN {"_id":list._id,"make":list.make,"model":list.model,"text":CONCAT_SEPARATOR(" - ",list.make,list.model)}`,
+		bindVars:{
+			array:makes
+		}
+	});
 	  let models_data = await models.all();
 	  // console.log('models ------> ',models_data);
 	  res.send({ models: models_data });
@@ -75,22 +79,23 @@ const getmodelTrimList = async (req,res,done) =>{
 const addNewListing = async (req, res) => {
 	// console.log('should insert new listing');
 
-  const { make,model,year,trim,userId } = req.body;
+  const { models } = req.body;
 
 
-        const newListing = {
-          make,
-          model,
-          year,
-          trim,
-          userId,
-          createdAt:new Date(),
-        };
+        // const newListing = {
+        //   make,
+        //   model,
+        //   year,
+        //   trim,
+        //   userId,
+        //   createdAt:new Date(),
+        // };
 
 
         db.query({
-	      query:'insert @value into listings',
-	      bindVars:{value : newListing}
+	      query:`For x in @models
+	      				insert x into listings`,
+	      bindVars:{models : models}
 	    })
 
 

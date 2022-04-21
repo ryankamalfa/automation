@@ -63,6 +63,7 @@ async function getDetails(listing, index, listings, obj) {
             final_data.kilometres = final_data.mileage.replace(/[^\d\.]/g, '')
             final_data.miles = Math.round(final_data.kilometres * 0.621371)
             final_data.kilometres = Math.round(final_data.kilometres)
+            final_data.updated_at = new Date()
         }
         // 
         let allowed = Object.keys(Listings.rawAttributes)

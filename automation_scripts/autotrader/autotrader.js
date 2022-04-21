@@ -73,6 +73,7 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                     Object.assign(e, {"search_trim": this.search_trim})
                     Object.assign(e, {"search_make": this.search_make})
                     Object.assign(e, {"search_model": this.search_model})
+                    Object.assign(e, {"created_at": new Date()})
                     return e
                 }, {search_trim: trim, search_make: make, search_model: model})
                 console.log({search_trim: trim, search_make: make, search_model: model})
