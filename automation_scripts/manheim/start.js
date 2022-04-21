@@ -35,7 +35,6 @@ const retry = require('async-retry');
 	let items = await arango.query(`
 			for x in crawled_listings 
 			filter !x.manheim and x.vin and x.trim and x.miles
-			limit 10
 			return {
 			_id:x._id,
 			vin:x.vin,
