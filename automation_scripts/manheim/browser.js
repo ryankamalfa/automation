@@ -184,34 +184,36 @@ const arango = require('./model/arango');
 	*/
 	function searchForVin(item){
 		return new Promise(async (resolve)=>{
+
 			let self = this;
+			try{
 			let trimArray = item.trim.split(' ');
 			let itemTrim = trimArray[0].toLowerCase();
-			await this.page.goto("https://mmr.manheim.com/", {
-		        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
-		        timeout: 120000
-		    });
+			// await this.page.goto("https://mmr.manheim.com/", {
+		 //        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
+		 //        timeout: 120000
+		 //    });
 			console.log('itemmmmmmm---->',item);
 			console.log('itemTrim---->',itemTrim);
 			//enter vin 
 			let vin = item.vin;
-			await this.page.waitForSelector('#vinText', {timeout: 10000});
+			await self.page.waitForSelector('#vinText', {timeout: 10000});
 			// await this.page.evaluate(() => {
 		 //        document.getElementById('vinText').value = "";
 		 //    });
 			
-		    await this.page.type('#vinText', "");
-		    await this.page.waitFor(1000);
-		    await this.page.type('#vinText', vin);
-		    await this.page.evaluate((vin) => {
+		    await self.page.type('#vinText', "");
+		    await self.page.waitFor(1000);
+		    await self.page.type('#vinText', vin);
+		    await self.page.evaluate((vin) => {
 		        document.getElementById('vinText').value = vin;
 		    }, vin);
-		    await this.page.click('.icon-search', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
-		    await this.page.waitFor(2000);
-	    	await this.pendingXHR.waitForAllXhrFinished();
+		    await self.page.click('.icon-search', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
+		    await self.page.waitFor(2000);
+	    	await self.pendingXHR.waitForAllXhrFinished();
 
 	    	//check if engine popup is open
-	    	if(!await checkForEnginePopup(itemTrim,this.page)){
+	    	if(!await checkForEnginePopup(itemTrim,self.page)){
 	    		console.log('this item has no valid engine or style');
 	    		resolve(false);
 	    		return;
@@ -220,26 +222,26 @@ const arango = require('./model/arango');
 		    // return;
 		    let miles = `${item.miles}`;
 		    console.log(miles);
-		    await this.page.waitForSelector('#Odometer', {timeout: 10000});
+		    // await this.page.waitForSelector('#Odometer', {timeout: 10000});
 		    // await this.page.evaluate(() => {
 		    //     document.getElementById('Odometer').value = '';
 		    // });
-		    await this.page.type('#Odometer', "");
-		    await this.page.waitFor(1000);
+		    await self.page.type('#Odometer', "");
+		    await self.page.waitFor(1000);
 		    console.log('111111111');
-		    await this.page.type('#Odometer', miles);
-		    await this.page.evaluate((miles) => {
+		    await self.page.type('#Odometer', miles);
+		    await self.page.evaluate((miles) => {
 		        document.getElementById('Odometer').value = miles;
 		    }, miles);
 		    console.log('222222');
-		    await this.page.waitFor(3000);
-		    await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
+		    await self.page.waitFor(3000);
+		    await self.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		    // await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		    console.log('Vin data loaded');
 		    //wait for getting data
 		    let data = null;
 
-		    try{
+		    
 		    	const adjustedDetails = await self.page.waitForResponse('https://gapiprod.awsmlogic.manheim.com/gateway')
 
 				// the NEXT line will extract the json response

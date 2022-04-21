@@ -58,20 +58,11 @@ const retry = require('async-retry');
 	if(items_data.length > 0){
 		async.eachSeries(items_data,function(item,callback){
 			(async()=>{
-				await retry(async (bail) => {
-			        let data = await browser.searchForVin(item);
-					if(data){
-						await browser.updateVehicle(item,data);
-					}
-					callback();
-			    },
-			    {
-			        retries: 3,
-			        onRetry(e){
-			            console.log('can not load item data, lets retry',e);
-			        }
-			    });
-				
+				let data = await browser.searchForVin(item);
+				if(data){
+					await browser.updateVehicle(item,data);
+				}
+				callback();
 			})();
 		},function(){
 			setTimeout(async()=>{
