@@ -29,7 +29,7 @@ const retry = require('async-retry');
         }
     });
 
-    
+
 	
 	//should get all items from arangodb
 	//should loop over each item in arango db
@@ -44,6 +44,7 @@ const retry = require('async-retry');
 			miles:x.miles
 			}
 		`);
+	
 	let items_data = await items.all();
 	console.log(`we have around ${items_data.length} to loop over`);
 	// let items_data = [{
