@@ -28,7 +28,7 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
         browser = await browser.init()
         let autoTrader = new AutoTrader(browser)
 
-        var {make, model, trim} = search
+        var {make, model, trim,start_year,end_year} = search
         console.log(make, model, trim)
         let allNewItemsCollected = false
 
@@ -38,7 +38,7 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
         let rcs = 0
         let url_base = `https://www.autotrader.ca/cars/`
         let make_model_path = `${await encodeStringForURI(make.toLowerCase())}/${await encodeStringForURI(model.toLowerCase())}/`
-        let query_common = `?rcp=${rcp}&srt=9&yRng=2015%2C2020&prx=-1&loc=A1A%201A1&hprc=True&wcp=True&sts=Used-Damaged&adtype=Dealer&inMarket=advancedSearch`
+        let query_common = `?rcp=${rcp}&srt=9&yRng=${start_year}%2C${end_year}&prx=-1&loc=A1A%201A1&hprc=True&wcp=True&sts=Used-Damaged&adtype=Dealer&inMarket=advancedSearch`
 
         do {
             console.log(`Starting loop`)
