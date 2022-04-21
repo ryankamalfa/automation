@@ -78,7 +78,7 @@ const automation = {
 		//Function to fire manheim script
 		return new Promise((resolve)=>{
 			(async()=>{
-				await update_last_run('adesa',null);
+				await update_last_run('manheim',null);
 				let command = shell.exec('node ./automation_scripts/manheim/start.js  ', {async:true});
 				command.on('exit',async function(code){
 					if(code == 0){
