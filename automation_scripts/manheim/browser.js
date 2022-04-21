@@ -12,7 +12,7 @@ const arango = require('./model/arango');
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
 		        executablePath: '/usr/bin/google-chrome',
-		        headless: true,
+		        headless: false,
 		        ignoreHTTPSErrors: true,
 		        args: [
 		            '--no-sandbox',
@@ -231,47 +231,64 @@ const arango = require('./model/arango');
 		        document.getElementById('Odometer').value = miles;
 		    }, miles);
 		    console.log('222222');
-		    await this.page.waitFor(2000);
+		    await this.page.waitFor(3000);
 		    await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
+		    // await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		    console.log('Vin data loaded');
 		    //wait for getting data
 		    let data = null;
 
-		    this.page.on("response", async function (request) {
-		    	console.log('-------',request.url());
+		    try{
+		    	const adjustedDetails = await self.page.waitForResponse('https://gapiprod.awsmlogic.manheim.com/gateway')
 
-		        if (request.url() && request.url().indexOf('gapiprod.awsmlogic.manheim.com/gateway') !== -1) {
-		            let recieved_data = await request.json();
-		            if(isValidResponse(recieved_data.responses)){
-			            let obj = recieved_data.responses.find(x => x.body.href.indexOf('api.manheim.com/valuations') !== -1);
-			            if(obj){
-			            	// console.log(`recieved data!`,obj.body.items);
-			            	data = obj.body.items[0];
-			            	// let table_element = await this.page.$('.mui-table');
-			            	let table_of_transactions = await self.page.evaluate(() => document.querySelector('.mui-table').innerHTML);
-			            	let html_table_of_transactions = `<table>${table_of_transactions}</table>`;
-			            	html_table_of_transactions = html_table_of_transactions.replaceAll('Odo (mi)','Odometer');
-			            	html_table_of_transactions = html_table_of_transactions.replaceAll('Eng/T','Engine');
-			            	html_table_of_transactions = html_table_of_transactions.replaceAll('Ext Color','Ext_color');
-			            	html_table_of_transactions = html_table_of_transactions.replaceAll('$','');
-			            	html_table_of_transactions = html_table_of_transactions.replaceAll(',','');
-			            	// console.log('table_of_transactions++++++++++++++',html_table_of_transactions);
-			            	let json_table_of_transactions = tabletojson.convert(html_table_of_transactions);
-			            	console.log('table of transactions -------> ',json_table_of_transactions);
-			            	data.transactions = json_table_of_transactions[0];
-			            	console.log('Dataa ------------->',data);
-			            	resolve(data);
-			            	return;
-			            }else{
-			            	console.log('No data available');
-			            	resolve(null);
-			            	return;
-			            }
-		            }
+				// the NEXT line will extract the json response
+				let jsonResponse = await adjustedDetails.json();
+				let obj = jsonResponse.responses[0].body.items[0];
+				data = obj;
+		    	// let table_element = await this.page.$('.mui-table');
+		    	let table_of_transactions = await self.page.evaluate(() => document.querySelector('.mui-table').innerHTML);
+		    	let html_table_of_transactions = `<table>${table_of_transactions}</table>`;
+		    	html_table_of_transactions = html_table_of_transactions.replaceAll('Odo (mi)','Odometer');
+		    	html_table_of_transactions = html_table_of_transactions.replaceAll('Eng/T','Engine');
+		    	html_table_of_transactions = html_table_of_transactions.replaceAll('Ext Color','Ext_color');
+		    	html_table_of_transactions = html_table_of_transactions.replaceAll('$','');
+		    	html_table_of_transactions = html_table_of_transactions.replaceAll(',','');
+		    	// console.log('table_of_transactions++++++++++++++',html_table_of_transactions);
+		    	let json_table_of_transactions = tabletojson.convert(html_table_of_transactions);
+		    	console.log('table of transactions -------> ',json_table_of_transactions);
+		    	data.transactions = json_table_of_transactions[0];
+		    	console.log('Dataa ------------->',data);
+		    	resolve(data);
+		    }catch(e){
+		    	resolve(false);
+		    }
+			// console.log( obj )	;
+			// cosnol
+
+
+			return;
+
+		    // this.page.on("response", async function (request) {
+		    // 	console.log('-------',request.url());
+
+		    //     if (request.url() && request.url().indexOf('gapiprod.awsmlogic.manheim.com/gateway') !== -1) {
+		    //         let recieved_data = await request.json();
+		    //         if(isValidResponse(recieved_data.responses)){
+			   //          let obj = recieved_data.responses.find(x => x.body.href.indexOf('api.manheim.com/valuations') !== -1);
+			   //          if(obj){
+			   //          	// console.log(`recieved data!`,obj.body.items);
+			            	
+			   //          	return;
+			   //          }else{
+			   //          	console.log('No data available');
+			   //          	resolve(null);
+			   //          	return;
+			   //          }
+		    //         }
 		            
 		            
-		        }
-		    });
+		    //     }
+		    // });
 		    
 		    
 		});
