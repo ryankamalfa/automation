@@ -262,6 +262,9 @@ const arango = require('./model/arango');
 		            }
 		            
 		            
+		        }else{
+		        	console.log('request not valid');
+		        	resolve(false);
 		        }
 		    });
 		    
