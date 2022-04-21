@@ -38,7 +38,8 @@ async function getDetails(listing, index, listings, obj) {
             'listing_url': listing_url,
             'listing_id': result.adBasicInfo.adIdUnique,
             'details_collection_status': true,
-            'details_collection_status_message': 'success'
+            'details_collection_status_message': 'success',
+            'updated_at':new Date(),
         }
         let space = data.specifications.specs.reduce((obj, item) => Object.assign(obj, {[item.key.replace(' ', '_').toLowerCase()]: item.value}), {})
         if (data.featureHighlights && data.featureHighlights.options) {
@@ -63,7 +64,7 @@ async function getDetails(listing, index, listings, obj) {
             final_data.kilometres = final_data.mileage.replace(/[^\d\.]/g, '')
             final_data.miles = Math.round(final_data.kilometres * 0.621371)
             final_data.kilometres = Math.round(final_data.kilometres)
-            final_data.updated_at = new Date()
+
         }
         // 
         let allowed = Object.keys(Listings.rawAttributes)
