@@ -186,14 +186,18 @@ const arango = require('./model/arango');
 			let self = this;
 			let trimArray = item.trim.split(' ');
 			let itemTrim = trimArray[0].toLowerCase();
+			await this.page.goto("https://mmr.manheim.com/", {
+		        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
+		        timeout: 120000
+		    });
 			console.log('itemmmmmmm---->',item);
 			console.log('itemTrim---->',itemTrim);
 			//enter vin 
 			let vin = item.vin;
-			await this.page.waitForSelector('#vinText', {timeout: 120000});
-			await this.page.evaluate(() => {
-		        document.getElementById('vinText').value = "";
-		    });
+			await this.page.waitForSelector('#vinText', {timeout: 10000});
+			// await this.page.evaluate(() => {
+		 //        document.getElementById('vinText').value = "";
+		 //    });
 			
 		    await this.page.type('#vinText', "");
 		    await this.page.waitFor(1000);
@@ -216,9 +220,9 @@ const arango = require('./model/arango');
 		    let miles = `${item.miles}`;
 		    console.log(miles);
 		    await this.page.waitForSelector('#Odometer', {timeout: 120000});
-		    await this.page.evaluate(() => {
-		        document.getElementById('Odometer').value = '';
-		    });
+		    // await this.page.evaluate(() => {
+		    //     document.getElementById('Odometer').value = '';
+		    // });
 		    await this.page.type('#Odometer', "");
 		    await this.page.waitFor(1000);
 		    console.log('111111111');
