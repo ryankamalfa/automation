@@ -234,7 +234,7 @@ const arango = require('./model/arango');
 		    let data = null;
 
 		    this.page.on("response", async function (request) {
-		    	// console.log('-------',request.url());
+		    	console.log('-------',request.url());
 
 		        if (request.url() && request.url().indexOf('gapiprod.awsmlogic.manheim.com/gateway') !== -1) {
 		            let recieved_data = await request.json();
