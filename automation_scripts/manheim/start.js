@@ -28,6 +28,8 @@ const retry = require('async-retry');
             console.log('can not load manheim login, lets retry',e);
         }
     });
+
+    
 	
 	//should get all items from arangodb
 	//should loop over each item in arango db

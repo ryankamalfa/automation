@@ -164,10 +164,13 @@ const arango = require('./model/arango');
 		    console.log(`Clicking submit button`)
 		    await this.page.click('#submit', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']})
 		    console.log(`Waiting for login confirm`)
-		    await this.page.waitForFunction("window.location.host == 'mmr.manheim.com'")
-
-
-		    // await this.page.waitForSelector('.user-config', {timeout: 120000})
+		    // await this.page.waitForFunction("window.location.host == 'mmr.manheim.com'",{waitUntil: ['networkidle0', 'load', 'domcontentloaded']})
+		    // await this.page.goto("https://mmr.manheim.com/", {
+		    //     waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
+		    //     timeout: 120000
+		    // });
+		    // await this.page.waitFor(5000);
+		    await this.page.waitForSelector('#accountMenu', {timeout: 120000})
 		    console.log(`Login successful!`)
 		    resolve(true);
 	    })
@@ -183,50 +186,62 @@ const arango = require('./model/arango');
 			let self = this;
 			let trimArray = item.trim.split(' ');
 			let itemTrim = trimArray[0].toLowerCase();
-			console.log('itemmmmmmm---->',itemTrim);
+			console.log('itemmmmmmm---->',item);
+			console.log('itemTrim---->',itemTrim);
 			//enter vin 
 			let vin = item.vin;
-			await self.page.waitForSelector('#vinText', {timeout: 120000})
-		    await self.page.type('#vinText', "")
-		    await self.page.waitFor(100)
-		    await self.page.type('#vinText', vin)
-		    await self.page.evaluate((vin) => {
+			await this.page.evaluate(() => {
+		        document.getElementById('vinText').value = "";
+		    });
+			await this.page.waitForSelector('#vinText', {timeout: 120000});
+		    await this.page.type('#vinText', "");
+		    await this.page.waitFor(1000);
+		    await this.page.type('#vinText', vin);
+		    await this.page.evaluate((vin) => {
 		        document.getElementById('vinText').value = vin;
 		    }, vin);
-		    await self.page.click('.icon-search', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
-		    await self.page.waitFor(2000)
-	    	await self.pendingXHR.waitForAllXhrFinished();
+		    await this.page.click('.icon-search', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
+		    await this.page.waitFor(2000);
+	    	await this.pendingXHR.waitForAllXhrFinished();
 
 	    	//check if engine popup is open
-	    	await checkForEnginePopup(itemTrim,self.page);
+	    	if(!await checkForEnginePopup(itemTrim,this.page)){
+	    		console.log('this item has no valid engine or style');
+	    		resolve(false);
+	    		return;
+	    	}
 		    //enter miles
 		    // return;
 		    let miles = `${item.miles}`;
 		    console.log(miles);
-		    await self.page.type('#Odometer', "");
-		    await self.page.waitFor(100);
+		    await this.page.evaluate(() => {
+		        document.getElementById('Odometer').value = '';
+		    });
+		    await this.page.type('#Odometer', "");
+		    await this.page.waitFor(1000);
 		    console.log('111111111');
-		    await self.page.type('#Odometer', miles);
-		    await self.page.evaluate((miles) => {
+		    await this.page.type('#Odometer', miles);
+		    await this.page.evaluate((miles) => {
 		        document.getElementById('Odometer').value = miles;
 		    }, miles);
 		    console.log('222222');
-		    await self.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
+		    await this.page.waitFor(2000);
+		    await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		    console.log('Vin data loaded');
 		    //wait for getting data
 		    let data = null;
 
-		    self.page.on("response", async function (request) {
+		    this.page.on("response", async function (request) {
 		    	// console.log('-------',request.url());
 
-		        if (request.url().indexOf('gapiprod.awsmlogic.manheim.com/gateway') !== -1) {
+		        if (request.url() && request.url().indexOf('gapiprod.awsmlogic.manheim.com/gateway') !== -1) {
 		            let recieved_data = await request.json();
 		            if(isValidResponse(recieved_data.responses)){
 			            let obj = recieved_data.responses.find(x => x.body.href.indexOf('api.manheim.com/valuations') !== -1);
 			            if(obj){
 			            	// console.log(`recieved data!`,obj.body.items);
 			            	data = obj.body.items[0];
-			            	// let table_element = await self.page.$('.mui-table');
+			            	// let table_element = await this.page.$('.mui-table');
 			            	let table_of_transactions = await self.page.evaluate(() => document.querySelector('.mui-table').innerHTML);
 			            	let html_table_of_transactions = `<table>${table_of_transactions}</table>`;
 			            	html_table_of_transactions = html_table_of_transactions.replaceAll('Odo (mi)','Odometer');
@@ -236,18 +251,21 @@ const arango = require('./model/arango');
 			            	html_table_of_transactions = html_table_of_transactions.replaceAll(',','');
 			            	// console.log('table_of_transactions++++++++++++++',html_table_of_transactions);
 			            	let json_table_of_transactions = tabletojson.convert(html_table_of_transactions);
-			            	// console.log('table of transactions -------> ',json_table_of_transactions);
+			            	console.log('table of transactions -------> ',json_table_of_transactions);
 			            	data.transactions = json_table_of_transactions[0];
+			            	console.log('Dataa ------------->',data);
 			            	resolve(data);
 			            }else{
 			            	console.log('No data available');
+			            	resolve(null);
 			            }
 		            }
 		            
 		            
 		        }
 		    });
-		    // console.log('Dataa ------------->',data);
+		    
+		    
 		});
 
 	}
@@ -261,16 +279,21 @@ const arango = require('./model/arango');
 			let is_engine_popup_open = (await page.$('.styles__modalContainer__2phk2')) || "";
 	    	if(is_engine_popup_open){
 	    		console.log('popup exist, item has multiple options');
-	    		await page.evaluate((itemTrim) => {
+	    		let result = await page.evaluate((itemTrim) => {
 					let elements = document.getElementsByTagName('td');
 		    		let elementsArray = [...elements];
-		    		elementsArray.find(y => y.textContent.toLowerCase().includes(itemTrim)).click();
+		    		let elementExist = elementsArray.find(y => y.textContent.toLowerCase().includes(itemTrim));
+		    		if(elementExist) elementExist.click();
+		    		if(elementExist) return true;
+		    		else return false;
 	    		},itemTrim);
+
+	    		if(result) resolve(true);
+	    		else resolve(false);
 	    		
-	    	}
-	    	setTimeout(()=>{
+	    	}else{
 	    		resolve(true);
-	    	},10000);
+	    	}
 		})	
 	}
 
@@ -334,7 +357,7 @@ const arango = require('./model/arango');
 		// console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&',data);
 		// let obj = data.find(x => x.body.href.indexOf('api.manheim.com/valuations') !== -1);
 		
-		if(data[0].body.href.indexOf('api.manheim.com/valuations') !== -1){
+		if(data[0].body.href && data[0].body.href.indexOf('api.manheim.com/valuations') !== -1){
 			// console.log('objjjjjjjjjjjjjjjj',data);
 			return true;
 		}else{
