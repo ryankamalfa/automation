@@ -257,9 +257,11 @@ const arango = require('./model/arango');
 			            	data.transactions = json_table_of_transactions[0];
 			            	console.log('Dataa ------------->',data);
 			            	resolve(data);
+			            	return;
 			            }else{
 			            	console.log('No data available');
 			            	resolve(null);
+			            	return;
 			            }
 		            }
 		            
