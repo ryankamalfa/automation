@@ -190,10 +190,11 @@ const arango = require('./model/arango');
 			console.log('itemTrim---->',itemTrim);
 			//enter vin 
 			let vin = item.vin;
+			await this.page.waitForSelector('#vinText', {timeout: 120000});
 			await this.page.evaluate(() => {
 		        document.getElementById('vinText').value = "";
 		    });
-			await this.page.waitForSelector('#vinText', {timeout: 120000});
+			
 		    await this.page.type('#vinText', "");
 		    await this.page.waitFor(1000);
 		    await this.page.type('#vinText', vin);
@@ -214,6 +215,7 @@ const arango = require('./model/arango');
 		    // return;
 		    let miles = `${item.miles}`;
 		    console.log(miles);
+		    await this.page.waitForSelector('#Odometer', {timeout: 120000});
 		    await this.page.evaluate(() => {
 		        document.getElementById('Odometer').value = '';
 		    });
@@ -262,9 +264,6 @@ const arango = require('./model/arango');
 		            }
 		            
 		            
-		        }else{
-		        	console.log('request not valid');
-		        	resolve(false);
 		        }
 		    });
 		    
