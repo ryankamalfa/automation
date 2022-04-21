@@ -3,6 +3,7 @@ const {PendingXHR} = require('pending-xhr-puppeteer');
 const tabletojson = require('tabletojson').Tabletojson;
 const cloud = require('./model/cloud');
 const arango = require('./model/arango');
+
 	async function startBrowser(){
 		// try {
 			let credentials = await cloud.get_credentials();
