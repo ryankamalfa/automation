@@ -190,7 +190,7 @@ const arango = require('./model/arango');
 			
 			
 			try{
-			let trimArray = item.trim.replaceAll(',','').split(' ');
+			let trimArray = item.trim.replaceAll(',','').replaceAll('-','').split(' ');
 			let itemTrim = trimArray[0].toLowerCase();
 			await this.page.goto("https://mmr.manheim.com/?country=CA", {
 		        waitUntil: ['networkidle0','networkidle2', 'load', 'domcontentloaded'],
