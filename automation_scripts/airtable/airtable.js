@@ -16,7 +16,6 @@ const arango = require('./model/arango');
         let listings =  await arango.query(`For listing in crawled_listings
                         Sort listing.created_at asc
                         Filter listing.manheim and listing.vin and !listing.airtable and listing.price or listing.start_price
-                        limit 1000
                         return {listing_id:listing.listing_id,platform:listing.platform,
                             search_trim:listing.search_trim,
                             search_make:listing.search_make,
