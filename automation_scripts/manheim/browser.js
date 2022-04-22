@@ -187,18 +187,7 @@ const arango = require('./model/arango');
 		return new Promise(async (resolve)=>{
 			let data ;
 			let self = this;
-			
-			
-			try{
-			let trimArray = item.trim.replaceAll(',','').replaceAll('-','').split(' ');
-			let itemTrim = trimArray[0].toLowerCase();
-			await this.page.goto("https://mmr.manheim.com/?country=CA", {
-		        waitUntil: ['networkidle0','networkidle2', 'load', 'domcontentloaded'],
-		        timeout: 120000
-		    });
-
-
-		    self.page.on('response', async (response) =>
+			self.page.on('response', async (response) =>
 		      {
 		      	
 		      	if(response && response.status() === 200 && response.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
@@ -227,6 +216,17 @@ const arango = require('./model/arango');
 		      	}
 		      }
 		      )
+			
+			try{
+			let trimArray = item.trim.replaceAll(',','').replaceAll('-','').split(' ');
+			let itemTrim = trimArray[0].toLowerCase();
+			await this.page.goto("https://mmr.manheim.com/?country=CA", {
+		        waitUntil: ['networkidle0','networkidle2', 'load', 'domcontentloaded'],
+		        timeout: 120000
+		    });
+
+
+		    
 			console.log('itemmmmmmm---->',item);
 			console.log('itemTrim---->',itemTrim);
 			//enter vin 
