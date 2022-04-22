@@ -272,7 +272,7 @@ const arango = require('./model/arango');
 		    	// console.log('table of transactions -------> ',json_table_of_transactions);
 		    	data.transactions = json_table_of_transactions[0];
 		    	console.log('Dataa ------------->',data);
-		    	await(item,data)
+		    	await updateVehicle(item,data)
 		    	resolve(true);
 		    }catch(e){
 		    	console.log('error while fetchin vin DATA',e);
