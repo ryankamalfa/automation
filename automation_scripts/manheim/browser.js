@@ -13,14 +13,14 @@ const arango = require('./model/arango');
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
 		        executablePath: '/usr/bin/google-chrome',
-		        headless: false,
+		        headless: true,
 		        ignoreHTTPSErrors: true,
 		        args: [
 		            '--no-sandbox',
 		            '--enable-features=NetworkService',
 		            '--disable-setuid-sandbox',
 		            `--window-size=1280,960`,
-		            // proxyServer
+		            proxyServer
 		        ],
 		        ignoreHTTPSErrors: true,
 		        slowMo: 50
@@ -30,10 +30,10 @@ const arango = require('./model/arango');
 
 		    console.log(`Authenticating proxy`)
 
-            // await this.page.authenticate({
-            //     username: credentials.luminati.username,
-            //     password: credentials.luminati.password
-            // })
+            await this.page.authenticate({
+                username: credentials.luminati.username,
+                password: credentials.luminati.password
+            })
 
 
 		    this.pendingXHR = new PendingXHR(this.page);
