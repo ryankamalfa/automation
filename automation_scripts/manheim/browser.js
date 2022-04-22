@@ -186,40 +186,43 @@ const arango = require('./model/arango');
 		return new Promise(async (resolve)=>{
 			let data ;
 			let self = this;
-			self.page.on('response', async (response) =>
-			      {
-			      	
-			      	if(response && response.status() === 200 && response.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
-			      		//
-			      		// the NEXT line will extract the json response
-			      		// let body = await response.json();
-			      		// console.log('fetched data',body);
-
-						let jsonResponse = await response.json();
-						// console.log(jsonResponse.responses[0].body);
-						if(jsonResponse && jsonResponse.responses[0] && jsonResponse.responses[0].body && jsonResponse.responses[0].body.items){
-							let obj = jsonResponse.responses[0].body.items[0];
-							if(obj && obj.wholesale && obj.wholesale.average){
-				      			console.log('We got a valid mmr response');
-				      			console.log('we should update vin data');
-				      			console.log(obj);
-				      			data = obj;
-				      		}
-						}
-						
-			      		
-			      		// console.log(`${response.status()} ${response.url()}`);
-			      	}
-			      }
-			      )
+			
 			
 			try{
 			let trimArray = item.trim.replaceAll(',','').split(' ');
 			let itemTrim = trimArray[0].toLowerCase();
 			await this.page.goto("https://mmr.manheim.com/?country=CA", {
-		        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
+		        waitUntil: ['networkidle0','networkidle2', 'load', 'domcontentloaded'],
 		        timeout: 120000
 		    });
+
+
+		    self.page.on('response', async (response) =>
+		      {
+		      	
+		      	if(response && response.status() === 200 && response.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
+		      		//
+		      		// the NEXT line will extract the json response
+		      		// let body = await response.json();
+		      		// console.log('fetched data',body);
+
+					let jsonResponse = response.json();
+					// console.log(jsonResponse.responses[0].body);
+					if(jsonResponse && jsonResponse.responses[0] && jsonResponse.responses[0].body && jsonResponse.responses[0].body.items){
+						let obj = jsonResponse.responses[0].body.items[0];
+						if(obj && obj.wholesale && obj.wholesale.average){
+			      			console.log('We got a valid mmr response');
+			      			console.log('we should update vin data');
+			      			console.log(obj);
+			      			data = obj;
+			      		}
+					}
+					
+		      		
+		      		// console.log(`${response.status()} ${response.url()}`);
+		      	}
+		      }
+		      )
 			console.log('itemmmmmmm---->',item);
 			console.log('itemTrim---->',itemTrim);
 			//enter vin 
