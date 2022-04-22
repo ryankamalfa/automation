@@ -200,7 +200,7 @@ const arango = require('./model/arango');
 		      		// console.log('fetched data',body);
 
 					let jsonResponse = response.json();
-					// console.log(jsonResponse.responses[0].body);
+					console.log(jsonResponse.responses[0].body);
 					if(jsonResponse.responses[0] && jsonResponse.responses[0].body && jsonResponse.responses[0].body.items){
 						
 							let obj = jsonResponse.responses[0].body.items[0];
