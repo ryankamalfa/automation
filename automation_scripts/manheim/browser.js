@@ -13,7 +13,7 @@ const arango = require('./model/arango');
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
 		        executablePath: '/usr/bin/google-chrome',
-		        headless: true,
+		        headless: false,
 		        ignoreHTTPSErrors: true,
 		        args: [
 		            '--no-sandbox',
@@ -184,8 +184,35 @@ const arango = require('./model/arango');
 	*/
 	function searchForVin(item){
 		return new Promise(async (resolve)=>{
-
+			let data ;
 			let self = this;
+			self.page.on('response', async (response) =>
+			      {
+			      	
+			      	if(response.status() === 200 && response.request().resourceType() === 'xhr' && response.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
+			      		//
+			      		// the NEXT line will extract the json response
+			      		// let body = await response.json();
+			      		// console.log('fetched data',body);
+
+						let jsonResponse = await response.json();
+						// console.log(jsonResponse.responses[0].body);
+						if(jsonResponse.responses[0].body.items){
+							let obj = jsonResponse.responses[0].body.items[0];
+							if(obj.wholesale && obj.wholesale.average){
+				      			console.log('We got a valid mmr response');
+				      			console.log('we should update vin data');
+				      			console.log(obj);
+				      			data = obj;
+				      		}
+						}
+						
+			      		
+			      		// console.log(`${response.status()} ${response.url()}`);
+			      	}
+			      }
+			      )
+			
 			try{
 			let trimArray = item.trim.replaceAll(',','').split(' ');
 			let itemTrim = trimArray[0].toLowerCase();
@@ -210,7 +237,7 @@ const arango = require('./model/arango');
 		    }, vin);
 		    await self.page.click('.icon-search', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		    await self.page.waitFor(2000);
-	    	await self.pendingXHR.waitForAllXhrFinished();
+	    	// await self.pendingXHR.waitForAllXhrFinished();
 
 	    	//check if engine popup is open
 	    	if(!await checkForEnginePopup(itemTrim,self.page)){
@@ -246,19 +273,19 @@ const arango = require('./model/arango');
 		    let httpResponseWithVinDetails = self.page.waitForResponse((response) => {
 	    		// console.log(',-----------------',response.url());
 	    		// console.log('------------------',response.body);
-			    return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway")
+			    return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway");
 			});
 			
 		    //wait for getting data
-		    let data = null;
+		    // let data = null;
 
-		    	console.log('httpResponseWithVinDetails --------> ',httpResponseWithVinDetails);
-		    	const adjustedDetails = await httpResponseWithVinDetails;
+		    	// console.log('httpResponseWithVinDetails --------> ',httpResponseWithVinDetails);
+		    	// const adjustedDetails = await httpResponseWithVinDetails;
 
 				// the NEXT line will extract the json response
-				let jsonResponse = await adjustedDetails.json();
-				let obj = jsonResponse.responses[0].body.items[0];
-				data = obj;
+				// let jsonResponse = await adjustedDetails.json();
+				// let obj = jsonResponse.responses[0].body.items[0];
+				// data = obj;
 		    	// let table_element = await this.page.$('.mui-table');
 		    	let table_of_transactions = await self.page.evaluate(() => document.querySelector('.mui-table').innerHTML);
 		    	let html_table_of_transactions = `<table>${table_of_transactions}</table>`;
