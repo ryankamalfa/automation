@@ -193,7 +193,7 @@ const arango = require('./model/arango');
 			self.page.on('response', async (response) =>
 		      {
 		      	
-		      	if(response && response.status() === 200 && response.request().xhr && response.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
+		      	if(response.status() === 200 && response.request().xhr && response.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
 		      		//
 		      		// the NEXT line will extract the json response
 		      		// let body = await response.json();
@@ -202,7 +202,7 @@ const arango = require('./model/arango');
 					let jsonResponse = response.json();
 					// console.log(jsonResponse.responses[0].body);
 					if(jsonResponse.responses[0] && jsonResponse.responses[0].body && jsonResponse.responses[0].body.items){
-						if(jsonResponse.responses[0].body){
+						
 							let obj = jsonResponse.responses[0].body.items[0];
 							if(obj && obj.wholesale && obj.wholesale.average){
 				      			console.log('We got a valid mmr response');
@@ -210,7 +210,7 @@ const arango = require('./model/arango');
 				      			console.log(obj);
 				      			data = obj;
 				      		}
-						}
+						
 						
 					}
 					
