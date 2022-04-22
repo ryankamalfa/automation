@@ -15,11 +15,11 @@ const arango = require('./model/arango');
 		        executablePath: '/usr/bin/google-chrome',
 		        headless: true,
 		        ignoreHTTPSErrors: true,
+		        defaultViewport: { width: 1600, height: 800 },
 		        args: [
 		            '--no-sandbox',
 		            '--enable-features=NetworkService',
 		            '--disable-setuid-sandbox',
-		            `--window-size=1280,960`,
 		            proxyServer
 		        ],
 		        ignoreHTTPSErrors: true,
@@ -189,7 +189,7 @@ const arango = require('./model/arango');
 			self.page.on('response', async (response) =>
 			      {
 			      	
-			      	if(response.status() === 200 && response.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
+			      	if(response && response.status() === 200 && response.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
 			      		//
 			      		// the NEXT line will extract the json response
 			      		// let body = await response.json();
