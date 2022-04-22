@@ -186,9 +186,6 @@ const arango = require('./model/arango');
 		return new Promise(async (resolve)=>{
 			let data ;
 			let self = this;
-			
-			
-			try{
 			self.page.on('response', async (response) =>
 		      {
 		      	
@@ -217,7 +214,10 @@ const arango = require('./model/arango');
 		      		// console.log(`${response.status()} ${response.url()}`);
 		      	}
 		      }
-		      );	
+		      );
+			
+			try{
+				
 			let trimArray = item.trim.replaceAll(',','').replaceAll('-','').split(' ');
 			let itemTrim = trimArray[0].toLowerCase();
 			await this.page.goto("https://mmr.manheim.com/?country=CA", {
