@@ -30,7 +30,7 @@ const getConfig = async (req,res,done) =>{
 		FOR x IN script_settings filter x.type == '${req.query.type}' RETURN x 
 		`);
 	const config_data = await config.all();
-	console.log('config data from database',config_data[0]);
+	// console.log('config data from database',config_data[0]);
 	res.send({ config: config_data[0] });
 };
 

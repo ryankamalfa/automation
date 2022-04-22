@@ -13,14 +13,14 @@ const arango = require('./model/arango');
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
 		        executablePath: '/usr/bin/google-chrome',
-		        headless: true,
+		        headless: false,
 		        ignoreHTTPSErrors: true,
 		        args: [
 		            '--no-sandbox',
 		            '--enable-features=NetworkService',
 		            '--disable-setuid-sandbox',
 		            `--window-size=1280,960`,
-		            proxyServer
+		            // proxyServer
 		        ],
 		        ignoreHTTPSErrors: true,
 		        slowMo: 50
@@ -30,10 +30,10 @@ const arango = require('./model/arango');
 
 		    console.log(`Authenticating proxy`)
 
-            await this.page.authenticate({
-                username: credentials.luminati.username,
-                password: credentials.luminati.password
-            })
+            // await this.page.authenticate({
+            //     username: credentials.luminati.username,
+            //     password: credentials.luminati.password
+            // })
 
 
 		    this.pendingXHR = new PendingXHR(this.page);
@@ -187,12 +187,12 @@ const arango = require('./model/arango');
 
 			let self = this;
 			try{
-			let trimArray = item.trim.split(' ');
+			let trimArray = item.trim.replaceAll(',','').split(' ');
 			let itemTrim = trimArray[0].toLowerCase();
-			// await this.page.goto("https://mmr.manheim.com/", {
-		 //        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
-		 //        timeout: 120000
-		 //    });
+			await this.page.goto("https://mmr.manheim.com/?country=CA", {
+		        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
+		        timeout: 120000
+		    });
 			console.log('itemmmmmmm---->',item);
 			console.log('itemTrim---->',itemTrim);
 			//enter vin 
@@ -218,6 +218,10 @@ const arango = require('./model/arango');
 	    		resolve(false);
 	    		return;
 	    	}
+
+
+	    	
+
 		    //enter miles
 		    // return;
 		    let miles = `${item.miles}`;
@@ -238,11 +242,18 @@ const arango = require('./model/arango');
 		    await self.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		    // await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		    console.log('Vin data loaded');
+
+		    let httpResponseWithVinDetails = self.page.waitForResponse((response) => {
+	    		// console.log(',-----------------',response.url());
+	    		// console.log('------------------',response.body);
+			    return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway")
+			});
+			
 		    //wait for getting data
 		    let data = null;
 
-		    
-		    	const adjustedDetails = await self.page.waitForResponse('https://gapiprod.awsmlogic.manheim.com/gateway')
+		    	console.log('httpResponseWithVinDetails --------> ',httpResponseWithVinDetails);
+		    	const adjustedDetails = await httpResponseWithVinDetails;
 
 				// the NEXT line will extract the json response
 				let jsonResponse = await adjustedDetails.json();
@@ -258,11 +269,13 @@ const arango = require('./model/arango');
 		    	html_table_of_transactions = html_table_of_transactions.replaceAll(',','');
 		    	// console.log('table_of_transactions++++++++++++++',html_table_of_transactions);
 		    	let json_table_of_transactions = tabletojson.convert(html_table_of_transactions);
-		    	console.log('table of transactions -------> ',json_table_of_transactions);
+		    	// console.log('table of transactions -------> ',json_table_of_transactions);
 		    	data.transactions = json_table_of_transactions[0];
 		    	console.log('Dataa ------------->',data);
-		    	resolve(data);
+		    	await(item,data)
+		    	resolve(true);
 		    }catch(e){
+		    	console.log('error while fetchin vin DATA',e);
 		    	resolve(false);
 		    }
 			// console.log( obj )	;
@@ -320,6 +333,7 @@ const arango = require('./model/arango');
 	    		else resolve(false);
 	    		
 	    	}else{
+	    		console.log('popup not exist, item has multiple options');
 	    		resolve(true);
 	    	}
 		})	
@@ -332,7 +346,8 @@ const arango = require('./model/arango');
 	async function updateVehicle(item,data){
 		// console.log('Should update vehicle data on arango',data);
 		//should build item object 
-		let obj = {};
+		return new Promise(async (resolve)=>{
+			let obj = {};
 		/*
 			{
 				base_mmr:null,
@@ -374,6 +389,12 @@ const arango = require('./model/arango');
 					}
 				});
 		console.log('mmr_sales inserted in arango');
+
+
+		resolve(true);
+		})
+
+
 
 
 

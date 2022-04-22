@@ -39,6 +39,7 @@ const retry = require('async-retry');
 	let items = await arango.query(`
 			for x in crawled_listings 
 			filter !x.manheim and x.vin and x.trim and x.miles
+			limit 1000 
 			return {
 			_id:x._id,
 			vin:x.vin,
@@ -50,18 +51,18 @@ const retry = require('async-retry');
 	let items_data = await items.all();
 	console.log(`we have around ${items_data.length} to loop over`);
 	// let items_data = [{
-	// 	_id:'crawled_listings/655231',
-	// 	trim:'Lariat xd new ok for the hotel',
-	// 	vin:'1FTEW1EP4LKE21177',
-	// 	miles:'20121',
+	//   _id: 'crawled_listings/732364',
+	//   vin: '1FTEW1E59KFB54852',
+	//   trim: 'XLT, Sport, Nav, 5.0L, Upgraded Wheels!!',
+	//   miles: 44637
 	// }];
 	if(items_data.length > 0){
 		async.eachSeries(items_data,function(item,callback){
 			(async()=>{
-				let data = await browser.searchForVin(item);
-				if(data){
-					await browser.updateVehicle(item,data);
-				}
+				await browser.searchForVin(item);
+				// if(data){
+				// 	await browser.updateVehicle(item,data);
+				// }
 				callback();
 			})();
 		},function(){

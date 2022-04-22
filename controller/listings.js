@@ -94,7 +94,9 @@ const addNewListing = async (req, res) => {
 
         db.query({
 	      query:`For x in @models
-	      				insert x into listings`,
+	      			upsert {make:x.make,model:x.model}
+	      			insert x
+	      			update x in listings`,
 	      bindVars:{models : models}
 	    })
 
