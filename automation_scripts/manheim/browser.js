@@ -20,6 +20,7 @@ const arango = require('./model/arango');
 		            '--no-sandbox',
 		            '--enable-features=NetworkService',
 		            '--disable-setuid-sandbox',
+		            '--disable-web-security',
 		            proxyServer
 		        ],
 		        ignoreHTTPSErrors: true,
