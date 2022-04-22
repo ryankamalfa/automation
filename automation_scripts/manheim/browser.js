@@ -197,7 +197,7 @@ const arango = require('./model/arango');
 
 						let jsonResponse = await response.json();
 						// console.log(jsonResponse.responses[0].body);
-						if(jsonResponse.responses[0].body.items){
+						if(jsonResponse.responses[0].body && jsonResponse.responses[0].body.items){
 							let obj = jsonResponse.responses[0].body.items[0];
 							if(obj.wholesale && obj.wholesale.average){
 				      			console.log('We got a valid mmr response');
