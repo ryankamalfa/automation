@@ -3,6 +3,9 @@ const {PendingXHR} = require('pending-xhr-puppeteer');
 const tabletojson = require('tabletojson').Tabletojson;
 const cloud = require('./model/cloud');
 const arango = require('./model/arango');
+const axios = require('axios');
+
+
 
 	async function startBrowser(){
 		// try {
@@ -13,7 +16,7 @@ const arango = require('./model/arango');
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
 		        executablePath: '/usr/bin/google-chrome',
-		        headless: true,
+		        headless: false,
 		        ignoreHTTPSErrors: true,
 		        args: [
 		            '--no-sandbox',
@@ -409,6 +412,11 @@ const arango = require('./model/arango');
 		// console.log('Should update vehicle data on arango',data);
 		//should build item object 
 		return new Promise(async (resolve)=>{
+			let exchangeRate;
+
+			//get latest exchange rate 
+			let rate = await getExchangeRate() ;
+			exchangeRate = rate ? rate : 1;
 			let obj = {};
 		/*
 			{
@@ -421,10 +429,16 @@ const arango = require('./model/arango');
 		*/
 		obj._id = item._id;
 		obj.manheim = true;
-		obj.base_mmr = data.wholesale.average;
-		obj.adjusted_mmr = data.adjustedPricing.wholesale.average;
-		obj.estimated_retail_value = data.adjustedPricing.retail.average;
+		obj.US_base_mmr = data.wholesale.average;
+		obj.US_adjusted_mmr = data.adjustedPricing.wholesale.average;
+		obj.US_estimated_retail_value = data.adjustedPricing.retail.average;
+
+		obj.CA_base_mmr = data.wholesale.average * exchangeRate + ((data.wholesale.average/100)*2);
+		obj.CA_adjusted_mmr = data.adjustedPricing.wholesale.average * exchangeRate + ((data.adjustedPricing.wholesale.average/100)*2);
+		obj.CA_estimated_retail_value = data.adjustedPricing.retail.average * exchangeRate + ((data.adjustedPricing.retail.average/100)*2);
+
 		obj.updated_at = new Date();
+		obj.exchange_rate = exchangeRate;
 		// obj.mmr_sales = data.transactions.splice(-1);
 		console.log('Final obj ------------------ ============ ',obj);
 		// console.log(obj.mmr_sales.length);
@@ -462,6 +476,23 @@ const arango = require('./model/arango');
 
 	}                      
 
+
+
+
+	function getExchangeRate(){
+		return new Promise((resolve)=>{
+			axios.get('https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/cad.json')
+			  .then(function (response) {
+			    // console.log('exchangeRate -----------> ',response);
+			    console.log(response.data.cad);
+			    resolve(response.data.cad);
+			  })
+			  .catch(function (error) {
+			    console.log('error fetching latest USD/CAD exchangeRate',error);
+			    resolve(null);
+			  })
+		});
+	}
 
 
 	function isValidResponse(data){
