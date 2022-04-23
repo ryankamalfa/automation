@@ -13,14 +13,13 @@ const arango = require('./model/arango');
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
 		        executablePath: '/usr/bin/google-chrome',
-		        headless: true,
+		        headless: false,
 		        ignoreHTTPSErrors: true,
-		        defaultViewport: { width: 1600, height: 800 },
 		        args: [
 		            '--no-sandbox',
 		            '--enable-features=NetworkService',
 		            '--disable-setuid-sandbox',
-		            '--disable-web-security',
+		            `--window-size=1280,960`,
 		            proxyServer
 		        ],
 		        ignoreHTTPSErrors: true,
@@ -190,44 +189,39 @@ const arango = require('./model/arango');
 			
 			
 			try{
-			self.page.on('response', async (response) =>
-		      {
-		      	
-		      	if(response.status() === 200 && response.request().xhr && response.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
-		      		//
-		      		// the NEXT line will extract the json response
-		      		// let body = await response.json();
-		      		// console.log('fetched data',body);
+				// self.page.on('request', async (request) =>
+			 //      {
+			      	
+			 //      	if(request.resourceType() === 'xhr' && request.url() === "https://gapiprod.awsmlogic.manheim.com/gateway"){
+			 //      		//
+			 //      		// the NEXT line will extract the json response
+			 //      		// let body = await response.json();
+			 //      		console.log('fetched data',await request.response());
 
-					let jsonResponse = response.json();
-					console.log(jsonResponse.responses[0].body);
-					if(jsonResponse.responses[0] && jsonResponse.responses[0].body && jsonResponse.responses[0].body.items){
+				// 		// let jsonResponse = await request.response().json();
+				// 		// console.log(jsonResponse);
+				// 		// if(jsonResponse.responses[0].body && jsonResponse.responses[0].body.items){
+				// 		// 	let obj = jsonResponse.responses[0].body.items[0];
+				// 		// 	if(obj && obj.wholesale && obj.wholesale.average){
+				//   //     			console.log('We got a valid mmr response');
+				//   //     			console.log('we should update vin data');
+				//   //     			console.log(obj);
+				//   //     			data = obj;
+				//   //     		}
+				// 		// }
 						
-							let obj = jsonResponse.responses[0].body.items[0];
-							if(obj && obj.wholesale && obj.wholesale.average){
-				      			console.log('We got a valid mmr response');
-				      			console.log('we should update vin data');
-				      			console.log(obj);
-				      			data = obj;
-				      		}
-						
-						
-					}
-					
-		      		
-		      		// console.log(`${response.status()} ${response.url()}`);
-		      	}
-		      }
-		      );	
-			let trimArray = item.trim.replaceAll(',','').replaceAll('-','').split(' ');
+			      		
+			 //      		// console.log(`${response.status()} ${response.url()}`);
+			 //      	}
+			 //      }
+			 //      )
+
+			let trimArray = item.trim.replaceAll(',','').split(' ');
 			let itemTrim = trimArray[0].toLowerCase();
 			await this.page.goto("https://mmr.manheim.com/?country=CA", {
-		        waitUntil: ['networkidle0','networkidle2', 'load', 'domcontentloaded'],
+		        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
 		        timeout: 120000
 		    });
-
-
-		    
 			console.log('itemmmmmmm---->',item);
 			console.log('itemTrim---->',itemTrim);
 			//enter vin 
@@ -273,16 +267,30 @@ const arango = require('./model/arango');
 		        document.getElementById('Odometer').value = miles;
 		    }, miles);
 		    console.log('222222');
-		    await self.page.waitFor(3000);
-		    await self.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
+		    // await self.page.waitFor(3000);
+		    await self.page.click('.styles__button__rqYJE');
 		    // await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
+		    const [response] = await Promise.all([
+			    self.page.waitForResponse(response => response.url() === ('https://gapiprod.awsmlogic.manheim.com/gateway'))
+			]);
+			const dataObj = await response.json();
+			// console.log(dataObj.responses[0].body.items[0]);
+			if(dataObj.responses[0] && dataObj.responses[0].body && dataObj.responses[0].body.items){
+					let obj = dataObj.responses[0].body.items[0];
+					if(obj && obj.wholesale && obj.wholesale.average){
+		      			console.log('We got a valid mmr response');
+		      			console.log('we should update vin data');
+		      			console.log(obj);
+		      			data = obj;
+		      		}
+				}
 		    console.log('Vin data loaded');
 
-		    let httpResponseWithVinDetails = self.page.waitForResponse((response) => {
-	    		// console.log(',-----------------',response.url());
-	    		// console.log('------------------',response.body);
-			    return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway");
-			});
+		 //    let httpResponseWithVinDetails = self.page.waitForResponse((response) => {
+	  //   		// console.log(',-----------------',response.url());
+	  //   		// console.log('------------------',response.body);
+			//     return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway");
+			// });
 			
 		    //wait for getting data
 		    // let data = null;
