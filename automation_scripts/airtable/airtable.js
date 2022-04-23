@@ -15,7 +15,7 @@ const arango = require('./model/arango');
         
         let listings =  await arango.query(`For listing in crawled_listings
                         Sort listing.created_at asc
-                        Filter listing.manheim and listing.vin and !listing.airtable and listing.price or listing.start_price  and listing.base_mmr
+                        Filter listing.manheim and listing.vin and !listing.airtable and listing.price or listing.start_price  and listing.US_base_mmr
                         return {listing_id:listing.listing_id,platform:listing.platform,
                             search_trim:listing.search_trim,
                             search_make:listing.search_make,
@@ -49,11 +49,15 @@ const arango = require('./model/arango');
                             dealer:listing.dealer,
                             province:listing.province,
                             start_price:listing.start_price,
-                            base_mmr:listing.base_mmr,
-                            adjusted_mmr:listing.adjusted_mmr,
-                            estimated_retail_value:listing.estimated_retail_value,
+                            US_base_mmr:listing.US_base_mmr,
+                            US_adjusted_mmr:listing.US_adjusted_mmr,
+                            US_estimated_retail_value:listing.US_estimated_retail_value,
+                            CA_base_mmr:listing.CA_base_mmr,
+                            CA_adjusted_mmr:listing.CA_adjusted_mmr,
+                            CA_estimated_retail_value:listing.CA_estimated_retail_value,
                             created_at:listing.created_at,
                             updated_at:listing.updated_at,
+                            exchange_rate:listing.exchange_rate
 
                         }
 
