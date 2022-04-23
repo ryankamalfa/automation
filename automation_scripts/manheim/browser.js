@@ -12,8 +12,8 @@ const arango = require('./model/arango');
 			this.PendingXHR = null;
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
-		        executablePath: '/usr/bin/chromium-browser',
-		        headless: true,
+		        executablePath: '/usr/bin/google-chrome',
+		        headless: false,
 		        ignoreHTTPSErrors: true,
 		        args: [
 		            '--no-sandbox',
@@ -270,10 +270,33 @@ const arango = require('./model/arango');
 		    // await self.page.waitFor(3000);
 		    await self.page.click('.styles__button__rqYJE');
 		    // await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
-		    const [response] = await Promise.all([
-			    self.page.waitForResponse(response => response.url() === ('https://gapiprod.awsmlogic.manheim.com/gateway'), {timeout:120000})
-			]);
-			const dataObj = await response.json();
+		 //    const [response] = await Promise.all([
+			//     self.page.waitForResponse(response => response.url() === ('https://gapiprod.awsmlogic.manheim.com/gateway'), {timeout:120000})
+			// ]);
+			// const dataObj = await response.json();
+			// // console.log(dataObj.responses[0].body.items[0]);
+			// if(dataObj.responses[0] && dataObj.responses[0].body && dataObj.responses[0].body.items){
+			// 		let obj = dataObj.responses[0].body.items[0];
+			// 		if(obj && obj.wholesale && obj.wholesale.average){
+		 //      			console.log('We got a valid mmr response');
+		 //      			console.log('we should update vin data');
+		 //      			console.log(obj);
+		 //      			data = obj;
+		 //      		}
+			// 	}
+		    
+
+		    let response = self.page.waitForResponse((response) => {
+	    		// console.log(',-----------------',response.url());
+	    		// console.log('------------------',response.body);
+			    return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway");
+			});
+
+			
+
+			const vinData = await response;
+			// console.log(vinData);
+			const dataObj = await vinData.json();
 			// console.log(dataObj.responses[0].body.items[0]);
 			if(dataObj.responses[0] && dataObj.responses[0].body && dataObj.responses[0].body.items){
 					let obj = dataObj.responses[0].body.items[0];
@@ -284,13 +307,8 @@ const arango = require('./model/arango');
 		      			data = obj;
 		      		}
 				}
-		    console.log('Vin data loaded');
 
-		 //    let httpResponseWithVinDetails = self.page.waitForResponse((response) => {
-	  //   		// console.log(',-----------------',response.url());
-	  //   		// console.log('------------------',response.body);
-			//     return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway");
-			// });
+			console.log('Vin data loaded');
 			
 		    //wait for getting data
 		    // let data = null;
