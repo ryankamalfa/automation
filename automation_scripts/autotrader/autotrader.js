@@ -34,7 +34,7 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
 
         let rcp = 15
         let currentPage = 1
-        let maxPage = 100
+        let maxPage = 50
         let rcs = 0
         let url_base = `https://www.autotrader.ca/cars/`
         let make_model_path = `${await encodeStringForURI(make.toLowerCase())}/${await encodeStringForURI(model.toLowerCase())}/`

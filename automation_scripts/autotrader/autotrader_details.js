@@ -140,6 +140,7 @@ async function getDetails(listing, index, listings, obj) {
     */
     let pendingListings = await arango.query(`For listing in crawled_listings
                 Filter !listing.details_collection_status  and listing.platform == 'autotrader'
+                limit 500
                 Sort listing.created_at
                 return listing
                 `)

@@ -39,7 +39,7 @@ const arango = require('./model/arango');
 
         let resultsPerPage = 25
         let currentPage = 1
-        let maxPages = 0
+        let maxPages = 25
         let skip = 0
 
         do {
