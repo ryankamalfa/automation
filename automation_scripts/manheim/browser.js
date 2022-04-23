@@ -268,6 +268,11 @@ const arango = require('./model/arango');
 		    }, miles);
 		    console.log('222222');
 		    // await self.page.waitFor(3000);
+		    let response = self.page.waitForResponse((response) => {
+	    		// console.log(',-----------------',response.url());
+	    		// console.log('------------------',response.body);
+			    return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway");
+			});
 		    await self.page.click('.styles__button__rqYJE');
 		    // await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		 //    const [response] = await Promise.all([
@@ -286,11 +291,7 @@ const arango = require('./model/arango');
 			// 	}
 		    
 
-		    let response = self.page.waitForResponse((response) => {
-	    		// console.log(',-----------------',response.url());
-	    		// console.log('------------------',response.body);
-			    return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway");
-			});
+		    
 
 			
 
