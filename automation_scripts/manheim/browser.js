@@ -433,9 +433,9 @@ const axios = require('axios');
 		obj.US_adjusted_mmr = data.adjustedPricing.wholesale.average;
 		obj.US_estimated_retail_value = data.adjustedPricing.retail.average;
 
-		obj.CA_base_mmr = data.wholesale.average * (exchangeRate + ((exchangeRate/100)*2));
-		obj.CA_adjusted_mmr = data.adjustedPricing.wholesale.average * (exchangeRate + ((exchangeRate/100)*2));
-		obj.CA_estimated_retail_value = data.adjustedPricing.retail.average * (exchangeRate + ((exchangeRate/100)*2));
+		obj.CA_base_mmr = data.wholesale.average * (exchangeRate - ((exchangeRate/100)*2));
+		obj.CA_adjusted_mmr = data.adjustedPricing.wholesale.average * (exchangeRate - ((exchangeRate/100)*2));
+		obj.CA_estimated_retail_value = data.adjustedPricing.retail.average * (exchangeRate - ((exchangeRate/100)*2));
 
 		obj.updated_at = new Date();
 		obj.exchange_rate = exchangeRate;
