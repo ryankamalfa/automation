@@ -12,7 +12,7 @@ const arango = require('./model/arango');
 			this.PendingXHR = null;
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
-		        executablePath: '/usr/bin/google-chrome',
+		        executablePath: '/usr/bin/chromium',
 		        headless: true,
 		        ignoreHTTPSErrors: true,
 		        args: [
