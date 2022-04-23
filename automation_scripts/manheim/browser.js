@@ -271,7 +271,7 @@ const arango = require('./model/arango');
 		    await self.page.click('.styles__button__rqYJE');
 		    // await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		    const [response] = await Promise.all([
-			    self.page.waitForResponse(response => response.url() === ('https://gapiprod.awsmlogic.manheim.com/gateway'))
+			    self.page.waitForResponse(response => response.url() === ('https://gapiprod.awsmlogic.manheim.com/gateway'), {timeout:120000})
 			]);
 			const dataObj = await response.json();
 			// console.log(dataObj.responses[0].body.items[0]);
