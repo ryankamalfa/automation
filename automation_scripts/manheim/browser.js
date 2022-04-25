@@ -296,6 +296,7 @@ const axios = require('axios');
 		    //base mmr
 			let base_mmr_element = await self.page.$('.styles__mmrContainer__hC3WL  .styles__currency__1TJ6H');
 			data.US_base_mmr = await base_mmr_element.evaluate(el => el.innerText);
+			console.log('base mmr',data.US_base_mmr);
 			data.US_base_mmr = formatMoney(data.US_base_mmr);
 
 			//adjusted mmr
