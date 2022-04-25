@@ -411,6 +411,7 @@ const axios = require('axios');
 	async function updateVehicle(item,data){
 		// console.log('Should update vehicle data on arango',data);
 		//should build item object 
+
 		return new Promise(async (resolve)=>{
 			let exchangeRate;
 
@@ -442,7 +443,10 @@ const axios = require('axios');
 		// obj.mmr_sales = data.transactions.splice(-1);
 		console.log('Final obj ------------------ ============ ',obj);
 		// console.log(obj.mmr_sales.length);
+		resolve(true);
+		return;
 
+		
 		//update item data
 		await arango.query({
 					query:`for x in crawled_listings 
