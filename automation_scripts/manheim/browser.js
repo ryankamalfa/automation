@@ -294,17 +294,17 @@ const axios = require('axios');
 			// 	}
 		    await self.page.waitFor(3000);
 		    //base mmr
-			let base_mmr_element = await self.page.$('.styles__mmrContainer__hC3WL > .styles__currency__1TJ6H');
+			let base_mmr_element = await self.page.$('.styles__mmrContainer__hC3WL  .styles__currency__1TJ6H');
 			data.US_base_mmr = await base_mmr_element.evaluate(el => el.textContent);
 			data.US_base_mmr = formatMoney(data.US_base_mmr);
 
 			//adjusted mmr
-			let adjusted_mmr_element = await self.page.$('.styles__adjustedMMRContainer__2mdE8 > .styles__currency__1TJ6H');
+			let adjusted_mmr_element = await self.page.$('.styles__adjustedMMRContainer__2mdE8  .styles__currency__1TJ6H');
 			data.US_adjusted_mmr = await adjusted_mmr_element.evaluate(el => el.textContent);
 			data.US_adjusted_mmr = formatMoney(data.US_adjusted_mmr);
 
 			//retail value
-			let estimated_retail_element = await self.page.$('.retailDisplay > .styles__retail__3i6SC');
+			let estimated_retail_element = await self.page.$('.retailDisplay  .styles__retail__3i6SC');
 			data.US_estimated_retail_value = await estimated_retail_element.evaluate(el => el.textContent);
 			data.US_estimated_retail_value = formatMoney(data.US_estimated_retail_value);
 		    
