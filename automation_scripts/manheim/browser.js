@@ -402,7 +402,7 @@ const axios = require('axios');
 	    		let result = await page.evaluate((itemTrim) => {
 					let elements = document.getElementsByTagName('td');
 		    		let elementsArray = [...elements];
-		    		let elementExist = elementsArray.find(y => y.textContent.toLowerCase().includes(itemTrim));
+		    		let elementExist = elementsArray.find(y => y.textContent.includes(itemTrim));
 		    		if(elementExist) elementExist.click();
 		    		if(elementExist) return true;
 		    		else return false;
