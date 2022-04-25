@@ -271,11 +271,11 @@ const axios = require('axios');
 		    }, miles);
 		    console.log('222222');
 		    // await self.page.waitFor(3000);
-		    let response = self.page.waitForResponse((response) => {
-	    		// console.log(',-----------------',response.url());
-	    		// console.log('------------------',response.body);
-			    return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway");
-			});
+		 //    let response = self.page.waitForResponse((response) => {
+	  //   		// console.log(',-----------------',response.url());
+	  //   		// console.log('------------------',response.body);
+			//     return response.url() === ("https://gapiprod.awsmlogic.manheim.com/gateway");
+			// });
 		    await self.page.click('.styles__button__rqYJE');
 		    // await this.page.click('.styles__button__rqYJE', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		 //    const [response] = await Promise.all([
@@ -292,13 +292,26 @@ const axios = require('axios');
 		 //      			data = obj;
 		 //      		}
 			// 	}
-		    
+		    await self.page.waitFor(3000);
+		    //base mmr
+			let base_mmr_element = await self.page.$('.styles__mmrContainer__hC3WL > .styles__currency__1TJ6H');
+			data.US_base_mmr = await base_mmr_element.evaluate(el => el.textContent);
+			data.US_base_mmr = formatMoney(data.US_base_mmr);
 
+			//adjusted mmr
+			let adjusted_mmr_element = await self.page.$('.styles__adjustedMMRContainer__2mdE8 > .styles__currency__1TJ6H');
+			data.US_adjusted_mmr = await adjusted_mmr_element.evaluate(el => el.textContent);
+			data.US_adjusted_mmr = formatMoney(data.US_adjusted_mmr);
+
+			//retail value
+			let estimated_retail_element = await self.page.$('.retailDisplay > .styles__retail__3i6SC');
+			data.US_estimated_retail_value = await estimated_retail_element.evaluate(el => el.textContent);
+			data.US_estimated_retail_value = formatMoney(data.US_estimated_retail_value);
 		    
 
 			
 
-			const vinData = await response;
+			// const vinData = await response;
 			// console.log(vinData);
 			const dataObj = await vinData.json();
 			// console.log(dataObj.responses[0].body.items[0]);
@@ -377,7 +390,10 @@ const axios = require('axios');
 	}
 
 
-
+	function formatMoney(value){
+		let newValue = value.replaceAll('$','').replaceAll(',','');
+		return newValue;
+	}
 
 	function checkForEnginePopup(itemTrim,page){
 		let self = this;
@@ -430,13 +446,13 @@ const axios = require('axios');
 		*/
 		obj._id = item._id;
 		obj.manheim = true;
-		obj.US_base_mmr = data.wholesale.average;
-		obj.US_adjusted_mmr = data.adjustedPricing.wholesale.average;
-		obj.US_estimated_retail_value = data.adjustedPricing.retail.average;
+		// obj.US_base_mmr = data.wholesale.average;
+		// obj.US_adjusted_mmr = data.adjustedPricing.wholesale.average;
+		// obj.US_estimated_retail_value = data.adjustedPricing.retail.average;
 
-		obj.CA_base_mmr = data.wholesale.average * (exchangeRate - ((exchangeRate/100)*2));
-		obj.CA_adjusted_mmr = data.adjustedPricing.wholesale.average * (exchangeRate - ((exchangeRate/100)*2));
-		obj.CA_estimated_retail_value = data.adjustedPricing.retail.average * (exchangeRate - ((exchangeRate/100)*2));
+		obj.CA_base_mmr = obj.US_base_mmr * (exchangeRate - ((exchangeRate/100)*2));
+		obj.CA_adjusted_mmr = obj.US_adjusted_mmr * (exchangeRate - ((exchangeRate/100)*2));
+		obj.CA_estimated_retail_value = obj.US_estimated_retail_value * (exchangeRate - ((exchangeRate/100)*2));
 
 		obj.updated_at = new Date();
 		obj.exchange_rate = exchangeRate;
@@ -446,7 +462,7 @@ const axios = require('axios');
 		resolve(true);
 		return;
 
-		
+
 		//update item data
 		await arango.query({
 					query:`for x in crawled_listings 
