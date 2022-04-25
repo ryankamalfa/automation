@@ -313,17 +313,17 @@ const axios = require('axios');
 
 			// const vinData = await response;
 			// console.log(vinData);
-			const dataObj = await vinData.json();
-			// console.log(dataObj.responses[0].body.items[0]);
-			if(dataObj.responses[0] && dataObj.responses[0].body && dataObj.responses[0].body.items){
-					let obj = dataObj.responses[0].body.items[0];
-					if(obj && obj.wholesale && obj.wholesale.average){
-		      			console.log('We got a valid mmr response');
-		      			console.log('we should update vin data');
-		      			console.log(obj);
-		      			data = obj;
-		      		}
-				}
+			// const dataObj = await vinData.json();
+			// // console.log(dataObj.responses[0].body.items[0]);
+			// if(dataObj.responses[0] && dataObj.responses[0].body && dataObj.responses[0].body.items){
+			// 		let obj = dataObj.responses[0].body.items[0];
+			// 		if(obj && obj.wholesale && obj.wholesale.average){
+		 //      			console.log('We got a valid mmr response');
+		 //      			console.log('we should update vin data');
+		 //      			console.log(obj);
+		 //      			data = obj;
+		 //      		}
+			// 	}
 
 			console.log('Vin data loaded');
 			
