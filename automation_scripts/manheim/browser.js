@@ -219,14 +219,14 @@ const axios = require('axios');
 			 //      }
 			 //      )
 
-			let trimArray = item.trim.replaceAll(',','').split(' ');
-			let itemTrim = trimArray[0].toLowerCase();
+			// let trimArray = item.trim.replaceAll(',','').split(' ');
+			// let itemTrim = trimArray[0].toLowerCase();
 			// await this.page.goto("https://mmr.manheim.com/?country=CA", {
 		 //        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
 		 //        timeout: 120000
 		 //    });
 			console.log('itemmmmmmm---->',item);
-			console.log('itemTrim---->',itemTrim);
+			// console.log('itemTrim---->',itemTrim);
 			//enter vin 
 			let vin = item.vin;
 			await self.page.waitForSelector('#vinText', {timeout: 10000});
@@ -245,7 +245,7 @@ const axios = require('axios');
 	    	// await self.pendingXHR.waitForAllXhrFinished();
 
 	    	//check if engine popup is open
-	    	if(!await checkForEnginePopup(itemTrim,self.page)){
+	    	if(!await checkForEnginePopup(item.trim,self.page)){
 	    		console.log('this item has no valid engine or style');
 	    		resolve(false);
 	    		return;

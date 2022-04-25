@@ -43,7 +43,7 @@ const retry = require('async-retry');
 			return {
 			_id:x._id,
 			vin:x.vin,
-			trim:x.trim,
+			trim:x.search_trim,
 			miles:x.miles
 			}
 		`);
