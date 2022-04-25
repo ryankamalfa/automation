@@ -158,25 +158,30 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                     }
 
 
+                    if(!lastItemData[0]){
+                        arango.query({
+                            query: `FOR listing IN @value INSERT listing in crawled_listings`,
+                            bindVars: { value: results }
+                          })
+                            .then(function(cursor) {
+                              return cursor.next().then(function(result) {
+                                // ...
+                                console.log('successfully inserted listings into arangodb');
+                              });
+                            })
+                            .catch(function(err) {
+                              // ...
+                              console.log('error inserted into arangodb',err);
+                            });
+                    }
+
+
                     /*
                         ***** DONE *****
                         Replace with ArangoDB
                         (Should insert all results into database)
                     */
-                    arango.query({
-                        query: `FOR listing IN @value INSERT listing in crawled_listings`,
-                        bindVars: { value: results }
-                      })
-                        .then(function(cursor) {
-                          return cursor.next().then(function(result) {
-                            // ...
-                            console.log('successfully inserted listings into arangodb');
-                          });
-                        })
-                        .catch(function(err) {
-                          // ...
-                          console.log('error inserted into arangodb',err);
-                        });
+                    
                     // await Listings.bulkCreate(results,
                     //     {
                     //         ignoreDuplicates: true
