@@ -162,9 +162,9 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                     await arango.query({
                         query: `
                         For listing in @value
-                        upsert {listing_id:x.listing_id}
-                        insert x
-                        update x in crawled_listings`,
+                        upsert {listing_id:listing.listing_id}
+                        insert listing
+                        update listing in crawled_listings`,
                         bindVars: { value: results }
                       })
                         .then(function(cursor) {
