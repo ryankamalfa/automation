@@ -39,7 +39,7 @@ class AutoTrader {
         await this.page.goto(search_url, {timeout: 60000}).catch(e => e)
         await this.waitForSearchResult(this.page).catch(e => e)
 
-        let status = await this.page.waitForFunction(() => typeof searchResultsDataJson === 'string').then(() => true).catch(() => false);
+        let status = await this.page.waitForFunction(() => typeof searchResultsDataJson === 'string', {timeout:30000}).then(() => true).catch(() => false);
         return status
 
 
