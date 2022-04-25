@@ -187,7 +187,7 @@ const axios = require('axios');
 	*/
 	function searchForVin(item){
 		return new Promise(async (resolve)=>{
-			let data ;
+			let data = {} ;
 			let self = this;
 			
 			
