@@ -93,6 +93,28 @@ class AutoTrader {
 
         })
     }
+
+
+
+    async getTrims(url){
+        console.log('get trims function fired -------------<',url);
+        
+        await this.page.goto(url, {
+            waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
+            timeout: 120000}
+        ).catch(e => console.log(e));
+
+        return this.page.evaluate((url) => {
+            try {
+                let trims = [];
+                $('#faceted-parent-Trim ul input').each(function(){trims.push($(this).attr('data-value'))});
+                return trims;
+            } catch (e) {
+                return null;
+            }
+
+        },url)
+    }
 }
 
 module.exports = AutoTrader
