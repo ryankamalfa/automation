@@ -457,8 +457,8 @@ const axios = require('axios');
 		// obj.mmr_sales = data.transactions.splice(-1);
 		console.log('Final obj ------------------ ============ ',obj);
 		// console.log(obj.mmr_sales.length);
-		resolve(true);
-		return;
+		// resolve(true);
+		// return;
 
 
 		//update item data
