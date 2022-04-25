@@ -36,26 +36,26 @@ const retry = require('async-retry');
 	//should get all items from arangodb
 	//should loop over each item in arango db
 	console.log('Checking items to loop over');
-	let items = await arango.query(`
-			for x in crawled_listings 
-			filter !x.manheim and x.vin and x.trim and x.miles
-			limit 1000 
-			return {
-			_id:x._id,
-			vin:x.vin,
-			trim:x.trim,
-			miles:x.miles
-			}
-		`);
+	// let items = await arango.query(`
+	// 		for x in crawled_listings 
+	// 		filter !x.manheim and x.vin and x.trim and x.miles
+	// 		limit 1000 
+	// 		return {
+	// 		_id:x._id,
+	// 		vin:x.vin,
+	// 		trim:x.trim,
+	// 		miles:x.miles
+	// 		}
+	// 	`);
 
-	let items_data = await items.all();
-	console.log(`we have around ${items_data.length} to loop over`);
-	// let items_data = [{
-	//   _id: 'crawled_listings/732364',
-	//   vin: '3GTU9EET5MG264338',
-	//   trim: 'XLT, Sport, Nav, 5.0L, Upgraded Wheels!!',
-	//   miles: 44637
-	// }];
+	// let items_data = await items.all();
+	// console.log(`we have around ${items_data.length} to loop over`);
+	let items_data = [{
+	  _id: 'crawled_listings/794337',
+	  vin: '3GTU9EET5MG264338',
+	  trim: 'XLT, Sport, Nav, 5.0L, Upgraded Wheels!!',
+	  miles: 12508
+	}];
 	if(items_data.length > 0){
 		async.eachSeries(items_data,function(item,callback){
 			(async()=>{

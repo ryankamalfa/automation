@@ -391,10 +391,7 @@ const axios = require('axios');
 	}
 
 
-	function formatMoney(value){
-		let newValue = value.replaceAll('$','').replaceAll(',','');
-		return newValue;
-	}
+	
 
 	function checkForEnginePopup(itemTrim,page){
 		let self = this;
@@ -435,7 +432,7 @@ const axios = require('axios');
 			//get latest exchange rate 
 			let rate = await getExchangeRate() ;
 			exchangeRate = rate ? rate : 1;
-			let obj = data;
+			let obj = {};
 		/*
 			{
 				base_mmr:null,
@@ -447,13 +444,13 @@ const axios = require('axios');
 		*/
 		obj._id = item._id;
 		obj.manheim = true;
-		// obj.US_base_mmr = data.wholesale.average;
-		// obj.US_adjusted_mmr = data.adjustedPricing.wholesale.average;
-		// obj.US_estimated_retail_value = data.adjustedPricing.retail.average;
+		obj.US_base_mmr = data.US_base_mmr;
+		obj.US_adjusted_mmr = data.US_adjusted_mmr;
+		obj.US_estimated_retail_value = data.US_estimated_retail_value;
 
-		obj.CA_base_mmr = obj.US_base_mmr * (exchangeRate - ((exchangeRate/100)*2));
-		obj.CA_adjusted_mmr = obj.US_adjusted_mmr * (exchangeRate - ((exchangeRate/100)*2));
-		obj.CA_estimated_retail_value = obj.US_estimated_retail_value * (exchangeRate - ((exchangeRate/100)*2));
+		obj.CA_base_mmr = data.US_base_mmr * (exchangeRate - ((exchangeRate/100)*2));
+		obj.CA_adjusted_mmr = data.US_adjusted_mmr * (exchangeRate - ((exchangeRate/100)*2));
+		obj.CA_estimated_retail_value = data.US_estimated_retail_value * (exchangeRate - ((exchangeRate/100)*2));
 
 		obj.updated_at = new Date();
 		obj.exchange_rate = exchangeRate;
@@ -498,6 +495,12 @@ const axios = require('axios');
 	}                      
 
 
+
+
+	function formatMoney(value){
+		let newValue = value.replaceAll('$','').replaceAll(',','');
+		return parseFloat(newValue);
+	}
 
 
 	function getExchangeRate(){
