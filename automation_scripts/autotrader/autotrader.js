@@ -113,8 +113,9 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
 
                 let search = await autoTrader.search(final_url)
                 if (!search) {
-                    console.log(`Search page didn't load`)
-                    break
+                    console.log(`Search page didn't load`);
+                    resolve(true);
+                    break;
                 }
 
                 let searchResult = await autoTrader.getSearchResult()
