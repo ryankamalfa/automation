@@ -159,20 +159,20 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
 
 
                     if(!lastItemData[0]){
-                        arango.query({
-                            query: `FOR listing IN @value INSERT listing in crawled_listings`,
-                            bindVars: { value: results }
-                          })
-                            .then(function(cursor) {
-                              return cursor.next().then(function(result) {
-                                // ...
-                                console.log('successfully inserted listings into arangodb');
-                              });
-                            })
-                            .catch(function(err) {
-                              // ...
-                              console.log('error inserted into arangodb',err);
-                            });
+                        await arango.query({
+                                query: `FOR listing IN @value INSERT listing in crawled_listings`,
+                                bindVars: { value: results }
+                              })
+                                .then(function(cursor) {
+                                  return cursor.next().then(function(result) {
+                                    // ...
+                                    console.log('successfully inserted listings into arangodb');
+                                  });
+                                })
+                                .catch(function(err) {
+                                  // ...
+                                  console.log('error inserted into arangodb',err);
+                                });
                     }
 
 
