@@ -435,7 +435,7 @@ const axios = require('axios');
 			//get latest exchange rate 
 			let rate = await getExchangeRate() ;
 			exchangeRate = rate ? rate : 1;
-			let obj = {};
+			let obj = data;
 		/*
 			{
 				base_mmr:null,
