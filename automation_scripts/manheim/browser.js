@@ -245,7 +245,7 @@ const axios = require('axios');
 	    	// await self.pendingXHR.waitForAllXhrFinished();
 
 	    	//check if engine popup is open
-	    	if(!await checkForEnginePopup(item.trim,self.page)){
+	    	if(!await checkForEnginePopup(item.trim.toLowerCase(),self.page)){
 	    		console.log('this item has no valid engine or style');
 	    		resolve(false);
 	    		return;
@@ -402,7 +402,7 @@ const axios = require('axios');
 	    		let result = await page.evaluate((itemTrim) => {
 					let elements = document.getElementsByTagName('td');
 		    		let elementsArray = [...elements];
-		    		let elementExist = elementsArray.find(y => y.textContent.includes(itemTrim));
+		    		let elementExist = elementsArray.find(y => y.textContent.toLowerCase().includes(itemTrim));
 		    		if(elementExist) elementExist.click();
 		    		if(elementExist) return true;
 		    		else return false;
