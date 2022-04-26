@@ -119,10 +119,16 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                 }
 
                 let searchResult = await autoTrader.getSearchResult()
-                if (!searchResult) break
+                if (!searchResult){
+                    resolve(true);
+                    break;
+                }
                 let results = await autoTrader.getListingURLsAndIds(searchResult)
 
-                if (!results || results.length < 1) break
+                if (!results || results.length < 1){
+                    resolve(true);
+                    break;
+                }
                 results = results.slice(0, 15)
                 console.log(`Listing found: ${results.length}`)
                 console.log(results)
@@ -204,7 +210,10 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                 currentPage += 1
                 resolve(true);
 
-                if (allNewItemsCollected) break;
+                if (allNewItemsCollected) {
+                    resolve(true);
+                    break;
+                }
 
             } while (currentPage <= maxPage && currentPage <= 100)
         });
