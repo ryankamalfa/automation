@@ -168,13 +168,13 @@ const axios = require('axios');
 		    console.log(`Clicking submit button`)
 		    await this.page.click('#submit', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']})
 		    console.log(`Waiting for login confirm`)
-		    // await this.page.waitForFunction("window.location.host == 'mmr.manheim.com'",{waitUntil: ['networkidle0', 'load', 'domcontentloaded']})
+		    await this.page.waitForFunction("window.location.host == 'mmr.manheim.com'",{waitUntil: ['networkidle0', 'load', 'domcontentloaded']})
 		    // await this.page.goto("https://mmr.manheim.com/", {
 		    //     waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
 		    //     timeout: 120000
 		    // });
 		    // await this.page.waitFor(5000);
-		    await this.page.waitForSelector('#accountMenu', {timeout: 120000})
+		    // await this.page.waitForSelector('#accountMenu', {timeout: 120000})
 		    console.log(`Login successful!`)
 		    resolve(true);
 	    })
