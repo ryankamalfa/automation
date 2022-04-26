@@ -13,7 +13,7 @@ class AutoTrader {
     async waitForSearchResult(page) {
         return await page.evaluate(() => {
             return new Promise((resolve, reject) => {
-                const times = 60;
+                const times = 20;
                 let i = 0;
                 const interval = setInterval(() => {
                     let vehicles = null
