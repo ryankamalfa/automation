@@ -49,7 +49,7 @@ class AutoTrader {
         await this.page.waitFor(1000)
 
         let number_of_results = await this.page.$eval('#sbCount', el => el.innerText).catch(e => e);
-        if(number_of_results == '0') {
+        if(!number_of_results || number_of_results == '0') {
             console.log(`No result found`)
             return null
         }
