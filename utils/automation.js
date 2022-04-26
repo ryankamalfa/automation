@@ -273,6 +273,10 @@ function resetLastRun(){
 							time:null,
 							status:null,
 						},
+						manheim:{
+							time:null,
+							status:null,
+						},
 						airtable:{
 							time:null,
 							status:null
