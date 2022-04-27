@@ -19,7 +19,7 @@ const automationCronJob = require('./utils/automationCronJob');
 
 
 //fire automation script
-// automationCronJob.init();
+automationCronJob.init();
 
 // getting the local authentication type
 
