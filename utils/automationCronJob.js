@@ -40,7 +40,7 @@ const Job = {
 					async.series([
 						function(callback){
 							(async()=>{
-								if(scriptSettingsData.autotrader.enable){
+								if(scriptSettingsData[0].autotrader.enable){
 									if(await automation.run_autotrader_script()){
 										callback();
 									}else{
@@ -53,7 +53,7 @@ const Job = {
 							})();
 						},
 						function(callback){
-							if(scriptSettingsData.adesa.enable){
+							if(scriptSettingsData[0].adesa.enable){
 								(async()=>{
 									if(await automation.run_adesa_script()){
 										callback();
