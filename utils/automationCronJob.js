@@ -16,6 +16,17 @@ const Job = {
 				return o
 				`);
 			let cronSettingsData = await cronSettings.all();
+
+
+			let scriptSettings = await arango.query(`
+				For o in script_settings
+				Filter o.type == 'config'
+				return o
+				`);
+			let scriptSettingsData = await scriptSettings.all();
+
+
+
 			// console.log(cronSettingsData[0]);
 			// console.log(cronSettingsData[0].cron_time);
 			let setup_scripts = shell.exec('cd /root/automation/automation_scripts/autotrader && npm i  && cd /root/automation/automation_scripts/adesa && npm i && cd /root/automation/automation_scripts/airtable && npm i  && cd /root/automation/automation_scripts/manheim && npm i ', {async:true});
@@ -29,21 +40,30 @@ const Job = {
 					async.series([
 						function(callback){
 							(async()=>{
-								if(await automation.run_autotrader_script()){
-									callback();
+								if(scriptSettingsData.autotrader.enable){
+									if(await automation.run_autotrader_script()){
+										callback();
+									}else{
+										callback(true);
+									}
 								}else{
-									callback(true);
+									callback();
 								}
+								
 							})();
 						},
 						function(callback){
-							(async()=>{
-								if(await automation.run_adesa_script()){
-									callback();
-								}else{
-									callback(true);
-								}
-							})();
+							if(scriptSettingsData.adesa.enable){
+								(async()=>{
+									if(await automation.run_adesa_script()){
+										callback();
+									}else{
+										callback(true);
+									}
+								})();
+							}else{
+								callback();
+							}	
 						},
 						function(callback){
 							(async()=>{

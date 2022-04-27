@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const {
     updateConfig,
-    getConfig
+    getConfig,
+    updateScriptSettings
 } = require('../controller/config');
 
 
@@ -18,6 +19,7 @@ const authMiddleware = (req, res, next) => {
 
 
 router.post('/update', updateConfig);
+router.post('/script/update', updateScriptSettings);
 router.get('/get', getConfig);
 
 
