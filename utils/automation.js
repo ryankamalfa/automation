@@ -101,16 +101,16 @@ const automation = {
 		//Function to fire airtable script
 		return new Promise((resolve)=>{
 			(async()=>{
-				await update_last_run('airtable',null);
+				// await update_last_run('airtable',null);
 				let command = shell.exec('node ./automation_scripts/airtable/airtable.js > ./logs/airtable-logs.txt ', {async:true});
 				command.on('exit',async function(code){
 					if(code == 0){
 						// console.log('finished with success');
-						await update_last_run('airtable','success');
+						// await update_last_run('airtable','success');
 						resolve(true);
 					}else{
 						// console.log('finished with fail');
-						await update_last_run('airtable','failed');
+						// await update_last_run('airtable','failed');
 						resolve(false);
 					}
 				})
@@ -182,14 +182,6 @@ const automation = {
 			          ${last_run_data[0].manheim.status === 'success' ? 'Success' : 'Failed'}
 			        </b>
 
-			      </td>
-			    </tr>
-			    <tr>
-			      <td>Airatable</td>
-			      <td>
-			        <b style=" ${last_run_data[0].airtable.status === 'success' ? 'color:green' : 'color:red'}">
-			          ${last_run_data[0].airtable.status === 'success' ? 'Success' : 'Failed'}
-			        </b>
 			      </td>
 			    </tr>
 			  </tbody>

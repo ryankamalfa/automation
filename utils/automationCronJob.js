@@ -5,6 +5,7 @@ var cron = require('node-cron');
 const shell = require('shelljs');
 
 var shouldRun = true;
+var shouldRunAirtable = true;
 var cronTime;
 
 
@@ -31,6 +32,18 @@ const Job = {
 			// console.log(cronSettingsData[0].cron_time);
 			let setup_scripts = shell.exec('cd /root/automation/automation_scripts/autotrader && npm i  && cd /root/automation/automation_scripts/adesa && npm i && cd /root/automation/automation_scripts/airtable && npm i  && cd /root/automation/automation_scripts/manheim && npm i ', {async:true});
 			setup_scripts.on('exit',function(code){
+
+				cron.schedule('*/5 * * * *', () => {
+					if(shouldRunAirtable){
+						(async()=>{
+							shouldRunAirtable = false;
+							await automation.run_airtable_script();
+							shouldRunAirtable = true;
+						})();
+					}
+				});
+
+
 				cron.schedule(cronSettingsData[0].cron_time, () => {
 					if(shouldRun){
 					console.log('Cron Job is initialized');
@@ -47,15 +60,15 @@ const Job = {
 								}
 							})();
 						},
-						function(callback){
-							(async()=>{
-								if(await automation.run_airtable_script()){
-									callback();
-								}else{
-									callback(true);
-								}
-							})();
-						},
+						// function(callback){
+						// 	(async()=>{
+						// 		if(await automation.run_airtable_script()){
+						// 			callback();
+						// 		}else{
+						// 			callback(true);
+						// 		}
+						// 	})();
+						// },
 						function(callback){
 							(async()=>{
 								if(scriptSettingsData[0].autotrader.enable){
@@ -92,15 +105,15 @@ const Job = {
 								}
 							})();
 						},
-						function(callback){
-							(async()=>{
-								if(await automation.run_airtable_script()){
-									callback();
-								}else{
-									callback(true);
-								}
-							})();
-						},
+						// function(callback){
+						// 	(async()=>{
+						// 		if(await automation.run_airtable_script()){
+						// 			callback();
+						// 		}else{
+						// 			callback(true);
+						// 		}
+						// 	})();
+						// },
 						],function(){
 							automation.sendStatusEmail(cronSettingsData[0].notification_emails);
 							shouldRun = true;
