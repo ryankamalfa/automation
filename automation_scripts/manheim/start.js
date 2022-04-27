@@ -32,13 +32,22 @@ const retry = require('async-retry');
 	/*
 
 	*/
+
+	let scriptSettings = await arango.query(`
+		For o in script_settings
+		Filter o.type == 'config'
+		return o
+		`);
+	let scriptSettingsData = await scriptSettings.all();
+
+
 	
 	//should get all items from arangodb
 	//should loop over each item in arango db
 	console.log('Checking items to loop over');
-	let items = await arango.query(`
+	let query = `
 			for x in crawled_listings 
-			filter !x.manheim and x.vin and x.trim and x.miles
+			filter !x.manheim and x.vin and x.trim and x.miles ${scriptSettingsData[0].autotrader.enable ? " and x.platform == 'autotrader'" : ''} ${scriptSettingsData[0].adesa.enable ? " and x.platform == 'adesa'" : ''}
 			limit 1000 
 			return {
 			_id:x._id,
@@ -46,7 +55,10 @@ const retry = require('async-retry');
 			trim:x.search_trim,
 			miles:x.miles
 			}
-		`);
+		`;
+
+	console.log('manheim queryyyyyyyyyyyyyyyyyyyyyyyyy',query);
+	let items = await arango.query(query);
 
 	let items_data = await items.all();
 	console.log(`we have around ${items_data.length} to loop over`);
