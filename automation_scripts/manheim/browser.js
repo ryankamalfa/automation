@@ -234,12 +234,17 @@ const axios = require('axios');
 		 //        document.getElementById('vinText').value = "";
 		 //    });
 			
-		    await self.page.type('#vinText', "");
-		    await self.page.waitFor(1000);
-		    await self.page.type('#vinText', vin);
-		    await self.page.evaluate((vin) => {
-		        document.getElementById('vinText').value = vin;
-		    }, vin);
+
+			await self.page.$eval('#vinText', el => el.value = '');
+            await self.page.type('#vinText', vin);
+
+
+		    // await self.page.type('#vinText', "");
+		    // await self.page.waitFor(1000);
+		    // await self.page.type('#vinText', vin);
+		    // await self.page.evaluate((vin) => {
+		    //     document.getElementById('vinText').value = vin;
+		    // }, vin);
 		    await self.page.click('.icon-search', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
 		    await self.page.waitFor(2000);
 	    	// await self.pendingXHR.waitForAllXhrFinished();
@@ -262,13 +267,15 @@ const axios = require('axios');
 		    // await this.page.evaluate(() => {
 		    //     document.getElementById('Odometer').value = '';
 		    // });
-		    await self.page.type('#Odometer', "");
-		    await self.page.waitFor(1000);
-		    console.log('111111111');
-		    await self.page.type('#Odometer', miles);
-		    await self.page.evaluate((miles) => {
-		        document.getElementById('Odometer').value = miles;
-		    }, miles);
+		    await self.page.$eval('#Odometer', el => el.value = '');
+            await self.page.type('#Odometer', miles);
+		    // await self.page.type('#Odometer', "");
+		    // await self.page.waitFor(1000);
+		    // console.log('111111111');
+		    // await self.page.type('#Odometer', miles);
+		    // await self.page.evaluate((miles) => {
+		    //     document.getElementById('Odometer').value = miles;
+		    // }, miles);
 		    console.log('222222');
 		    // await self.page.waitFor(3000);
 		 //    let response = self.page.waitForResponse((response) => {
