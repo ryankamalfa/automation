@@ -258,7 +258,7 @@ const axios = require('axios');
 		    // return;
 		    let miles = `${item.miles}`;
 		    console.log(miles);
-		    // await this.page.waitForSelector('#Odometer', {timeout: 10000});
+		    await this.page.waitForSelector('#Odometer', {timeout: 10000});
 		    await this.page.evaluate(() => {
 		        document.getElementById('Odometer').value = '';
 		    });
