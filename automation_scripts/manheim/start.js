@@ -53,7 +53,8 @@ const retry = require('async-retry');
 			_id:x._id,
 			vin:x.vin,
 			trim:x.search_trim,
-			miles:x.miles
+			miles:x.miles,
+			plaftorm:x.platform
 			}
 		`;
 
@@ -70,6 +71,7 @@ const retry = require('async-retry');
 	// }];
 	if(items_data.length > 0){
 		async.eachSeries(items_data,function(item,callback){
+			// console.log(item.platform);
 			(async()=>{
 				await browser.searchForVin(item);
 				// if(data){
