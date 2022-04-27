@@ -221,18 +221,18 @@ const axios = require('axios');
 
 			// let trimArray = item.trim.replaceAll(',','').split(' ');
 			// let itemTrim = trimArray[0].toLowerCase();
-			// await this.page.goto("https://mmr.manheim.com/?country=CA", {
-		 //        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
-		 //        timeout: 120000
-		 //    });
+			await this.page.goto("https://mmr.manheim.com", {
+		        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
+		        timeout: 120000
+		    });
 			console.log('itemmmmmmm---->',item);
 			// console.log('itemTrim---->',itemTrim);
 			//enter vin 
 			let vin = item.vin;
 			await self.page.waitForSelector('#vinText', {timeout: 10000});
-			await this.page.evaluate(() => {
-		        document.getElementById('vinText').value = "";
-		    });
+			// await this.page.evaluate(() => {
+		 //        document.getElementById('vinText').value = "";
+		 //    });
 			
 		    await self.page.type('#vinText', "");
 		    await self.page.waitFor(1000);
@@ -258,10 +258,10 @@ const axios = require('axios');
 		    // return;
 		    let miles = `${item.miles}`;
 		    console.log(miles);
-		    await this.page.waitForSelector('#Odometer', {timeout: 10000});
-		    await this.page.evaluate(() => {
-		        document.getElementById('Odometer').value = '';
-		    });
+		    // await this.page.waitForSelector('#Odometer', {timeout: 10000});
+		    // await this.page.evaluate(() => {
+		    //     document.getElementById('Odometer').value = '';
+		    // });
 		    await self.page.type('#Odometer', "");
 		    await self.page.waitFor(1000);
 		    console.log('111111111');
