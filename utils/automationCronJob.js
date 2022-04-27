@@ -40,6 +40,24 @@ const Job = {
 					async.series([
 						function(callback){
 							(async()=>{
+								if(await automation.run_manheim_script()){
+									callback();
+								}else{
+									callback(true);
+								}
+							})();
+						},
+						function(callback){
+							(async()=>{
+								if(await automation.run_airtable_script()){
+									callback();
+								}else{
+									callback(true);
+								}
+							})();
+						},
+						function(callback){
+							(async()=>{
 								if(scriptSettingsData[0].autotrader.enable){
 									if(await automation.run_autotrader_script()){
 										callback();
