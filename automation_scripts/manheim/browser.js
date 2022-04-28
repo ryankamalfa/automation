@@ -16,7 +16,7 @@ const axios = require('axios');
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
 		        executablePath: '/usr/bin/google-chrome',
-		        headless: false,
+		        headless: true,
 		        ignoreHTTPSErrors: true,
 		        args: [
 		            '--no-sandbox',
