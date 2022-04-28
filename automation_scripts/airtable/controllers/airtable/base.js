@@ -2,7 +2,7 @@ const Airtable = require('airtable');
 
 module.exports = class Base {
     constructor(table, view) {
-        this.base = new Airtable({apiKey: 'keyI2dNHT2va6YT8j'}).base('appvaqdxjBu9OUzZl');
+        this.base = new Airtable({apiKey: 'keyI2dNHT2va6YT8j'}).base('appjlB7bfLhg0SBic');
         this.table = table;
         this.view = view;
     }

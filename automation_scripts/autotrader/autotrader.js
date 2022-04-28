@@ -165,25 +165,34 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                     }
 
 
+
+                    if(!lastItemData[0]){
+
+                        /*
+                            For listing in @value
+                            upsert {listing_id:listing.listing_id}
+                            insert listing
+                            update listing in crawled_listings
+                        */
+                        await arango.query({
+                            query: `
+                            For listing in @value
+                            insert listing in crawled_listings`,
+                            bindVars: { value: results }
+                          })
+                            .then(function(cursor) {
+                              return cursor.next().then(function(result) {
+                                // ...
+                                console.log('successfully inserted listings into arangodb');
+                              });
+                            })
+                            .catch(function(err) {
+                              // ...
+                              console.log('error inserted into arangodb',err);
+                            });
+                    }
                     
-                    await arango.query({
-                        query: `
-                        For listing in @value
-                        upsert {listing_id:listing.listing_id}
-                        insert listing
-                        update listing in crawled_listings`,
-                        bindVars: { value: results }
-                      })
-                        .then(function(cursor) {
-                          return cursor.next().then(function(result) {
-                            // ...
-                            console.log('successfully inserted listings into arangodb');
-                          });
-                        })
-                        .catch(function(err) {
-                          // ...
-                          console.log('error inserted into arangodb',err);
-                        });
+                    
                     
 
 

@@ -65,9 +65,9 @@ const retry = require('async-retry');
 	console.log(`we have around ${items_data.length} to loop over`);
 	// let items_data = [{
 	//   _id: 'crawled_listings/794337',
-	//   vin: '3GTU9EET5MG264338',
-	//   trim: 'XLT, Sport, Nav, 5.0L, Upgraded Wheels!!',
-	//   miles: 12508
+	//   vin: '1FTEW1E52LKE51082',
+	//   trim: 'XLT',
+	//   miles: 17247
 	// }];
 	if(items_data.length > 0){
 		async.eachSeries(items_data,function(item,callback){

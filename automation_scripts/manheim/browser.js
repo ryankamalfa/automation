@@ -16,7 +16,7 @@ const axios = require('axios');
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
 		        executablePath: '/usr/bin/google-chrome',
-		        headless: true,
+		        headless: false,
 		        ignoreHTTPSErrors: true,
 		        args: [
 		            '--no-sandbox',
@@ -221,7 +221,7 @@ const axios = require('axios');
 
 			// let trimArray = item.trim.replaceAll(',','').split(' ');
 			// let itemTrim = trimArray[0].toLowerCase();
-			await this.page.goto("https://mmr.manheim.com", {
+			await self.page.goto("https://mmr.manheim.com?country=US", {
 		        waitUntil: ['networkidle2', 'load', 'domcontentloaded'],
 		        timeout: 120000
 		    });
@@ -235,7 +235,7 @@ const axios = require('axios');
 		 //    });
 			
 
-			await self.page.$eval('#vinText', el => el.value = '');
+			// await self.page.$eval('#vinText', el => el.value = '');
             await self.page.type('#vinText', vin);
 
 
@@ -246,15 +246,21 @@ const axios = require('axios');
 		    //     document.getElementById('vinText').value = vin;
 		    // }, vin);
 		    await self.page.click('.icon-search', {waitUntil: ['networkidle0', 'load', 'domcontentloaded']});
-		    await self.page.waitFor(2000);
+		    await self.page.waitFor(5000);
 	    	// await self.pendingXHR.waitForAllXhrFinished();
 
 	    	//check if engine popup is open
-	    	if(!await checkForEnginePopup(item.trim.toLowerCase(),self.page)){
-	    		console.log('this item has no valid engine or style');
-	    		resolve(false);
-	    		return;
-	    	}
+
+	    	if((await self.page.$('.styles__modalContainer__2phk2')) !== null){
+              	if(!await checkForEnginePopup(item.trim.toLowerCase(),self.page)){
+		    		console.log('this item has no valid engine or style');
+		    		resolve(false);
+		    		return;
+	    		}
+            }
+
+
+	    	
 
 
 	    	
@@ -267,17 +273,17 @@ const axios = require('axios');
 		    // await this.page.evaluate(() => {
 		    //     document.getElementById('Odometer').value = '';
 		    // });
-		    await self.page.$eval('#Odometer', el => el.value = '');
+		    // await self.page.$eval('#Odometer', el => el.value = '');
             await self.page.type('#Odometer', miles);
 		    // await self.page.type('#Odometer', "");
-		    // await self.page.waitFor(1000);
+		    await self.page.waitFor(2000);
 		    // console.log('111111111');
-		    // await self.page.type('#Odometer', miles);
-		    // await self.page.evaluate((miles) => {
-		    //     document.getElementById('Odometer').value = miles;
-		    // }, miles);
+		    await self.page.type('#Odometer', miles);
+		    await self.page.evaluate((miles) => {
+		        document.getElementById('Odometer').value = miles;
+		    }, miles);
 		    console.log('222222');
-		    // await self.page.waitFor(3000);
+		    await self.page.waitFor(2000);
 		 //    let response = self.page.waitForResponse((response) => {
 	  //   		// console.log(',-----------------',response.url());
 	  //   		// console.log('------------------',response.body);
@@ -299,7 +305,7 @@ const axios = require('axios');
 		 //      			data = obj;
 		 //      		}
 			// 	}
-		    await self.page.waitFor(3000);
+		    await self.page.waitFor(5000);
 		    //base mmr
 			let base_mmr_element = await self.page.$('.styles__mmrContainer__hC3WL  .styles__currency__1TJ6H');
 			data.US_base_mmr = await base_mmr_element.evaluate(el => el.innerText);
@@ -317,6 +323,10 @@ const axios = require('axios');
 			data.US_estimated_retail_value = formatMoney(data.US_estimated_retail_value);
 		    
 
+			if(!data.US_adjusted_mmr){
+				resolve(false);
+				return;
+			}
 			
 
 			// const vinData = await response;
@@ -368,7 +378,7 @@ const axios = require('axios');
 			// cosnol
 
 
-			return;
+			// return;
 
 		    // this.page.on("response", async function (request) {
 		    // 	console.log('-------',request.url());
@@ -404,10 +414,32 @@ const axios = require('axios');
 		let self = this;
 		return new Promise(async (resolve)=>{
 			let is_engine_popup_open = (await page.$('.styles__modalContainer__2phk2')) || "";
+			// console.log('is_engine_popup_open',is_engine_popup_open);
 	    	if(is_engine_popup_open){
 	    		console.log('popup exist, item has multiple options');
 	    		let result = await page.evaluate((itemTrim) => {
-					let elements = document.getElementsByTagName('td');
+	    			//implement of jquery
+	    // 			var head = document.getElementsByTagName('body')[0];
+					// var script = document.createElement('script');
+					// script.type = 'text/javascript';
+					// script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+					// head.appendChild(script);
+					// // alert(itemTrim);
+					// setTimeout(()=>{
+					// 	var search = $( "td" ).filter( function ()
+					// 	{
+					// 	    return $( this ).text().toLowerCase().indexOf( itemTrim.toLowerCase() ) >= 0;
+					// 	}).first(); // Returns the first element that matches the text.
+
+					// 	console.log('------------',search);
+					// 	if(search[0]){
+					// 		search.click();
+					// 		return true;
+					// 	}else{
+					// 		return false;
+					// 	}
+					// },1000);
+					let elements = document.querySelectorAll('.styles__modalContainer__2phk2 td');
 		    		let elementsArray = [...elements];
 		    		let elementExist = elementsArray.find(y => y.textContent.toLowerCase().includes(itemTrim));
 		    		if(elementExist) elementExist.click();
@@ -419,7 +451,7 @@ const axios = require('axios');
 	    		else resolve(false);
 	    		
 	    	}else{
-	    		console.log('popup not exist, item has multiple options');
+	    		console.log('popup not exist, item has no options');
 	    		resolve(true);
 	    	}
 		})	

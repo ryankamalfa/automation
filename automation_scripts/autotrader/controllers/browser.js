@@ -20,7 +20,7 @@ class Browser {
             }
             this.browser = await puppeteer.launch({
                 executablePath: '/usr/bin/google-chrome',
-                headless: true,
+                headless: false,
                 ignoreHTTPSErrors: true,
                 args: [
                     '--no-sandbox',
