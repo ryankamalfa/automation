@@ -26,18 +26,18 @@ const automation = {
 							}
 						})
 					},
-					function(callback){
-						let command = shell.exec('node ./automation_scripts/autotrader/autotrader_details.js ', {async:true});
-						command.on('exit',async function(code){
-							if(code == 0){
-								// console.log('finished with success');
-								callback();
-							}else{
-								// console.log('finished with fail');
-								callback(true);
-							}
-						})
-					},
+					// function(callback){
+					// 	let command = shell.exec('node ./automation_scripts/autotrader/autotrader_details.js ', {async:true});
+					// 	command.on('exit',async function(code){
+					// 		if(code == 0){
+					// 			// console.log('finished with success');
+					// 			callback();
+					// 		}else{
+					// 			// console.log('finished with fail');
+					// 			callback(true);
+					// 		}
+					// 	})
+					// },
 					],async function(err){
 					if(err){
 						//
@@ -52,6 +52,27 @@ const automation = {
 			})();
 		});
 	},
+
+	run_autotrader2_script(){
+		//Function to fire adesa script
+		return new Promise((resolve)=>{
+			(async()=>{
+				let command = shell.exec('node ./automation_scripts/autotrader/autotrader_details.js  ', {async:true});
+				command.on('exit',async function(code){
+					if(code == 0){
+						// console.log('finished with success');
+						resolve(true);
+					}else{
+						// console.log('finished with fail');
+						
+						resolve(false);
+					}
+				})
+			})();
+		});
+	},
+
+
 	run_adesa_script(){
 		//Function to fire adesa script
 		return new Promise((resolve)=>{
@@ -78,16 +99,16 @@ const automation = {
 		//Function to fire manheim script
 		return new Promise((resolve)=>{
 			(async()=>{
-				await update_last_run('manheim',null);
+				// await update_last_run('manheim',null);
 				let command = shell.exec('node ./automation_scripts/manheim/start.js  ', {async:true});
 				command.on('exit',async function(code){
 					if(code == 0){
 						// console.log('finished with success');
-						await update_last_run('manheim','success');
+						// await update_last_run('manheim','success');
 						resolve(true);
 					}else{
 						// console.log('finished with fail');
-						await update_last_run('manheim','failed');
+						// await update_last_run('manheim','failed');
 						
 						resolve(false);
 					}
@@ -171,15 +192,6 @@ const automation = {
 			      <td>
 			        <b style=" ${last_run_data[0].adesa.status === 'success' ? 'color:green' : 'color:red'}">
 			          ${last_run_data[0].adesa.status === 'success' ? 'Success' : 'Failed'}
-			        </b>
-
-			      </td>
-			    </tr>
-			    <tr>
-			      <td>Manheim</td>
-			      <td>
-			        <b style=" ${last_run_data[0].manheim.status === 'success' ? 'color:green' : 'color:red'}">
-			          ${last_run_data[0].manheim.status === 'success' ? 'Success' : 'Failed'}
 			        </b>
 
 			      </td>
