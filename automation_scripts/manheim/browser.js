@@ -16,7 +16,7 @@ const axios = require('axios');
 			console.log('Try launching browser');
 			this.browser = await puppeteer.launch({
 		        executablePath: '/usr/bin/google-chrome',
-		        headless: true,
+		        headless: false,
 		        ignoreHTTPSErrors: true,
 		        args: [
 		            '--no-sandbox',
@@ -274,8 +274,8 @@ const axios = require('axios');
 		    //     document.getElementById('Odometer').value = '';
 		    // });
 		    // await self.page.$eval('#Odometer', el => el.value = '');
-            await self.page.type('#Odometer', miles);
-		    // await self.page.type('#Odometer', "");
+            // await self.page.type('#Odometer', miles);
+		    await self.page.type('#Odometer', "");
 		    await self.page.waitFor(2000);
 		    // console.log('111111111');
 		    await self.page.type('#Odometer', miles);

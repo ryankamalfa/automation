@@ -65,9 +65,9 @@ const retry = require('async-retry');
 	console.log(`we have around ${items_data.length} to loop over`);
 	// let items_data = [{
 	//   _id: 'crawled_listings/794337',
-	//   vin: '1FTEW1E52LKE51082',
+	//   vin: '1FTFW1RG2LFB22844',
 	//   trim: 'XLT',
-	//   miles: 17247
+	//   miles: 62822
 	// }];
 	if(items_data.length > 0){
 		async.eachSeries(items_data,function(item,callback){
