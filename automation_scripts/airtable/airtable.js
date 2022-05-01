@@ -6,7 +6,7 @@ const {Op} = require("sequelize");
 const {BaseListing} = require('./controllers/airtable/index');
 const cloud = require('./model/cloud');
 const arango = require('./model/arango');
-const async = require('async');
+// const async = require('async');
 
 (async function () {
     while (true) {
