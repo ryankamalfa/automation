@@ -4,7 +4,8 @@ module.exports = class Base {
     constructor(table, view) {
         this.base = new Airtable({apiKey: 'keyI2dNHT2va6YT8j'}).base('appjlB7bfLhg0SBic');
         this.table = table;
-        this.view = view;
+        this.view = 'viwOH9KQFeaXE7T6S';
+        this.fixView = 'viwjFr8iIcBB1vrCL';
     }
 
     find(id) {
@@ -35,13 +36,13 @@ module.exports = class Base {
         });
     }
 
-    all(options) {
+    all(options,isFixView) {
         let records = [],
             params = {};
 
         Object.assign(params, options);
         if (this.view) {
-            params.view = this.view;
+            params.view = isFixView ? this.fixView : this.view;
         }
 
         return new Promise((resolve, reject) => {
@@ -92,6 +93,24 @@ module.exports = class Base {
             return listings[0];
         }
         return this.create({listing_id});
+    }
+
+
+
+
+    async findListingsWithMissingData() {
+        const listings = await this.all(
+            {
+                fields:["listing_id"],
+                filterByFormula: "{platform} = ''",
+                filterByFormula: "NOT({listing_id} = '')",
+            }
+        );
+        console.log('lisitng with messing data -----------------------------------',listings.length);
+        console.log(listings.map(x => x.fields.listing_id))
+        return listings.map(x => x.fields.listing_id);
+        // return listings[0];
+        
     }
 }
 

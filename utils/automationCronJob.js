@@ -35,41 +35,41 @@ const Job = {
 			let setup_scripts = shell.exec('cd /root/automation/automation_scripts/autotrader && npm i  && cd /root/automation/automation_scripts/adesa && npm i && cd /root/automation/automation_scripts/airtable && npm i  && cd /root/automation/automation_scripts/manheim && npm i ', {async:true});
 			setup_scripts.on('exit',function(code){
 
-				cron.schedule('*/5 * * * *', () => {
-					if(shouldRunAirtable){
-						(async()=>{
-							shouldRunAirtable = false;
-							await automation.run_airtable_script();
-							shouldRunAirtable = true;
-						})();
-					}
-				});
+				// cron.schedule('*/5 * * * *', () => {
+				// 	if(shouldRunAirtable){
+				// 		(async()=>{
+				// 			shouldRunAirtable = false;
+				// 			await automation.run_airtable_script();
+				// 			shouldRunAirtable = true;
+				// 		})();
+				// 	}
+				// });
 
 
 
 
-				cron.schedule('*/5 * * * *', () => {
-					if(shouldRunAutotrader2){
-						(async()=>{
-							shouldRunAutotrader2 = false;
-							await automation.run_autotrader2_script();
-							shouldRunAutotrader2 = true;
-						})();
-					}
-				});
+				// cron.schedule('*/5 * * * *', () => {
+				// 	if(shouldRunAutotrader2){
+				// 		(async()=>{
+				// 			shouldRunAutotrader2 = false;
+				// 			await automation.run_autotrader2_script();
+				// 			shouldRunAutotrader2 = true;
+				// 		})();
+				// 	}
+				// });
 
 
 
 
-				cron.schedule('*/5 * * * *', () => {
-					if(shouldRunManheim){
-						(async()=>{
-							shouldRunManheim = false;
-							await automation.run_manheim_script();
-							shouldRunManheim = true;
-						})();
-					}
-				});
+				// cron.schedule('*/5 * * * *', () => {
+				// 	if(shouldRunManheim){
+				// 		(async()=>{
+				// 			shouldRunManheim = false;
+				// 			await automation.run_manheim_script();
+				// 			shouldRunManheim = true;
+				// 		})();
+				// 	}
+				// });
 
 
 				
@@ -82,24 +82,24 @@ const Job = {
 					// return;
 					shouldRun = false;
 					async.series([
-						// function(callback){
-						// 	(async()=>{
-						// 		if(await automation.run_manheim_script()){
-						// 			callback();
-						// 		}else{
-						// 			callback(true);
-						// 		}
-						// 	})();
-						// },
-						// function(callback){
-						// 	(async()=>{
-						// 		if(await automation.run_airtable_script()){
-						// 			callback();
-						// 		}else{
-						// 			callback(true);
-						// 		}
-						// 	})();
-						// },
+						function(callback){
+							(async()=>{
+								if(await automation.run_manheim_script()){
+									callback();
+								}else{
+									callback(true);
+								}
+							})();
+						},
+						function(callback){
+							(async()=>{
+								if(await automation.run_airtable_script()){
+									callback();
+								}else{
+									callback(true);
+								}
+							})();
+						},
 						function(callback){
 							(async()=>{
 								if(scriptSettingsData[0].autotrader.enable){
@@ -127,24 +127,24 @@ const Job = {
 								callback();
 							}	
 						},
-						// function(callback){
-						// 	(async()=>{
-						// 		if(await automation.run_manheim_script()){
-						// 			callback();
-						// 		}else{
-						// 			callback(true);
-						// 		}
-						// 	})();
-						// },
-						// function(callback){
-						// 	(async()=>{
-						// 		if(await automation.run_airtable_script()){
-						// 			callback();
-						// 		}else{
-						// 			callback(true);
-						// 		}
-						// 	})();
-						// },
+						function(callback){
+							(async()=>{
+								if(await automation.run_manheim_script()){
+									callback();
+								}else{
+									callback(true);
+								}
+							})();
+						},
+						function(callback){
+							(async()=>{
+								if(await automation.run_airtable_script()){
+									callback();
+								}else{
+									callback(true);
+								}
+							})();
+						},
 						],function(){
 							automation.sendStatusEmail(cronSettingsData[0].notification_emails);
 							shouldRun = true;
