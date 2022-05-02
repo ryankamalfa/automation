@@ -6,6 +6,7 @@ const async = require('async');
 (async()=>{
     let listings = await arango.query(`
         For x in crawled_listings
+        flter !x.script_id
         Sort x.created_at asc
         return x
         `);

@@ -132,47 +132,14 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                 results = results.slice(0, 15)
                 console.log(`Listing found: ${results.length}`)
                 console.log(results)
-
-                // let count = await arango.query(`
-                // FOR x IN crawled_listings
-                // filter x.script_id
-                // COLLECT WITH COUNT INTO length
-                // RETURN {"count":length}
-                // `);
-                // let countData = await count.all();
-
                 if (results.length) {
-                    // let self = this;
-                    async.eachSeries(results,function(x,callback){
-                        (async()=>{
-                            x.search_trim = trim;
-                            x.search_make = make;
-                            x.search_model = model;
-                            x.created_at = new Date();
-                            let count = await arango.query(`
-                            FOR x IN crawled_listings
-                            filter x.script_id
-                            COLLECT WITH COUNT INTO length
-                            RETURN {"count":length}
-                            `);
-                            let countData = await count.all();
-                            x.script_id = countData[0].count+1+100000;
-                            // Object.assign(e,{"script_id":})
-                            callback();
-                        })();
-                    });
-
-                    // results = await Promise.all(results.map(async (e)=>{
-                    //     Object.assign(e, {"search_trim": trim})
-                    //     Object.assign(e, {"search_make": make})
-                    //     Object.assign(e, {"search_model": model})
-                    //     Object.assign(e, {"created_at": new Date()})
-                    //     //get count all litstings
-                        
-                    //     return e
-                    // }, {search_trim: trim, search_make: make, search_model: model}));
-
-
+                    results = results.map(function (e) {
+                        Object.assign(e, {"search_trim": this.search_trim})
+                        Object.assign(e, {"search_make": this.search_make})
+                        Object.assign(e, {"search_model": this.search_model})
+                        Object.assign(e, {"created_at": new Date()})
+                        return e
+                    }, {search_trim: trim, search_make: make, search_model: model})
                     console.log({search_trim: trim, search_make: make, search_model: model})
 
                     console.log(`Result:`)
@@ -223,6 +190,51 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                               // ...
                               console.log('error inserted into arangodb',err);
                             });
+
+
+
+
+
+                        let listings = await arango.query(`
+                            For x in crawled_listings
+                            flter !x.script_id
+                            Sort x.created_at asc
+                            return x
+                            `);
+                        let listingsData = await listings.all();
+
+
+
+                        let count = await arango.query(`
+                            FOR x IN crawled_listings
+                            filter x.script_id
+                            COLLECT WITH COUNT INTO length
+                            RETURN {"count":length}
+                            `);
+                        let countData = await count.all();
+
+                        let start_id = 100000+countData[0].count;
+
+                        console.log(listingsData.length);
+
+                        async.eachSeries(listingsData,function(listing,callback){
+                            (async()=>{
+                                await arango.query({
+                                    query:`for listing in crawled_listings
+                                            filter listing._id == @_id
+                                            update listing with {script_id:@script_id} in crawled_listings`,
+                                    bindVars:{
+                                        _id:listing._id,
+                                        script_id:start_id
+                                    }
+                                });
+                                console.log('update_listing ---- ',start_id);
+                                start_id++;
+                                callback();
+                            })()
+                        },function(){
+                            console.log('Updated all listings IDS');
+                        });
                     }
                     
                     
