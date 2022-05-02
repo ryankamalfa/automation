@@ -144,23 +144,32 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                 if (results.length) {
                     
                     // let self = this;
-                    results = await Promise.all(results.map(async (e)=>{
-                                Object.assign(e, {"search_trim": trim})
-                                Object.assign(e, {"search_make": make})
-                                Object.assign(e, {"search_model": model})
-                                Object.assign(e, {"created_at": new Date()})
-                                //get count all litstings
-                                let count = await arango.query(`
-                                FOR x IN crawled_listings
-                                filter x.script_id
-                                COLLECT WITH COUNT INTO length
-                                RETURN {"count":length}
-                                `);
-                                let countData = await count.all();
-                                
-                                Object.assign(e,{"script_id":countData[0].count+1+100000})
-                                return e
-                            }, {search_trim: trim, search_make: make, search_model: model}));
+                    async.eachSeries(results,function(x,callback){
+                        x.search_trim = trim;
+                        x.search_make = make;
+                        x.search_model = model;
+                        x.created_at = new Date();
+                        let count = await arango.query(`
+                        FOR x IN crawled_listings
+                        filter x.script_id
+                        COLLECT WITH COUNT INTO length
+                        RETURN {"count":length}
+                        `);
+                        let countData = await count.all();
+                        x.script_id = countData[0].count+1+100000;
+                        // Object.assign(e,{"script_id":})
+                        callback();
+                    });
+                    
+                    // results = await Promise.all(results.map(async (e)=>{
+                    //     Object.assign(e, {"search_trim": trim})
+                    //     Object.assign(e, {"search_make": make})
+                    //     Object.assign(e, {"search_model": model})
+                    //     Object.assign(e, {"created_at": new Date()})
+                    //     //get count all litstings
+                        
+                    //     return e
+                    // }, {search_trim: trim, search_make: make, search_model: model}));
 
 
                     console.log({search_trim: trim, search_make: make, search_model: model})
