@@ -134,7 +134,7 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                 console.log(results)
                 if (results.length) {
                     results = results.map(function (e) {
-                        (async()=>{
+                        (async(e)=>{
                             Object.assign(e, {"search_trim": this.search_trim})
                             Object.assign(e, {"search_make": this.search_make})
                             Object.assign(e, {"search_model": this.search_model})
