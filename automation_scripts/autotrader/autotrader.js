@@ -143,11 +143,11 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
 
                 if (results.length) {
                     
-                    let self = this;
+                    // let self = this;
                     results = await Promise.all(results.map(async (e)=>{
-                                Object.assign(e, {"search_trim": self.search_trim})
-                                Object.assign(e, {"search_make": self.search_make})
-                                Object.assign(e, {"search_model": self.search_model})
+                                Object.assign(e, {"search_trim": trim})
+                                Object.assign(e, {"search_make": make})
+                                Object.assign(e, {"search_model": model})
                                 Object.assign(e, {"created_at": new Date()})
                                 //get count all litstings
                                 let count = await arango.query(`
