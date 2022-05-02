@@ -37,7 +37,7 @@ const arango = require('./model/arango');
         // return;
         let listings =  await arango.query(`For listing in crawled_listings
                         Sort listing.created_at asc
-                        Filter listing.manheim and listing.vin and !listing.airtable and listing.price or listing.start_price  and listing.US_base_mmr ${scriptSettingsData[0].autotrader.enable ? " and listing.platform == 'autotrader'" : ''} ${scriptSettingsData[0].adesa.enable ? " and listing.platform == 'adesa'" : ''}
+                        Filter listing.manheim and listing.vin and !listing.airtable  and listing.price or listing.start_price  and listing.US_base_mmr ${scriptSettingsData[0].autotrader.enable ? " and listing.platform == 'autotrader'" : ''} ${scriptSettingsData[0].adesa.enable ? " and listing.platform == 'adesa'" : ''}
                         return {listing_id:listing.listing_id,platform:listing.platform,
                             search_trim:listing.search_trim,
                             search_make:listing.search_make,
@@ -79,7 +79,8 @@ const arango = require('./model/arango');
                             CA_estimated_retail_value:listing.CA_estimated_retail_value,
                             created_at:listing.created_at,
                             updated_at:listing.updated_at,
-                            exchange_rate:listing.exchange_rate
+                            exchange_rate:listing.exchange_rate,
+                            script_id:listing.script_id,
 
                         }
 
@@ -205,7 +206,9 @@ const arango = require('./model/arango');
         //                     CA_estimated_retail_value:listing.CA_estimated_retail_value,
         //                     created_at:listing.created_at,
         //                     updated_at:listing.updated_at,
-        //                     exchange_rate:listing.exchange_rate}
+        //                     exchange_rate:listing.exchange_rate,
+        //                     script_id:listing.script_id,
+        //                 }
         //     `,
         //     bindVars:{
         //         ids:toFixListings
@@ -214,7 +217,7 @@ const arango = require('./model/arango');
         // let toFixListingsData = await toFixListingsObject.all();
 
 
-        // console.log('----------',toFixListingsData);
+        // // console.log('----------',toFixListingsData);
 
 
         // toFixListingsData.map(x => x.year = `${x.year}`);
@@ -227,6 +230,7 @@ const arango = require('./model/arango');
         //     console.log(`airtableListing.id: ${airtableListing.id}`);
         //     console.log('year',listing.year);
         //     console.log('price',listing.price);
+        //     console.log('script_id',listing.script_id);
         //     await paramObj.BaseListing.update(airtableListing.id, listing)
         //         .then(async () => {
         //                 /*

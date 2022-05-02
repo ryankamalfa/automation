@@ -133,11 +133,21 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                 console.log(`Listing found: ${results.length}`)
                 console.log(results)
                 if (results.length) {
-                    results = results.map(function (e) {
+                    results = results.map(async function (e) {
                         Object.assign(e, {"search_trim": this.search_trim})
                         Object.assign(e, {"search_make": this.search_make})
                         Object.assign(e, {"search_model": this.search_model})
                         Object.assign(e, {"created_at": new Date()})
+                        //get count all litstings
+
+                        let count = await arango.query(`
+                        FOR x IN crawled_listings
+                        filter x.script_id
+                        COLLECT WITH COUNT INTO length
+                        RETURN {"count":length}
+                        `);
+                        let countData = await count.all();
+                        Object.assign(e,{"script_id":countData[0].count+1+100000})
                         return e
                     }, {search_trim: trim, search_make: make, search_model: model})
                     console.log({search_trim: trim, search_make: make, search_model: model})
