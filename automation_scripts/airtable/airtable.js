@@ -37,7 +37,7 @@ const arango = require('./model/arango');
         // return;
         let listings =  await arango.query(`For listing in crawled_listings
                         Sort listing.created_at asc
-                        Filter listing.manheim and listing.vin and !listing.airtable  and listing.price or listing.start_price  and listing.US_base_mmr ${scriptSettingsData[0].autotrader.enable ? " and listing.platform == 'autotrader'" : ''} ${scriptSettingsData[0].adesa.enable ? " and listing.platform == 'adesa'" : ''}
+                        Filter listing.script_id and listing.manheim and listing.vin and !listing.airtable  and listing.price or listing.start_price  and listing.US_base_mmr ${scriptSettingsData[0].autotrader.enable ? " and listing.platform == 'autotrader'" : ''} ${scriptSettingsData[0].adesa.enable ? " and listing.platform == 'adesa'" : ''}
                         return {listing_id:listing.listing_id,platform:listing.platform,
                             search_trim:listing.search_trim,
                             search_make:listing.search_make,
