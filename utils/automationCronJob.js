@@ -48,28 +48,28 @@ const Job = {
 
 
 
-				// cron.schedule('*/5 * * * *', () => {
-				// 	if(shouldRunAutotrader2){
-				// 		(async()=>{
-				// 			shouldRunAutotrader2 = false;
-				// 			await automation.run_autotrader2_script();
-				// 			shouldRunAutotrader2 = true;
-				// 		})();
-				// 	}
-				// });
+				cron.schedule('*/5 * * * *', () => {
+					if(shouldRunAutotrader2){
+						(async()=>{
+							shouldRunAutotrader2 = false;
+							await automation.run_autotrader2_script();
+							shouldRunAutotrader2 = true;
+						})();
+					}
+				});
 
 
 
 
-				// cron.schedule('*/5 * * * *', () => {
-				// 	if(shouldRunManheim){
-				// 		(async()=>{
-				// 			shouldRunManheim = false;
-				// 			await automation.run_manheim_script();
-				// 			shouldRunManheim = true;
-				// 		})();
-				// 	}
-				// });
+				cron.schedule('*/5 * * * *', () => {
+					if(shouldRunManheim){
+						(async()=>{
+							shouldRunManheim = false;
+							await automation.run_manheim_script();
+							shouldRunManheim = true;
+						})();
+					}
+				});
 
 
 				
@@ -82,15 +82,15 @@ const Job = {
 					// return;
 					shouldRun = false;
 					async.series([
-						function(callback){
-							(async()=>{
-								if(await automation.run_manheim_script()){
-									callback();
-								}else{
-									callback(true);
-								}
-							})();
-						},
+						// function(callback){
+						// 	(async()=>{
+						// 		if(await automation.run_manheim_script()){
+						// 			callback();
+						// 		}else{
+						// 			callback(true);
+						// 		}
+						// 	})();
+						// },
 						function(callback){
 							(async()=>{
 								if(await automation.run_airtable_script()){
@@ -127,15 +127,15 @@ const Job = {
 								callback();
 							}	
 						},
-						function(callback){
-							(async()=>{
-								if(await automation.run_manheim_script()){
-									callback();
-								}else{
-									callback(true);
-								}
-							})();
-						},
+						// function(callback){
+						// 	(async()=>{
+						// 		if(await automation.run_manheim_script()){
+						// 			callback();
+						// 		}else{
+						// 			callback(true);
+						// 		}
+						// 	})();
+						// },
 						function(callback){
 							(async()=>{
 								if(await automation.run_airtable_script()){

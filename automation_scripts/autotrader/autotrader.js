@@ -190,14 +190,14 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                               // ...
                               console.log('error inserted into arangodb',err);
                             });
+                    }
 
 
 
 
-
-                        let listings = await arango.query(`
+                    let listings = await arango.query(`
                             For x in crawled_listings
-                            flter !x.script_id
+                            filter !x.script_id
                             Sort x.created_at asc
                             return x
                             `);
@@ -227,15 +227,26 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                                         _id:listing._id,
                                         script_id:start_id
                                     }
+                                }).then(function(cursor) {
+                                  return cursor.next().then(function(result) {
+                                    // ...
+                                    console.log('successfully updatign cript_id',start_id);
+                                    start_id++;
+                                    callback();
+                                  });
+                                })
+                                .catch(function(err) {
+                                  // ...
+                                  console.log('error updating script_id into arangodb',err);
+                                  callback();
                                 });
-                                console.log('update_listing ---- ',start_id);
-                                start_id++;
-                                callback();
+                                // console.log('update_listing ---- ',start_id);
+                                
+                                // callback();
                             })()
                         },function(){
                             console.log('Updated all listings IDS');
                         });
-                    }
                     
                     
                     

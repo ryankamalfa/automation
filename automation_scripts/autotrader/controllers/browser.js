@@ -27,7 +27,7 @@ class Browser {
                     '--enable-features=NetworkService',
                     '--disable-setuid-sandbox',
                     `--window-size=1280,960`,
-                    proxyServer
+                    // proxyServer
                 ],
             })
             this.page = (await this.browser.pages())[0]
@@ -38,14 +38,14 @@ class Browser {
             // });
 
             //Authenticate Proxy
-            if (this.proxy) {
-                console.log(`Authenticating proxy`)
+            // if (this.proxy) {
+            //     console.log(`Authenticating proxy`)
 
-                await this.page.authenticate({
-                    username: credentials.luminati.username,
-                    password: credentials.luminati.password
-                })
-            }
+            //     await this.page.authenticate({
+            //         username: credentials.luminati.username,
+            //         password: credentials.luminati.password
+            //     })
+            // }
 
             console.log(`Setting user-agent`)
             //Set user-agent
