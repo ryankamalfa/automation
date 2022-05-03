@@ -48,7 +48,7 @@ const Job = {
 
 
 
-				cron.schedule('*/1 * * * *', () => {
+				cron.schedule('* * * * *', () => {
 					if(shouldRunAutotrader2){
 						(async()=>{
 							shouldRunAutotrader2 = false;
@@ -61,7 +61,7 @@ const Job = {
 
 
 
-				cron.schedule('*/1 * * * *', () => {
+				cron.schedule('* * * * *', () => {
 					if(shouldRunManheim){
 						(async()=>{
 							shouldRunManheim = false;
