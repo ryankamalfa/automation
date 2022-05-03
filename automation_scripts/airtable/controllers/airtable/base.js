@@ -102,7 +102,7 @@ module.exports = class Base {
         const listings = await this.all(
             {
                 fields:["listing_id"],
-                filterByFormula: "{script_id} = ''",
+                // filterByFormula: "{vin} = ''",
             }
         );
         console.log('lisitng with messing data -----------------------------------',listings.length);

@@ -37,7 +37,7 @@ const arango = require('./model/arango');
         // return;
         let listings =  await arango.query(`For listing in crawled_listings
                         Sort listing.created_at asc
-                        Filter listing.script_id and listing.manheim and listing.vin and !listing.airtable  and listing.price or listing.start_price  and listing.US_base_mmr ${scriptSettingsData[0].autotrader.enable ? " and listing.platform == 'autotrader'" : ''} ${scriptSettingsData[0].adesa.enable ? " and listing.platform == 'adesa'" : ''}
+                        Filter listing.script_id and listing.manheim and listing.vin and !listing.airtable  and listing.price or listing.start_price  and listing.US_base_mmr and listing.US_adjusted_mmr and listing.US_estimated_retail_value ${scriptSettingsData[0].autotrader.enable ? " and listing.platform == 'autotrader'" : ''} ${scriptSettingsData[0].adesa.enable ? " and listing.platform == 'adesa'" : ''}
                         return {listing_id:listing.listing_id,platform:listing.platform,
                             search_trim:listing.search_trim,
                             search_make:listing.search_make,
@@ -162,9 +162,21 @@ const arango = require('./model/arango');
         */
 
         // let toFixListings = await BaseListing.findListingsWithMissingData();
+        // // let toFixListingsObject = await arango.query({
+        // //     query:`For listing in crawled_listings
+        // //     filter listing.listing_id not in @ids 
+        // //     update listing with {"airtable":false} in crawled_listings
+        // //     `,
+        // //     bindVars:{
+        // //         ids:toFixListings
+        // //     }
+        // // });
+
+
+        
         // let toFixListingsObject = await arango.query({
         //     query:`For listing in crawled_listings
-        //     filter listing.listing_id in @ids
+        //     filter listing.script_id and listing.manheim and listing.vin and !listing.airtable  and listing.price or listing.start_price  and listing.US_base_mmr and listing.US_adjusted_mmr and listing.US_estimated_retail_value and listing.listing_id not in @ids
         //     return {listing_id:listing.listing_id,platform:listing.platform,
         //                     search_trim:listing.search_trim,
         //                     search_make:listing.search_make,
@@ -214,11 +226,12 @@ const arango = require('./model/arango');
         //         ids:toFixListings
         //     }
         // });
+        
         // let toFixListingsData = await toFixListingsObject.all();
 
 
-        // // console.log('----------',toFixListingsData);
-
+        // console.log('----------',toFixListingsData.length);
+        // return;
 
         // toFixListingsData.map(x => x.year = `${x.year}`);
         // toFixListingsData.map(x => x.price = parseFloat(x.price));

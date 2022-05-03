@@ -12,7 +12,17 @@ const async = require('async');
         `);
     let listingsData = await listings.all();
 
-    let start_id = 100000;
+
+
+    let count = await arango.query(`
+        FOR x IN crawled_listings
+        filter x.script_id
+        COLLECT WITH COUNT INTO length
+        RETURN {"count":length}
+        `);
+    let countData = await count.all();
+
+    let start_id = 100000+countData[0].count;
 
     console.log(listingsData.length);
 
