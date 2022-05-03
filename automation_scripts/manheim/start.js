@@ -47,7 +47,7 @@ const retry = require('async-retry');
 	console.log('Checking items to loop over');
 	let query = `
 			for x in crawled_listings 
-			filter !x.manheim and x.vin and x.trim and x.miles ${scriptSettingsData[0].autotrader.enable ? " and x.platform == 'autotrader'" : ''} ${scriptSettingsData[0].adesa.enable ? " and x.platform == 'adesa'" : ''}
+			filter x.script_id and !x.manheim and x.vin and x.trim and x.miles ${scriptSettingsData[0].autotrader.enable ? " and x.platform == 'autotrader'" : ''} ${scriptSettingsData[0].adesa.enable ? " and x.platform == 'adesa'" : ''}
 			limit 500 
 			return {
 			_id:x._id,
