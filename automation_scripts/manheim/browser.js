@@ -493,6 +493,7 @@ const axios = require('axios');
 
 		obj.updated_at = new Date();
 		obj.exchange_rate = exchangeRate;
+		obj.airtable = false;
 		// obj.mmr_sales = data.transactions.splice(-1);
 		console.log('Final obj ------------------ ============ ',obj);
 		// console.log(obj.mmr_sales.length);
