@@ -80,7 +80,7 @@ const arango = require('./model/arango');
                             created_at:listing.created_at,
                             updated_at:listing.updated_at,
                             exchange_rate:listing.exchange_rate,
-                            script_id:listing.script_id,
+                            script_id:listing._key,
 
                         }
 
@@ -219,7 +219,7 @@ const arango = require('./model/arango');
         //                     created_at:listing.created_at,
         //                     updated_at:listing.updated_at,
         //                     exchange_rate:listing.exchange_rate,
-        //                     script_id:listing.script_id,
+        //                     script_id:listing._key,
         //                 }
         //     `,
         //     bindVars:{
