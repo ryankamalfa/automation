@@ -125,7 +125,7 @@ const arango = require('./model/arango');
         listings_data.filter(x => !x.price).map(x => x.price = x.start_price)
         listings_data.map(x => x.passengers = parseInt(x.passengers));
         listings_data.map(x => x.doors = parseInt(x.doors));
-        listings_data.map(x => x._key = parseInt(x._key));
+        listings_data.map(x => x.script_id = parseInt(x.script_id));
 
         
         await helper.asyncForEach(listings_data, async (listing, index, listings, paramObj) => {
