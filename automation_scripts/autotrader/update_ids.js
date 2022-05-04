@@ -4,6 +4,16 @@ const async = require('async');
 
 
 (async()=>{
+
+    await arango.query(`
+        For x in crawled_listings
+        filter !x.manheim
+        remove x in crawled_listings
+        `);
+
+
+
+    return;
     let listings = await arango.query(`
         For x in crawled_listings
         flter !x.script_id

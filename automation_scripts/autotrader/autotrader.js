@@ -52,6 +52,8 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                         assign trim to search and fire asyncForEach function to get listings
                         search.trim = trim;
                     */
+                    console.log('Active trim',trim);
+                    // callback();
                     (async()=>{
                         search.trim = trim;
                         await searchListings(search);
@@ -82,7 +84,9 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
     function searchListings(search){
         return new Promise(async (resolve)=>{
             var {make, model, trim,start_year,end_year} = search
-            console.log(make, model, trim)
+            console.log(make, model, trim);
+            // resolve(true);
+            // return;
             let allNewItemsCollected = false
 
             let rcp = 15
@@ -134,9 +138,9 @@ const {encodeStringForURI, asyncForEach} = require('./utils/helper');
                 console.log(results)
                 if (results.length) {
                     results = results.map(function (e) {
-                        Object.assign(e, {"search_trim": this.search_trim})
-                        Object.assign(e, {"search_make": this.search_make})
-                        Object.assign(e, {"search_model": this.search_model})
+                        Object.assign(e, {"search_trim": trim})
+                        Object.assign(e, {"search_make": make})
+                        Object.assign(e, {"search_model": model})
                         Object.assign(e, {"created_at": new Date()})
                         return e
                     }, {search_trim: trim, search_make: make, search_model: model})
