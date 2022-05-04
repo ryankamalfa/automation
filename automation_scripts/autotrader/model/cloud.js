@@ -19,7 +19,6 @@ const cloud = {
 			*/
 			const listings = await arango.query(`
 				for l in listings 
-					limit 100
 					return l`);
 			const listings_data = await listings.all();
 			console.log('searched ------->  ',listings_data);
